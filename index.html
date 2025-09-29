@@ -3,695 +3,677 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akihide Mikami | ポートフォリオ</title>
+    <title>Akihide Mikami | Game Creator Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;700;900&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* 提供されたイメージカラーに基づく新しいパレット */
             --glow-color-1: #64ffda; /* Teal/Aqua */
             --glow-color-2: #f7fafc; /* White/Cream */
+            --accent-pink: #f472b6;
+            --accent-purple: #a78bfa;
         }
 
         body {
             font-family: 'Inter', 'Noto Sans JP', sans-serif;
-            color: #cbd5e1; /* Slate 300 */
+            color: #cbd5e1;
             overflow-x: hidden;
-            position: relative;
-            background-color: #1e293b; /* Slate 800 - 少し明るいダークブルー */
-            /* 背景にグリッドパターンを追加 */
-            background-image: 
-                linear-gradient(rgba(100, 255, 218, 0.07) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(100, 255, 218, 0.07) 1px, transparent 1px);
-            background-size: 30px 30px;
+            background-color: #0f172a;
+            background-image:
+                linear-gradient(rgba(100, 255, 218, 0.03) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(100, 255, 218, 0.03) 2px, transparent 2px);
+            background-size: 50px 50px;
         }
 
-        /* --- 新デザインテーマ --- */
+        .retro-font { font-family: 'Press Start 2P', cursive; }
 
-        /* 1. UIパネル風カード */
-        .bg-card {
-            background-color: rgba(30, 41, 59, 0.7); /* Slate 800 at 70% */
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            position: relative;
-            clip-path: polygon(0% 15px, 15px 0%, 100% 0%, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0% 100%);
-            border: 1px solid rgba(100, 255, 218, 0.2);
-        }
-        .bg-card::before { /* ネオンボーダー */
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            clip-path: polygon(0% 15px, 15px 0%, 100% 0%, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0% 100%);
-            padding: 2px;
-            background: linear-gradient(135deg, var(--glow-color-1), var(--glow-color-2));
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0.6;
-            transition: opacity 0.3s ease;
-        }
-         .bg-card:hover::before {
-            opacity: 1;
-        }
-
-        .bg-card.inner-card {
-            clip-path: polygon(0% 10px, 10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%);
-        }
-        .bg-card.inner-card::before {
-             clip-path: polygon(0% 10px, 10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%);
-        }
-
-        /* 2. セクションタイトル */
-        .section-title-wrapper { display: flex; justify-content: center; margin-bottom: 4rem; }
-        .section-title-container {
-            background-color: rgba(30, 41, 59, 0.7);
-            padding: 0.75rem 2.5rem;
-            clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
-            border: 1px solid rgba(100, 255, 218, 0.2);
-            position: relative;
-        }
-        .section-title { padding-bottom: 0; text-shadow: 0 0 10px var(--glow-color-1); }
-        .section-title::after { display: none; }
-        .section-title svg { filter: drop-shadow(0 0 8px var(--glow-color-1)); }
-
-        /* 3. カードコンテナのスタイル */
-        .works-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            align-items: stretch;
-            gap: 1.5rem;
-        }
-        .work-card-container {
-            transition: transform 0.4s ease-out;
-            z-index: 1;
-        }
-        .work-card-container:hover {
-            z-index: 10;
-            transform: scale(1.05); /* カード共通のホバーエフェクト */
-        }
-        
-        /* 「制作物」セクション(#projects)のみに、ずらしたゲームUI風レイアウトを適用 */
-        #projects .works-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            gap: 1rem;
-        }
-        #projects .work-card-container {
-            width: 350px; /* カードの基本幅を指定 */
-        }
-        #projects .work-card-container:hover {
-            transform: scale(1.05) rotate(0deg) !important;
-        }
-        #projects .work-card-container:nth-child(1) { transform: rotate(-4deg); }
-        #projects .work-card-container:nth-child(2) { transform: rotate(2deg); margin-top: 1rem; }
-        #projects .work-card-container:nth-child(3) { transform: rotate(-2deg); margin-top: -1rem; }
-
-        .work-card-wrapper {
-            transition: box-shadow 0.3s ease;
-            position: relative; perspective: 1000px; transform-style: preserve-3d;
-            height: 100%;
-        }
-        
-        .scroll-reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
-        .scroll-reveal.visible { opacity: 1; transform: translateY(0); }
-
-        .text-gradient-flame { background-image: linear-gradient(to right, #f7fafc, var(--glow-color-1)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        
-        .project-glow-1:hover { box-shadow: 0 0 30px #f472b6; } 
-        .project-glow-2:hover { box-shadow: 0 0 30px #a78bfa; } 
-        .project-glow-3:hover { box-shadow: 0 0 30px var(--glow-color-1); }
-        .activity-glow:hover { box-shadow: 0 0 30px var(--glow-color-1); }
-
-        .work-card-image-container { overflow: hidden; clip-path: polygon(0% 10px, 10px 0%, 100% 0%, 100% 100%, 0% 100%);}
-        .work-card-image { transition: transform 0.4s ease; }
-        .work-card-wrapper:hover .work-card-image { transform: scale(1.1) translateZ(50px); }
-
-        .work-card-content { transform: translateZ(40px); }
-        .bg-card.inner-card::after {
-            content: ''; position: absolute; top: 0; left: -200%;
-            width: 75%; height: 100%;
-            background: linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
-            transform: skewX(-25deg);
-            transition: left 0.8s ease;
-        }
-        .work-card-wrapper:hover .bg-card.inner-card::after { left: 200%; }
-
-        .skill-tag { display: inline-block; background-color: rgba(100, 255, 218, 0.1); color: var(--glow-color-1); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; border: 1px solid rgba(100, 255, 218, 0.2);}
-        h1, h2, h3 { font-family: 'Noto Sans JP', sans-serif; }
-        
-        #modal-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(30, 41, 59, 0.5); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.3s ease-in-out; }
-        #modal-container.visible { opacity: 1; pointer-events: auto; }
-        #modal-content { background-color: rgba(30, 41, 59, 0.85); backdrop-filter: blur(15px); border: 1px solid rgba(100, 255, 218, 0.3); width: 90%; max-width: 800px; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2); transform: scale(0.95); transition: transform 0.3s ease-in-out; clip-path: polygon(0% 20px, 20px 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%); }
-        #modal-container.visible #modal-content { transform: scale(1); }
-        #modal-close-btn { position: absolute; top: 1rem; right: 1rem; background: rgba(100, 255, 218, 0.1); border: 1px solid rgba(100, 255, 218, 0.2); border-radius: 50%; width: 2.5rem; height: 2.5rem; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.2s; }
-        #modal-close-btn:hover { background: var(--glow-color-1); transform: rotate(90deg); border-color: var(--glow-color-1); }
-        #modal-close-btn svg { color: var(--glow-color-1); transition: color 0.2s; }
-        #modal-close-btn:hover svg { color: #1e293b; }
-
-        .typewriter-text { opacity: 0; }
-        .typewriter-text.visible { opacity: 1; }
-        .typewriter-text > .cursor { display: inline-block; background-color: var(--glow-color-1); width: 10px; height: 1.2em; margin-left: 5px; animation: blink 0.7s infinite; vertical-align: middle; }
-        @keyframes blink { 50% { opacity: 0; } }
-
-        /* --- ゲームオブジェクト風パーティクル --- */
-        #particles-container {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: -1; pointer-events: none; overflow: hidden;
-        }
-        .particle {
-            position: absolute;
-            color: rgba(247, 250, 252, 0.7);
-            animation: float-up linear infinite;
-            bottom: -50px; 
-        }
-        .particle svg {
-            width: 100%; height: 100%;
-            filter: drop-shadow(0 0 6px var(--particle-glow-color));
-        }
-        @keyframes float-up {
-            from { transform: translateY(0) rotate(0); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 0.8; }
-            to { transform: translateY(-110vh) rotate(var(--rotation)); opacity: 0; }
-        }
-
-        /* --- Menu --- */
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            max-width: 1200px;
+        /* Loading Screen */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-        }
-        .menu-item {
-            position: relative;
-            background-color: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(100, 255, 218, 0.2);
-            transition: all 0.3s ease;
-            color: var(--glow-color-2);
-            font-weight: 900;
-            text-align: center;
+            height: 100%;
+            background: #0f172a;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 2rem 1rem;
-            min-height: 180px;
-            clip-path: polygon(0 0, calc(100% - 25px) 0, 100% 25px, 100% 100%, 25px 100%, 0 calc(100% - 25px));
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
         }
-        .menu-item:hover {
-            transform: translateY(-5px) scale(1.03);
-            background-color: rgba(100, 255, 218, 0.2);
-            border-color: var(--glow-color-1);
-            color: var(--glow-color-1);
-            text-shadow: 0 0 10px var(--glow-color-1);
+        #loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .loading-bar-container {
+            width: 300px;
+            height: 30px;
+            border: 3px solid var(--glow-color-1);
+            position: relative;
+            box-shadow: 0 0 20px var(--glow-color-1);
+        }
+        .loading-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--glow-color-1), var(--accent-purple));
+            width: 0%;
+            transition: width 0.1s linear;
+            box-shadow: 0 0 15px var(--glow-color-1);
         }
 
-        .menu-item .icon {
-            margin-bottom: 0.75rem;
+        /* Progress Bar */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--glow-color-1), var(--accent-purple), var(--accent-pink));
+            width: 0%;
+            z-index: 1000;
+            box-shadow: 0 0 10px var(--glow-color-1);
         }
-        .menu-item .icon svg {
-             width: 3.5rem;
-             height: 3.5rem;
+
+        /* Glitch Effect */
+        .glitch {
+            position: relative;
+            animation: glitch-skew 1s infinite;
         }
-         .menu-item .title {
-            font-size: 1.75rem;
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0f172a;
+        }
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 var(--accent-pink);
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim 3s infinite linear alternate-reverse;
+        }
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 var(--glow-color-1);
+            clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim 2s infinite linear alternate-reverse;
+        }
+        @keyframes glitch-anim { 10% { clip: rect(20px, 9999px, 96px, 0); } 20% { clip: rect(85px, 9999px, 78px, 0); } 30% { clip: rect(40px, 9999px, 16px, 0); } 40% { clip: rect(65px, 9999px, 44px, 0); } 50% { clip: rect(10px, 9999px, 90px, 0); } 60% { clip: rect(75px, 9999px, 23px, 0); } 70% { clip: rect(30px, 9999px, 70px, 0); } 80% { clip: rect(55px, 9999px, 35px, 0); } 90% { clip: rect(15px, 9999px, 85px, 0); } 100% { clip: rect(70px, 9999px, 50px, 0); } }
+        @keyframes glitch-skew { 0%, 100% { transform: skew(0deg); } 10% { transform: skew(1deg); } 20% { transform: skew(-1deg); } 30% { transform: skew(0deg); } }
+
+        /* Card Enhancements (Based on "ドラフト04") */
+        .game-card {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(100, 255, 218, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+            height: 100%;
+        }
+        .game-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--glow-color-1);
+            box-shadow: 0 0 30px rgba(100, 255, 218, 0.3), 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Achievement Badge */
+        .achievement-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(244, 114, 182, 0.1);
+            border: 2px solid var(--accent-pink);
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--accent-pink);
+            text-shadow: 0 0 10px var(--accent-pink);
+            box-shadow: 0 0 20px rgba(244, 114, 182, 0.3);
+            transition: all 0.3s ease;
+        }
+        .achievement-badge:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(244, 114, 182, 0.5);
+        }
+
+        /* Scanline Effect */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(transparent 50%, rgba(0, 0, 0, 0.1) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.1;
+        }
+
+        /* Terminal Text Effect */
+        .terminal-text {
+            font-family: 'Courier New', monospace;
+            color: var(--glow-color-1);
+            text-shadow: 0 0 5px var(--glow-color-1);
+        }
+        .typing-cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1.2em;
+            background: var(--glow-color-1);
+            margin-left: 5px;
+            animation: blink 0.7s infinite;
+            vertical-align: middle;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* Menu System (Based on "ドラフト04") */
+        .game-menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .menu-button {
+            background: rgba(30, 41, 59, 0.9);
+            border: 3px solid rgba(100, 255, 218, 0.5);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+            transition: all 0.3s ease;
+        }
+        .menu-button::before {
+            content: '▶';
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: var(--glow-color-1);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .menu-button:hover {
+            background: rgba(100, 255, 218, 0.2);
+            transform: translateX(10px);
+            border-color: var(--glow-color-1);
+            box-shadow: 0 0 30px rgba(100, 255, 218, 0.4);
+        }
+        .menu-button:hover::before { opacity: 1; }
+        .menu-button .icon { margin-bottom: 0.75rem; }
+        .menu-button .icon svg { width: 3.5rem; height: 3.5rem; margin: 0 auto; }
+        .menu-button .title { font-size: 1.75rem; font-weight: 700; color: var(--glow-color-2); }
+
+
+        /* Particles */
+        #particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .particle {
+            position: absolute;
+            color: rgba(100, 255, 218, 0.5);
+            animation: float-particle linear infinite;
+            font-size: 20px;
+        }
+        @keyframes float-particle {
+            from { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 0.5; }
+            to { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            background: rgba(30, 41, 59, 0.95);
+            border: 3px solid var(--glow-color-1);
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+            clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+            box-shadow: 0 0 50px rgba(100, 255, 218, 0.3);
+        }
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 40px;
+            height: 40px;
+            background: rgba(244, 114, 182, 0.2);
+            border: 2px solid var(--accent-pink);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .close-btn:hover {
+            background: var(--accent-pink);
+            transform: rotate(90deg);
+        }
+        .close-btn:hover svg {
+             color: #fff;
+        }
+        .skill-tag { display: inline-block; background-color: rgba(100, 255, 218, 0.1); color: var(--glow-color-1); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; border: 1px solid rgba(100, 255, 218, 0.2);}
+
+
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
-<body class="antialiased">
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <h2 class="retro-font text-2xl mb-8 text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">
+            LOADING...
+        </h2>
+        <div class="loading-bar-container">
+            <div class="loading-bar" id="loading-bar"></div>
+        </div>
+        <p class="terminal-text mt-4" id="loading-text">Initializing portfolio systems...</p>
+    </div>
+
+    <!-- Scanlines -->
+    <div class="scanlines"></div>
+    <!-- Scroll Progress -->
+    <div id="scroll-progress"></div>
+    <!-- Particles -->
     <div id="particles-container"></div>
-    
+
+    <!-- Main Content -->
     <main>
-        <section id="hero" class="min-h-screen flex flex-col items-center justify-center text-center p-6 relative scroll-reveal">
-            <img src="Cashew3.jpg" alt="三上晃英のポートレート" class="w-40 h-40 md:w-48 md:h-48 rounded-full object-cover mx-auto mb-6 border-4 border-cyan-400/50 shadow-lg shadow-cyan-500/20">
-            <h2 class="text-5xl md:text-7xl font-black tracking-tight mb-4 text-gradient-flame">三上 晃英</h2>
-            <p class="text-lg md:text-xl text-cyan-300 mb-6 font-bold" style="text-shadow: 0 0 10px var(--glow-color-1);">ゲームクライアントエンジニア志望</p>
-            <p id="intro-text" class="max-w-3xl mx-auto text-base md:text-lg leading-relaxed text-slate-300 typewriter-text">
-                近畿大学情報学部情報学科実世界コンピューティングコース所属。<br>
-                「つい夢中になる体験」をデザインで届け、人の心を動かすゲームクリエイターを目指しています。
+        <!-- Hero Section -->
+        <section class="min-h-screen flex flex-col items-center justify-center text-center p-6 relative">
+            <img src="Cashew3.JPEG" alt="Profile" class="w-64 h-64 md:w-80 md:h-80 rounded-full object-cover mb-6 border-4 border-cyan-400 shadow-lg"
+                 style="box-shadow: 0 0 50px rgba(100, 255, 218, 0.6);">
+            
+            <h1 class="text-6xl md:text-8xl font-black mb-4 glitch retro-font" data-text="MIKAMI">
+                MIKAMI
+            </h1>
+            
+            <div class="terminal-text text-xl mb-6">
+                > Role: <span class="text-pink-400">Game Client Engineer</span><span class="typing-cursor"></span>
+            </div>
+            
+            <p class="max-w-3xl text-lg leading-relaxed text-slate-300 mb-8">
+                【ここにあなたのキャッチコピーを挿入】<br>
+                近畿大学情報学部情報学科実世界コンピューティングコース所属。
+                「つい夢中になる体験」をデザインで届け、人の心を動かすゲームクリエイターを目指しています
             </p>
+            
+            <div class="flex flex-wrap justify-center gap-4">
+                <div class="achievement-badge">
+                    <span>🏆</span>
+                    <span>ハッカソン受賞</span>
+                </div>
+                <div class="achievement-badge">
+                    <span>👥</span>
+                    <span>チームリーダー経験</span>
+                </div>
+                <div class="achievement-badge">
+                    <span>🎮</span>
+                    <span>5作品制作</span>
+                </div>
+            </div>
+
             <a href="#menu" class="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce">
-                <svg class="w-10 h-10 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                <svg class="w-12 h-12 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7" />
                 </svg>
             </a>
         </section>
 
         <div class="container mx-auto px-6">
-            <section id="menu" class="py-20 md:py-32 scroll-mt-20 scroll-reveal">
-                <div class="menu-grid">
-                     <a href="#projects" class="menu-item">
+            <!-- Menu Section -->
+            <section id="menu" class="py-20 scroll-mt-20 reveal">
+                <h2 class="text-4xl font-bold text-center mb-12 retro-font text-cyan-300"
+                    style="text-shadow: 0 0 20px #64ffda;">
+                    [ MAIN MENU ]
+                </h2>
+                <div class="game-menu">
+                     <a href="#projects" class="menu-button">
                         <div class="icon">
                             <svg xmlns="http://www.w3.org/2000/svg" class="text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2 1M4 7l2-1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" /></svg>
                         </div>
                         <div class="title">制作物</div>
                     </a>
-                    <a href="#strengths" class="menu-item">
+                    <a href="#skills" class="menu-button">
                         <div class="icon">
                              <svg xmlns="http://www.w3.org/2000/svg" class="text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4M14 3v4m-2-2h4M12 17v4m-2-2h4m5-12v4m-2-2h4M18 17v4m-2-2h4" /></svg>
                         </div>
-                        <div class="title">私の強み</div>
+                        <div class="title">スキル</div>
                     </a>
-                    <a href="#activities" class="menu-item">
+                    <a href="#activities" class="menu-button">
                         <div class="icon">
                              <svg xmlns="http://www.w3.org/2000/svg" class="text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                         </div>
                         <div class="title">活動実績</div>
                     </a>
-                    <a href="#vision" class="menu-item">
-                        <div class="icon">
-                           <svg xmlns="http://www.w3.org/2000/svg" class="text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                    <a href="#contact" class="menu-button">
+                         <div class="icon">
+                           <svg xmlns="http://www.w3.org/2000/svg" class="text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                         </div>
-                        <div class="title">将来像</div>
+                        <div class="title">連絡先</div>
                     </a>
                 </div>
             </section>
-    
-            <section id="strengths" class="mb-20 md:mb-32 scroll-mt-20 scroll-reveal">
-                <div class="section-title-wrapper">
-                    <div class="section-title-container">
-                        <h3 class="text-3xl font-bold tracking-widest section-title text-slate-100 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="text-cyan-400 w-12 h-12 mr-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4M14 3v4m-2-2h4M12 17v4m-2-2h4m5-12v4m-2-2h4M18 17v4m-2-2h4" /></svg>
-                            <span>私の強み</span>
-                        </h3>
-                    </div>
-                </div>
-                <div class="works-container">
-                     <!-- Strength Card 1 -->
-                    <div class="work-card-container">
-                        <div class="work-card-wrapper interactive-card activity-glow cursor-pointer" 
-                            data-title="プレゼンテーション能力"
-                            data-description="大学のゼミやチーム制作発表会で、企画の意図や魅力を伝えるプレゼンテーションを多数経験しました。複雑なゲームシステムも、図やデモを用いて分かりやすく説明し、聞き手の心を掴むことを得意としています。">
-                            <div class="bg-card inner-card h-full overflow-hidden flex flex-col justify-center items-center p-6">
-                                <svg class="w-16 h-16 mb-4 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"></path></svg>
-                                <h4 class="text-xl font-bold text-center text-slate-100">プレゼンテーション能力</h4>
-                                <p class="text-sm text-slate-400 mt-2">クリックして詳細を見る</p>
-                            </div>
+
+             <!-- Projects Section -->
+            <section id="projects" class="py-20 scroll-mt-20 reveal">
+                <h2 class="text-4xl font-bold text-center mb-12 retro-font text-cyan-300"
+                    style="text-shadow: 0 0 20px #64ffda;">
+                    [ PROJECT FILES ]
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="game-card p-6 cursor-pointer" data-modal-target="project-1">
+                         <img src="https://placehold.co/600x400/f472b6/0f172a?text=Project+1" alt="Project 1" class="w-full h-40 object-cover mb-4" style="clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);">
+                        <h3 class="text-2xl font-bold text-slate-100 mb-2">Code of Valor</h3>
+                        <p class="text-sm text-cyan-400 mb-4">3D Action RPG</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-tag">Unity</span>
+                            <span class="skill-tag">C#</span>
                         </div>
                     </div>
-                    <!-- Strength Card 2 -->
-                    <div class="work-card-container">
-                        <div class="work-card-wrapper interactive-card activity-glow cursor-pointer"
-                            data-title="コミュニケーション能力"
-                            data-description="多様なバックグラウンドを持つメンバーと円滑に意思疎通を図り、チームの結束力を高めることができます。ハッカソンでは、異なる意見を調整し、全員が納得するゴールへと導いた経験があります。">
-                            <div class="bg-card inner-card h-full overflow-hidden flex flex-col justify-center items-center p-6">
-                                <svg class="w-16 h-16 mb-4 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                                <h4 class="text-xl font-bold text-center text-slate-100">コミュニケーション能力</h4>
-                                 <p class="text-sm text-slate-400 mt-2">クリックして詳細を見る</p>
-                            </div>
+                    <div class="game-card p-6 cursor-pointer" data-modal-target="project-2">
+                        <img src="https://placehold.co/600x400/a78bfa/0f172a?text=Project+2" alt="Project 2" class="w-full h-40 object-cover mb-4" style="clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);">
+                        <h3 class="text-2xl font-bold text-slate-100 mb-2">Chrono Cube</h3>
+                        <p class="text-sm text-cyan-400 mb-4">Puzzle Game</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-tag">Unreal Engine</span>
+                            <span class="skill-tag">C++</span>
                         </div>
                     </div>
-                    <!-- Strength Card 3 -->
-                    <div class="work-card-container">
-                        <div class="work-card-wrapper interactive-card activity-glow cursor-pointer"
-                            data-title="プロジェクトマネジメント"
-                            data-description="チーム制作ではリーダーとして、タスクの洗い出し、スケジュール管理、進捗確認を行いました。課題が発生した際には、原因を分析し、解決策を提示することで、プロジェクトを円滑に遂行しました。">
-                            <div class="bg-card inner-card h-full overflow-hidden flex flex-col justify-center items-center p-6">
-                                <svg class="w-16 h-16 mb-4 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
-                                <h4 class="text-xl font-bold text-center text-slate-100">プロジェクトマネジメント</h4>
-                                 <p class="text-sm text-slate-400 mt-2">クリックして詳細を見る</p>
-                            </div>
+                    <div class="game-card p-6 cursor-pointer" data-modal-target="project-3">
+                        <img src="https://placehold.co/600x400/64ffda/0f172a?text=Project+3" alt="Project 3" class="w-full h-40 object-cover mb-4" style="clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);">
+                        <h3 class="text-2xl font-bold text-slate-100 mb-2">Campus AR Rally</h3>
+                        <p class="text-sm text-cyan-400 mb-4">AR Game</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-tag">Unity</span>
+                            <span class="skill-tag">AR Foundation</span>
                         </div>
                     </div>
                 </div>
             </section>
-    
-            <section id="activities" class="mb-20 md:mb-32 scroll-mt-20 scroll-reveal">
-                <div class="section-title-wrapper">
-                    <div class="section-title-container">
-                        <h3 class="text-3xl font-bold tracking-widest section-title text-slate-100 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="text-cyan-400 w-12 h-12 mr-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                            <span>活動実績</span>
-                        </h3>
-                    </div>
-                </div>
-                <div class="works-container">
-                    <!-- Activity Card 1 -->
-                    <div class="work-card-container">
-                        <div class="work-card-wrapper interactive-card activity-glow cursor-pointer" 
-                            data-title="イベント主催・運営"
-                            data-description="・〇〇大学にて、新入生向けゲーム開発ワークショップを企画・運営 (2024年)<br>・学園祭にて、来場者参加型のインディーゲーム展示会を主催 (2023年)">
-                            <div class="bg-card inner-card h-full overflow-hidden flex flex-col justify-center items-center p-6">
-                                 <svg class="w-16 h-16 mb-4 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                <h4 class="text-xl font-bold text-center text-slate-100">イベント主催・運営</h4>
-                                <p class="text-sm text-slate-400 mt-2">クリックして詳細を見る</p>
-                            </div>
+
+            <!-- Skills Section -->
+            <section id="skills" class="py-20 scroll-mt-20 reveal">
+                <h2 class="text-4xl font-bold text-center mb-12 retro-font text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">[ SKILLS & STRENGTHS ]</h2>
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="game-card p-6">
+                        <h3 class="text-2xl font-bold text-slate-100 mb-4 flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg> Languages & Engines</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-tag">Unity</span>
+                            <span class="skill-tag">C#</span>
+                            <span class="skill-tag">Unreal Engine</span>
+                            <span class="skill-tag">C++</span>
+                             <span class="skill-tag">Python</span>
                         </div>
                     </div>
-                    <!-- Activity Card 2 -->
-                    <div class="work-card-container">
-                        <div class="work-card-wrapper interactive-card activity-glow cursor-pointer"
-                            data-title="団体運営"
-                            data-description="・ゲーム開発サークル「〇〇」の代表として、メンバーの進捗管理や外部との渉外を担当 (2023年〜現在)">
-                            <div class="bg-card inner-card h-full overflow-hidden flex flex-col justify-center items-center p-6">
-                                <svg class="w-16 h-16 mb-4 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                                <h4 class="text-xl font-bold text-center text-slate-100">団体運営</h4>
-                                 <p class="text-sm text-slate-400 mt-2">クリックして詳細を見る</p>
-                            </div>
+                    <div class="game-card p-6">
+                        <h3 class="text-2xl font-bold text-slate-100 mb-4 flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg> Tools & Others</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-tag">Git/GitHub</span>
+                            <span class="skill-tag">Visual Studio</span>
+                            <span class="skill-tag">Blender</span>
+                            <span class="skill-tag">Photoshop</span>
                         </div>
                     </div>
-                    <!-- Activity Card 3 -->
-                    <div class="work-card-container">
-                        <div class="work-card-wrapper interactive-card activity-glow cursor-pointer"
-                            data-title="ハッカソン実績"
-                            data-description="・〇〇テックハッカソン - 企業賞受賞 (2024年)<br>・ゲーム開発ハッカソン - 優秀賞 (2023年)<br>・〇〇大学ハッカソン - 参加 (2023年)">
-                            <div class="bg-card inner-card h-full overflow-hidden flex flex-col justify-center items-center p-6">
-                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 mb-4 text-cyan-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                <h4 class="text-xl font-bold text-center text-slate-100">ハッカソン</h4>
-                                 <p class="text-sm text-slate-400 mt-2">クリックして詳細を見る</p>
-                            </div>
+                    <div class="game-card p-6 md:col-span-2">
+                        <h3 class="text-2xl font-bold text-slate-100 mb-4 flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4M14 3v4m-2-2h4M12 17v4m-2-2h4m5-12v4m-2-2h4M18 17v4m-2-2h4" /></svg> Strengths</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-tag cursor-pointer" data-modal-target="strengths-1">プレゼンテーション能力</span>
+                            <span class="skill-tag cursor-pointer" data-modal-target="strengths-2">コミュニケーション能力</span>
+                            <span class="skill-tag cursor-pointer" data-modal-target="strengths-3">プロジェクトマネジメント</span>
                         </div>
                     </div>
                 </div>
             </section>
             
-            <section id="projects" class="mb-20 md:mb-32 scroll-mt-20 scroll-reveal">
-                 <div class="section-title-wrapper">
-                    <div class="section-title-container">
-                        <h3 class="text-3xl font-bold tracking-widest section-title text-slate-100 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="text-cyan-400 w-12 h-12 mr-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2 1M4 7l2-1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" /></svg>
-                            <span>制作物</span>
-                        </h3>
-                    </div>
-                </div>
-                <div class="works-container">
-    
-                    <div class="work-card-container">
-                        <div class="work-card-wrapper interactive-card project-glow-1 cursor-pointer" 
-                             data-title="3DアクションRPG『Code of Valor』"
-                             data-image="https://placehold.co/800x450/f472b6/0f172a?text=Project+1"
-                             data-platform="Unity / C#"
-                             data-info="大学3年次 | チーム制作 (5人) | 担当: リードプランナー"
-                             data-description="中世ファンタジーの世界を舞台にした3DアクションRPGです。5人チームのリーダー兼企画担当として、コンセプト設計、仕様書作成、レベルデザイン、パラメータ調整などを行いました。プレイヤーのスキルと戦略が試される、歯ごたえのある戦闘バランスを特に意識して設計しました。">
-                            <div class="bg-card inner-card h-full overflow-hidden flex flex-col">
-                                <div class="work-card-image-container">
-                                   <img src="https://placehold.co/600x400/f472b6/0f172a?text=Project+1" alt="プロジェクト1の画像" class="w-full h-48 object-cover work-card-image">
-                                </div>
-                                <div class="p-6 flex-grow work-card-content">
-                                    <div class="mb-4"> <span class="skill-tag">Unity</span> </div>
-                                    <h4 class="text-xl font-bold mb-2 text-slate-100">3DアクションRPG</h4>
-                                    <p class="text-sm text-slate-400 mb-4">担当: リードプランナー</p>
-                                    <p class="text-sm leading-relaxed text-slate-300">5人チームでの共同制作。企画、仕様書作成、レベルデザインを担当。</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-    
-                    <div class="work-card-container">
-                        <div class="work-card-wrapper interactive-card project-glow-2 cursor-pointer"
-                             data-title="パズルゲーム『Chrono Cube』"
-                             data-image="https://placehold.co/800x450/a78bfa/0f172a?text=Project+2"
-                             data-platform="Unreal Engine / C++"
-                             data-info="大学2年次 | 個人制作 | 制作期間: 3ヶ月"
-                             data-description="時間をテーマにした3Dパズルゲーム。時間を巻き戻す能力を使い、ギミックを解きながらゴールを目指します。「もし時間を戻せたら？」という発想から、プレイヤーにひらめきの快感を与えられるようなステージ設計を心がけました。企画から実装まで、全ての工程を一人で担当し、ゲーム制作の全体像を把握する良い経験となりました。">
-                            <div class="bg-card inner-card h-full overflow-hidden flex flex-col">
-                                <div class="work-card-image-container">
-                                    <img src="https://placehold.co/600x400/a78bfa/0f172a?text=Project+2" alt="プロジェクト2の画像" class="w-full h-48 object-cover work-card-image">
-                                </div>
-                                <div class="p-6 flex-grow work-card-content">
-                                    <div class="mb-4"><span class="skill-tag">Unreal Engine</span></div>
-                                    <h4 class="text-xl font-bold mb-2 text-slate-100">時間操作パズルゲーム</h4>
-                                    <p class="text-sm text-slate-400 mb-4">担当: 全て (個人制作)</p>
-                                    <p class="text-sm leading-relaxed text-slate-300">「時間を戻す」能力を核にしたギミックとステージデザインを考案・実装。</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-    
-                     <div class="work-card-container">
-                        <div class="work-card-wrapper interactive-card project-glow-3 cursor-pointer"
-                             data-title="学園祭向けARゲーム"
-                             data-image="https://placehold.co/800x450/22d3ee/0f172a?text=Project+3"
-                             data-platform="Unity / AR Foundation"
-                             data-info="大学祭実行委員として | チーム制作 (3人) | 担当: 企画・実装"
-                             data-description="大学のキャンパスを舞台にした、スマートフォン向けのARスタンプラリーゲームを企画・開発しました。来場者がキャンパス内の特定の場所でカメラをかざすと、マスコットキャラクターが出現し、スタンプが手に入るという内容です。子供から大人まで楽しめるよう、直感的な操作性と分かりやすいルール設計に注力しました。">
-                            <div class="bg-card inner-card h-full overflow-hidden flex flex-col">
-                                <div class="work-card-image-container">
-                                   <img src="https://placehold.co/600x400/22d3ee/0f172a?text=Project+3" alt="プロジェクト3の画像" class="w-full h-48 object-cover work-card-image">
-                                </div>
-                                <div class="p-6 flex-grow work-card-content">
-                                    <div class="mb-4"><span class="skill-tag">AR</span></div>
-                                    <h4 class="text-xl font-bold mb-2 text-slate-100">学園祭向けARゲーム</h4>
-                                    <p class="text-sm text-slate-400 mb-4">担当: 企画・実装</p>
-                                    <p class="text-sm leading-relaxed text-slate-300">大学のキャンパスを舞台にした、スマートフォン向けARスタンプラリーを開発。</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-    
-                </div>
-                <div class="mt-12 text-center">
-                    <a href="projects.html" class="menu-item inline-block text-xl px-10 py-4">
-                        もっとみる
+            <!-- Contact Section -->
+            <section id="contact" class="py-20 text-center reveal">
+                <h2 class="text-4xl font-bold mb-8 retro-font text-cyan-300"
+                    style="text-shadow: 0 0 20px #64ffda;">
+                    [ CONTACT ]
+                </h2>
+                <div class="flex justify-center gap-8">
+                    <a href="#" class="text-slate-300 hover:text-cyan-300 transition-all transform hover:scale-110">
+                        <svg class="w-12 h-12" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+                        </svg>
                     </a>
-                </div>
-            </section>
-    
-            <section id="vision" class="mb-20 md:mb-32 scroll-mt-20 scroll-reveal">
-                <div class="section-title-wrapper">
-                    <div class="section-title-container">
-                        <h3 class="text-3xl font-bold tracking-widest section-title text-slate-100 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="text-cyan-400 w-12 h-12 mr-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                            <span>将来像</span>
-                        </h3>
-                    </div>
-                </div>
-                <div class="bg-card p-8 md:p-12 max-w-4xl mx-auto">
-                    <blockquote class="border-l-4 border-cyan-400 pl-6">
-                        <p id="vision-quote" class="text-lg md:text-xl italic leading-loose text-cyan-200 typewriter-text">
-                            "技術の進化がもたらす新しい「遊び」の可能性を追求し、世界中の人々が世代や文化を超えて熱中できるインタラクティブ体験を創造したい。"
-                        </p>
-                    </blockquote>
-                    <p id="vision-text" class="mt-6 text-base md:text-lg leading-loose typewriter-text">
-                        VR/ARやAIといった新しい技術は、これまでにないゲーム体験を生み出す大きな可能性を秘めていると信じています。私は、これらの技術をただ使うだけでなく、それによってどのような新しい「感情」や「コミュニケーション」が生まれるのかを深く洞察し、企画に落とし込めるプランナーになりたいです。貴社が持つ高い技術力と開発環境の中で、新たなエンターテインメントの形を模索し、世界に驚きを届けることに貢献したいと考えています。
-                    </p>
-                </div>
-            </section>
-            
-            <section id="contact" class="text-center bg-card p-8 md:p-12 scroll-mt-20 scroll-reveal">
-                <h3 class="text-4xl font-bold mb-4 text-gradient-flame">連絡先・リンク</h3>
-                <p class="max-w-2xl mx-auto text-slate-300 mb-8">
-                    ポートフォリオをご覧いただき、ありがとうございます。ご連絡や、より詳細な制作物については、下記リンクよりご確認いただけます。
-                </p>
-                <div class="flex justify-center items-center space-x-6">
-                    <a href="#" target="_blank" rel="noopener noreferrer" class="text-slate-300 hover:text-cyan-300 transition-colors transform hover:scale-110" title="GitHub">
-                        <svg class="w-10 h-10" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                    <a href="#" class="text-slate-300 hover:text-cyan-300 transition-all transform hover:scale-110">
+                        <svg class="w-12 h-12" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
                     </a>
-                     <a href="#" target="_blank" rel="noopener noreferrer" class="text-slate-300 hover:text-cyan-300 transition-colors transform hover:scale-110" title="X (Twitter)">
-                        <svg class="w-10 h-10" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                    </a>
-                     <a href="mailto:your-email@example.com" class="text-slate-300 hover:text-cyan-300 transition-colors transform hover:scale-110" title="Email">
-                        <svg class="w-10 h-10" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/></svg>
+                    <a href="mailto:your-email@example.com" class="text-slate-300 hover:text-cyan-300 transition-all transform hover:scale-110">
+                        <svg class="w-12 h-12" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/>
+                        </svg>
                     </a>
                 </div>
             </section>
         </div>
     </main>
 
-    <footer class="bg-black/20 mt-20 py-8">
-        <div class="container mx-auto px-6 text-center text-slate-400">
-            <p>&copy; 2025 〇〇 太郎 All Rights Reserved.</p>
+    <footer class="bg-black/30 py-8 mt-20">
+        <div class="container mx-auto px-6 text-center">
+            <p class="terminal-text">© 2025 AKIHIDE MIKAMI - ALL RIGHTS RESERVED</p>
         </div>
     </footer>
 
-    <div id="modal-container">
-        <div id="modal-content" class="relative">
-            <div id="modal-close-btn">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="close-btn" onclick="closeModal()">
+                <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
             </div>
             <div id="modal-body"></div>
         </div>
     </div>
 
     <script>
-        // 1. スクロールアニメーション
-        const scrollElements = document.querySelectorAll('.scroll-reveal');
-        const elementInView = (el, dividend = 1) => {
-            const elementTop = el.getBoundingClientRect().top;
-            return (elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend);
-        };
-        const displayScrollElement = (element) => { element.classList.add('visible'); };
-        const handleScrollAnimation = () => {
-            scrollElements.forEach((el) => { if (elementInView(el, 1.25)) { displayScrollElement(el); } });
-        }
-        window.addEventListener('scroll', handleScrollAnimation);
-        // Initial check
-        setTimeout(() => {
-            handleScrollAnimation();
-        }, 100);
-
-
-        // 2. 3Dカードチルトエフェクト
-        const cards = document.querySelectorAll('.interactive-card');
-        const maxRotation = 10;
-        cards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const { width, height, left, top } = rect;
-                const x = e.clientX - left;
-                const y = e.clientY - top;
-                const centerX = width / 2;
-                const centerY = height / 2;
-                const deltaX = x - centerX;
-                const deltaY = y - centerY;
-                const rotateX = (deltaY / centerY) * -maxRotation;
-                const rotateY = (deltaX / centerX) * maxRotation;
-                card.style.transition = 'transform 0.1s linear';
-                card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-            });
-            card.addEventListener('mouseleave', () => {
-                card.style.transition = 'transform 0.5s ease';
-                card.style.transform = 'rotateX(0deg) rotateY(0deg)';
-            });
-        });
-
-        // 3. モーダル
-        const modalContainer = document.getElementById('modal-container');
-        const modalBody = document.getElementById('modal-body');
-        const modalCloseBtn = document.getElementById('modal-close-btn');
-        const clickableCards = document.querySelectorAll('.work-card-wrapper.cursor-pointer');
-        
-        const openModal = (cardData) => {
-            const { title, image, platform, info, description } = cardData;
-            let modalHTML = '';
-
-            if (image) { // It's a project card
-                modalHTML = `
-                    <img src="${image}" alt="${title}" class="w-full h-64 object-cover">
-                    <div class="p-6 md:p-8">
-                        <div class="mb-4"> <span class="skill-tag">${platform}</span> </div>
-                        <h2 class="text-3xl font-bold mb-2 text-slate-100">${title}</h2>
-                        <p class="text-sm text-slate-400 mb-6">${info}</p>
-                        <p class="text-base leading-relaxed text-slate-300">${description.replace(/\n/g, '<br>')}</p>
-                    </div>
-                `;
-            } else { // It's an activity or strength card
-                modalHTML = `
-                    <div class="p-6 md:p-8">
-                        <h2 class="text-3xl font-bold mb-6 text-slate-100">${title}</h2>
-                        <div class="text-base leading-relaxed text-slate-300">${description.replace(/\n/g, '<br>')}</div>
-                    </div>
-                `;
-            }
-
-            modalBody.innerHTML = modalHTML;
-            modalContainer.classList.add('visible');
-            document.body.style.overflow = 'hidden';
-        };
-
-        const closeModal = () => {
-            modalContainer.classList.remove('visible');
-            document.body.style.overflow = '';
-        };
-
-        clickableCards.forEach(card => {
-            card.addEventListener('click', () => { 
-                openModal(card.dataset); 
-            }); 
-        });
-
-        // Add event listeners for menu links to scroll smoothly
-        document.querySelectorAll('a.menu-item, a[href="#menu"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const href = this.getAttribute('href');
-                // Only apply smooth scroll for internal links (starting with #)
-                if (href && href.startsWith('#')) {
-                    e.preventDefault();
-                    const targetElement = document.querySelector(href);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                    }
+        // Loading Screen
+        window.addEventListener('load', () => {
+            const loadingScreen = document.getElementById('loading-screen');
+            const loadingBar = document.getElementById('loading-bar');
+            const loadingText = document.getElementById('loading-text');
+            
+            const messages = [
+                'Loading game assets...',
+                'Initializing renderer...',
+                'Loading player data...',
+                'Ready!'
+            ];
+            
+            let progress = 0;
+            let messageIndex = 0;
+            
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 100) progress = 100;
+                
+                loadingBar.style.width = progress + '%';
+                
+                if (progress > 25 * (messageIndex + 1) && messageIndex < messages.length - 1) {
+                    messageIndex++;
+                    loadingText.textContent = messages[messageIndex];
                 }
-                // Let default browser behavior handle external links like "projects.html"
-            });
-        });
-        
-        modalCloseBtn.addEventListener('click', closeModal);
-        modalContainer.addEventListener('click', (e) => { if (e.target === modalContainer) { closeModal(); } });
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modalContainer.classList.contains('visible')) { closeModal(); } });
-
-        // 4. タイプライター
-        const typewriter = (element, speed = 25) => {
-            const text = element.innerHTML;
-            element.innerHTML = '';
-            element.classList.add('visible');
-            let i = 0; let isTag = false; let tag = '';
-            const typing = () => {
-                if (i < text.length) {
-                    let char = text.charAt(i);
-                    if (char === '<') { isTag = true; }
-                    if (isTag) {
-                        tag += char;
-                        if (char === '>') { element.innerHTML += tag; tag = ''; isTag = false; }
-                    } else { element.innerHTML += char; }
-                    i++;
-                    setTimeout(typing, isTag ? 0 : speed);
-                } else {
-                    const cursor = element.querySelector('.cursor');
-                    if (cursor) { cursor.remove(); }
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        loadingScreen.classList.add('hidden');
+                    }, 500);
                 }
-            };
-            element.innerHTML = '<span class="cursor"></span>';
-            typing();
-        };
-        const typewriterElements = [
-            { id: 'intro-text', triggered: false },
-            { id: 'vision-quote', triggered: false }, 
-            { id: 'vision-text', triggered: false }
-        ];
-        const handleTypewriterAnimation = () => {
-            typewriterElements.forEach(item => {
-                if (item.triggered) return;
-                const el = document.getElementById(item.id);
-                if (el && elementInView(el, 1.25)) { typewriter(el); item.triggered = true; }
+            }, 100);
+        });
+
+        // Scroll Progress
+        window.addEventListener('scroll', () => {
+            const scrollProgress = document.getElementById('scroll-progress');
+            const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPosition = window.scrollY;
+            const progress = (scrollPosition / scrollTotal) * 100;
+            scrollProgress.style.width = progress + '%';
+        });
+
+        // Scroll Reveal
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealOnScroll = () => {
+            revealElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (elementTop < windowHeight - 100) {
+                    element.classList.add('active');
+                }
             });
         };
-        window.addEventListener('scroll', handleTypewriterAnimation);
-        handleTypewriterAnimation(); // Initial check for intro
-
-        // 5. ゲームオブジェクト風パーティクル
+        
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll();
+        
+        // Particles
         const particlesContainer = document.getElementById('particles-container');
-        const particleSvgs = [
-            '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6v-2Z"/></svg>', // Plus
-            '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Z"/></svg>', // Circle
-            '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v18H3V3Z"/></svg>', // Square
-            '<svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 10 18H2L12 2Z"/></svg>' // Triangle
-        ];
-        const particleColors = ['#64ffda', '#f7fafc', '#2dd4bf']; // Teal, White, Darker Teal
-        const particleCount = 50;
-
-        for (let i = 0; i < particleCount; i++) {
-            const p = document.createElement('div');
-            p.classList.add('particle');
-            p.innerHTML = particleSvgs[Math.floor(Math.random() * particleSvgs.length)];
-
-            const depth = Math.random();
-            const size = (depth * 25) + 10; // 10px to 35px
-            const duration = (1 - depth) * 20 + 15; // 15s to 35s
-            const delay = Math.random() * duration;
-            const rotation = (Math.random() * 2 - 1) * 360; 
-            const color = particleColors[Math.floor(Math.random() * particleColors.length)];
-
-            p.style.width = `${size}px`;
-            p.style.height = `${size}px`;
-            p.style.left = `${Math.random() * 100}vw`;
-            
-            p.style.setProperty('--rotation', `${rotation}deg`);
-            p.style.setProperty('--particle-glow-color', color);
-            p.style.animationDuration = `${duration}s`;
-            p.style.animationDelay = `-${delay}s`;
-            
-            particlesContainer.appendChild(p);
+        const particleShapes = ['▲', '■', '●', '◆', '★'];
+        
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.textContent = particleShapes[Math.floor(Math.random() * particleShapes.length)];
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            particle.style.animationDuration = (Math.random() * 20 + 15) + 's';
+            particle.style.animationDelay = Math.random() * 5 + 's';
+            particlesContainer.appendChild(particle);
         }
+
+        // Modal Logic
+        const modal = document.getElementById('modal');
+        const modalBody = document.getElementById('modal-body');
+        
+        const projectData = {
+            '1': { title: 'Code of Valor', type: '3D Action RPG', tech: 'Unity / C#', description: '【このプロジェクトで直面した課題と、それをどのように解決したかを記述します】', role: 'リードプランナー', team: '5人チーム', period: '大学3年次' },
+            '2': { title: 'Chrono Cube', type: 'Puzzle Game', tech: 'Unreal Engine / C++', description: '【このプロジェクトで直面した課題と、それをどのように解決したかを記述します】', role: '全工程担当', team: '個人制作', period: '大学2年次（3ヶ月）' },
+            '3': { title: 'Campus AR Rally', type: 'AR Game', tech: 'Unity / AR Foundation', description: '【このプロジェクトで直面した課題と、それをどのように解決したかを記述します】', role: '企画・実装', team: '3人チーム', period: '学園祭実行委員として' }
+        };
+
+        const strengthData = {
+            'strengths-1': { title: 'プレゼンテーション能力', description: '大学のゼミやチーム制作発表会で、企画の意図や魅力を伝えるプレゼンテーションを多数経験しました。複雑なゲームシステムも、図やデモを用いて分かりやすく説明し、聞き手の心を掴むことを得意としています。' },
+            'strengths-2': { title: 'コミュニケーション能力', description: '多様なバックグラウンドを持つメンバーと円滑に意思疎通を図り、チームの結束力を高めることができます。ハッカソンでは、異なる意見を調整し、全員が納得するゴールへと導いた経験があります。' },
+            'strengths-3': { title: 'プロジェクトマネジメント', description: 'チーム制作ではリーダーとして、タスクの洗い出し、スケジュール管理、進捗確認を行いました。課題が発生した際には、原因を分析し、解決策を提示することで、プロジェクトを円滑に遂行しました。' }
+        };
+        
+        document.querySelectorAll('[data-modal-target]').forEach(card => {
+            card.addEventListener('click', () => {
+                const targetId = card.dataset.modalTarget;
+                let data, htmlContent;
+
+                if (targetId.startsWith('project-')) {
+                    data = projectData[targetId.replace('project-', '')];
+                    htmlContent = `
+                        <h2 class="text-4xl font-bold mb-4 retro-font text-cyan-300">${data.title}</h2>
+                        <p class="text-xl text-pink-400 mb-6">${data.type}</p>
+                        <div class="mb-6"><span class="inline-block px-4 py-2 bg-cyan-500/20 text-cyan-300 rounded-lg border-2 border-cyan-500/50 mr-2">${data.tech}</span></div>
+                        <div class="mb-6 space-y-2">
+                            <p class="terminal-text">Role: <span class="text-white">${data.role}</span></p>
+                            <p class="terminal-text">Team: <span class="text-white">${data.team}</span></p>
+                            <p class="terminal-text">Period: <span class="text-white">${data.period}</span></p>
+                        </div>
+                        <p class="text-lg leading-relaxed text-slate-300">${data.description}</p>
+                    `;
+                } else {
+                    data = strengthData[targetId];
+                    htmlContent = `
+                        <h2 class="text-4xl font-bold mb-4 retro-font text-cyan-300">${data.title}</h2>
+                        <p class="text-lg leading-relaxed text-slate-300">${data.description}</p>
+                    `;
+                }
+
+                modalBody.innerHTML = htmlContent;
+                modal.classList.add('active');
+            });
+        });
+
+        
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+        
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+        
+        document.querySelector('.close-btn').addEventListener('click', closeModal);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
     </script>
 </body>
 </html>
