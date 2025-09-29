@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>〇〇 太郎 | 学生ポートフォリオ</title>
+    <title>Akihide Mikami | ポートフォリオ</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -76,26 +76,7 @@
         .section-title::after { display: none; }
         .section-title svg { filter: drop-shadow(0 0 8px var(--glow-color-1)); }
 
-        /* 3. ナビゲーション */
-        header { background-color: rgba(30, 41, 59, 0.5); border-color: rgba(100, 255, 218, 0.2); }
-        header nav a {
-            position: relative; padding: 0.5rem 1rem; z-index: 1;
-            transition: color 0.3s ease;
-        }
-        header nav a:hover { color: #1e293b; }
-        header nav a::after {
-            content: ''; position: absolute; bottom: 0; left: 50%;
-            transform: translateX(-50%) scaleX(0); width: 100%; height: 100%;
-            background: linear-gradient(135deg, var(--glow-color-1), var(--glow-color-2));
-            clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
-            z-index: -1; transition: transform 0.3s ease-out;
-            transform-origin: center right;
-        }
-        header nav a:hover::after {
-            transform: translateX(-50%) scaleX(1); transform-origin: center left;
-        }
-
-        /* 4. カードコンテナのスタイル */
+        /* 3. カードコンテナのスタイル */
         .works-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -133,12 +114,6 @@
             transition: box-shadow 0.3s ease;
             position: relative; perspective: 1000px; transform-style: preserve-3d;
             height: 100%;
-        }
-        
-        .hero-pulse { animation: pulse-glow 4s ease-in-out infinite; }
-        @keyframes pulse-glow {
-            0%, 100% { text-shadow: 0 0 15px var(--glow-color-1), 0 0 25px var(--glow-color-1); }
-            50% { text-shadow: 0 0 25px var(--glow-color-2), 0 0 40px var(--glow-color-2); }
         }
         
         .scroll-reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
@@ -204,263 +179,320 @@
             90% { opacity: 0.8; }
             to { transform: translateY(-110vh) rotate(var(--rotation)); opacity: 0; }
         }
+
+        /* --- Menu --- */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            width: 100%;
+        }
+        .menu-item {
+            position: relative;
+            background-color: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(100, 255, 218, 0.2);
+            transition: all 0.3s ease;
+            color: var(--glow-color-2);
+            font-weight: 900;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 1rem;
+            min-height: 180px;
+            clip-path: polygon(0 0, calc(100% - 25px) 0, 100% 25px, 100% 100%, 25px 100%, 0 calc(100% - 25px));
+        }
+        .menu-item:hover {
+            transform: translateY(-5px) scale(1.03);
+            background-color: rgba(100, 255, 218, 0.2);
+            border-color: var(--glow-color-1);
+            color: var(--glow-color-1);
+            text-shadow: 0 0 10px var(--glow-color-1);
+        }
+
+        .menu-item .icon {
+            margin-bottom: 0.75rem;
+        }
+        .menu-item .icon svg {
+             width: 3.5rem;
+             height: 3.5rem;
+        }
+         .menu-item .title {
+            font-size: 1.75rem;
+        }
     </style>
 </head>
 <body class="antialiased">
     <div id="particles-container"></div>
-    <header class="backdrop-blur-sm sticky top-0 z-50 shadow-lg shadow-black/50">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold tracking-wider text-slate-100">
-                <a href="#" class="hover:text-cyan-300 transition-colors">〇〇 太郎</a>
-            </h1>
-            <nav class="hidden md:flex space-x-2">
-                <a href="#about" class="font-semibold">私について</a>
-                <a href="#strengths" class="font-semibold">私の強み</a>
-                <a href="#activities" class="font-semibold">活動実績</a>
-                <a href="#projects" class="font-semibold">制作物</a>
-                <a href="#vision" class="font-semibold">将来像</a>
-                <a href="#contact" class="font-semibold">連絡先</a>
-            </nav>
-        </div>
-    </header>
-
-    <main class="container mx-auto px-6 py-12 md:py-20">
-
-        <section class="text-center mb-20 md:mb-32 scroll-reveal">
-            <img src="Cashew3.jpg" alt="〇〇太郎のポートレート" class="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto mb-6 border-4 border-cyan-400/50 shadow-lg shadow-cyan-500/20 hover:border-cyan-300 transition-colors duration-300 transform hover:scale-110">
-            <h2 class="text-5xl md:text-7xl font-black tracking-tight mb-4 text-gradient-flame hero-pulse">〇〇 太郎</h2>
-            <p class="text-lg md:text-xl text-cyan-300 mb-4 font-bold" style="text-shadow: 0 0 10px var(--glow-color-1);">〇〇大学 | ゲームプランナー志望</p>
-            <p class="max-w-3xl mx-auto text-base md:text-lg leading-relaxed text-slate-300">
+    
+    <main>
+        <section id="hero" class="min-h-screen flex flex-col items-center justify-center text-center p-6 relative scroll-reveal">
+            <img src="Cashew3.jpg" alt="三上晃英のポートレート" class="w-40 h-40 md:w-48 md:h-48 rounded-full object-cover mx-auto mb-6 border-4 border-cyan-400/50 shadow-lg shadow-cyan-500/20">
+            <h2 class="text-5xl md:text-7xl font-black tracking-tight mb-4 text-gradient-flame">三上 晃英</h2>
+            <p class="text-lg md:text-xl text-cyan-300 mb-6 font-bold" style="text-shadow: 0 0 10px var(--glow-color-1);">ゲームクライアントエンジニア志望</p>
+            <p id="intro-text" class="max-w-3xl mx-auto text-base md:text-lg leading-relaxed text-slate-300 typewriter-text">
+                近畿大学情報学部情報学科実世界コンピューティングコース所属。<br>
                 「つい夢中になる体験」をデザインで届け、人の心を動かすゲームクリエイターを目指しています。
             </p>
+            <a href="#menu" class="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce">
+                <svg class="w-10 h-10 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </a>
         </section>
 
-        <section id="about" class="mb-20 md:mb-32 scroll-mt-20 scroll-reveal">
-            <div class="section-title-wrapper">
-                <div class="section-title-container">
-                    <h3 class="text-3xl font-bold tracking-widest section-title text-slate-100 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="text-cyan-400 w-12 h-12 mr-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-                        <span>私について</span>
-                    </h3>
+        <div class="container mx-auto px-6">
+            <section id="menu" class="py-20 md:py-32 scroll-mt-20 scroll-reveal">
+                <div class="menu-grid">
+                     <a href="#projects" class="menu-item">
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2 1M4 7l2-1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" /></svg>
+                        </div>
+                        <div class="title">制作物</div>
+                    </a>
+                    <a href="#strengths" class="menu-item">
+                        <div class="icon">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4M14 3v4m-2-2h4M12 17v4m-2-2h4m5-12v4m-2-2h4M18 17v4m-2-2h4" /></svg>
+                        </div>
+                        <div class="title">私の強み</div>
+                    </a>
+                    <a href="#activities" class="menu-item">
+                        <div class="icon">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </div>
+                        <div class="title">活動実績</div>
+                    </a>
+                    <a href="#vision" class="menu-item">
+                        <div class="icon">
+                           <svg xmlns="http://www.w3.org/2000/svg" class="text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                        </div>
+                        <div class="title">将来像</div>
+                    </a>
                 </div>
-            </div>
-            <div class="bg-card p-8 md:p-12 max-w-4xl mx-auto">
-                <p id="about-text" class="text-base md:text-lg leading-loose typewriter-text">
-                    〇〇大学 〇〇学部 〇〇学科でゲームデザインを専攻しています。幼い頃に『（好きなゲーム名）』と出会い、その圧倒的な世界観とプレイヤーを惹きつけるゲームシステムに感銘を受けたことが、この道を志すきっかけです。<br><br>
-                    大学では、個人・チームでのゲーム制作を通じて、企画立案から開発、デバッグまでの全工程を経験。特に、プレイヤーの行動を予測し、最適な「リスクとリターン」を設計することに面白さを感じています。論理的思考力と、物語への共感力を武器に、新しい「面白い」を創造できるプランナーを目指します。
-                </p>
-            </div>
-        </section>
-
-        <section id="strengths" class="mb-20 md:mb-32 scroll-mt-20 scroll-reveal">
-            <div class="section-title-wrapper">
-                <div class="section-title-container">
-                    <h3 class="text-3xl font-bold tracking-widest section-title text-slate-100 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="text-cyan-400 w-12 h-12 mr-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4M14 3v4m-2-2h4M12 17v4m-2-2h4m5-12v4m-2-2h4M18 17v4m-2-2h4" /></svg>
-                        <span>私の強み</span>
-                    </h3>
+            </section>
+    
+            <section id="strengths" class="mb-20 md:mb-32 scroll-mt-20 scroll-reveal">
+                <div class="section-title-wrapper">
+                    <div class="section-title-container">
+                        <h3 class="text-3xl font-bold tracking-widest section-title text-slate-100 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="text-cyan-400 w-12 h-12 mr-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4M14 3v4m-2-2h4M12 17v4m-2-2h4m5-12v4m-2-2h4M18 17v4m-2-2h4" /></svg>
+                            <span>私の強み</span>
+                        </h3>
+                    </div>
                 </div>
-            </div>
-            <div class="bg-card p-8 md:p-12 max-w-4xl mx-auto">
-                <div class="space-y-8">
-                    <!-- 強み 1 -->
-                    <div>
-                        <h4 class="text-xl font-bold mb-3 text-cyan-300 flex items-center">
-                            <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"></path></svg>
-                            プレゼンテーション能力
-                        </h4>
-                        <p class="text-base text-slate-300 leading-relaxed">
-                            大学のゼミやチーム制作発表会で、企画の意図や魅力を伝えるプレゼンテーションを多数経験しました。複雑なゲームシステムも、図やデモを用いて分かりやすく説明し、聞き手の心を掴むことを得意としています。
+                <div class="works-container">
+                     <!-- Strength Card 1 -->
+                    <div class="work-card-container">
+                        <div class="work-card-wrapper interactive-card activity-glow cursor-pointer" 
+                            data-title="プレゼンテーション能力"
+                            data-description="大学のゼミやチーム制作発表会で、企画の意図や魅力を伝えるプレゼンテーションを多数経験しました。複雑なゲームシステムも、図やデモを用いて分かりやすく説明し、聞き手の心を掴むことを得意としています。">
+                            <div class="bg-card inner-card h-full overflow-hidden flex flex-col justify-center items-center p-6">
+                                <svg class="w-16 h-16 mb-4 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"></path></svg>
+                                <h4 class="text-xl font-bold text-center text-slate-100">プレゼンテーション能力</h4>
+                                <p class="text-sm text-slate-400 mt-2">クリックして詳細を見る</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Strength Card 2 -->
+                    <div class="work-card-container">
+                        <div class="work-card-wrapper interactive-card activity-glow cursor-pointer"
+                            data-title="コミュニケーション能力"
+                            data-description="多様なバックグラウンドを持つメンバーと円滑に意思疎通を図り、チームの結束力を高めることができます。ハッカソンでは、異なる意見を調整し、全員が納得するゴールへと導いた経験があります。">
+                            <div class="bg-card inner-card h-full overflow-hidden flex flex-col justify-center items-center p-6">
+                                <svg class="w-16 h-16 mb-4 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                                <h4 class="text-xl font-bold text-center text-slate-100">コミュニケーション能力</h4>
+                                 <p class="text-sm text-slate-400 mt-2">クリックして詳細を見る</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Strength Card 3 -->
+                    <div class="work-card-container">
+                        <div class="work-card-wrapper interactive-card activity-glow cursor-pointer"
+                            data-title="プロジェクトマネジメント"
+                            data-description="チーム制作ではリーダーとして、タスクの洗い出し、スケジュール管理、進捗確認を行いました。課題が発生した際には、原因を分析し、解決策を提示することで、プロジェクトを円滑に遂行しました。">
+                            <div class="bg-card inner-card h-full overflow-hidden flex flex-col justify-center items-center p-6">
+                                <svg class="w-16 h-16 mb-4 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                                <h4 class="text-xl font-bold text-center text-slate-100">プロジェクトマネジメント</h4>
+                                 <p class="text-sm text-slate-400 mt-2">クリックして詳細を見る</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+    
+            <section id="activities" class="mb-20 md:mb-32 scroll-mt-20 scroll-reveal">
+                <div class="section-title-wrapper">
+                    <div class="section-title-container">
+                        <h3 class="text-3xl font-bold tracking-widest section-title text-slate-100 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="text-cyan-400 w-12 h-12 mr-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            <span>活動実績</span>
+                        </h3>
+                    </div>
+                </div>
+                <div class="works-container">
+                    <!-- Activity Card 1 -->
+                    <div class="work-card-container">
+                        <div class="work-card-wrapper interactive-card activity-glow cursor-pointer" 
+                            data-title="イベント主催・運営"
+                            data-description="・〇〇大学にて、新入生向けゲーム開発ワークショップを企画・運営 (2024年)<br>・学園祭にて、来場者参加型のインディーゲーム展示会を主催 (2023年)">
+                            <div class="bg-card inner-card h-full overflow-hidden flex flex-col justify-center items-center p-6">
+                                 <svg class="w-16 h-16 mb-4 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                <h4 class="text-xl font-bold text-center text-slate-100">イベント主催・運営</h4>
+                                <p class="text-sm text-slate-400 mt-2">クリックして詳細を見る</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Activity Card 2 -->
+                    <div class="work-card-container">
+                        <div class="work-card-wrapper interactive-card activity-glow cursor-pointer"
+                            data-title="団体運営"
+                            data-description="・ゲーム開発サークル「〇〇」の代表として、メンバーの進捗管理や外部との渉外を担当 (2023年〜現在)">
+                            <div class="bg-card inner-card h-full overflow-hidden flex flex-col justify-center items-center p-6">
+                                <svg class="w-16 h-16 mb-4 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                                <h4 class="text-xl font-bold text-center text-slate-100">団体運営</h4>
+                                 <p class="text-sm text-slate-400 mt-2">クリックして詳細を見る</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Activity Card 3 -->
+                    <div class="work-card-container">
+                        <div class="work-card-wrapper interactive-card activity-glow cursor-pointer"
+                            data-title="ハッカソン実績"
+                            data-description="・〇〇テックハッカソン - 企業賞受賞 (2024年)<br>・ゲーム開発ハッカソン - 優秀賞 (2023年)<br>・〇〇大学ハッカソン - 参加 (2023年)">
+                            <div class="bg-card inner-card h-full overflow-hidden flex flex-col justify-center items-center p-6">
+                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 mb-4 text-cyan-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                <h4 class="text-xl font-bold text-center text-slate-100">ハッカソン</h4>
+                                 <p class="text-sm text-slate-400 mt-2">クリックして詳細を見る</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="projects" class="mb-20 md:mb-32 scroll-mt-20 scroll-reveal">
+                 <div class="section-title-wrapper">
+                    <div class="section-title-container">
+                        <h3 class="text-3xl font-bold tracking-widest section-title text-slate-100 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="text-cyan-400 w-12 h-12 mr-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2 1M4 7l2-1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" /></svg>
+                            <span>制作物</span>
+                        </h3>
+                    </div>
+                </div>
+                <div class="works-container">
+    
+                    <div class="work-card-container">
+                        <div class="work-card-wrapper interactive-card project-glow-1 cursor-pointer" 
+                             data-title="3DアクションRPG『Code of Valor』"
+                             data-image="https://placehold.co/800x450/f472b6/0f172a?text=Project+1"
+                             data-platform="Unity / C#"
+                             data-info="大学3年次 | チーム制作 (5人) | 担当: リードプランナー"
+                             data-description="中世ファンタジーの世界を舞台にした3DアクションRPGです。5人チームのリーダー兼企画担当として、コンセプト設計、仕様書作成、レベルデザイン、パラメータ調整などを行いました。プレイヤーのスキルと戦略が試される、歯ごたえのある戦闘バランスを特に意識して設計しました。">
+                            <div class="bg-card inner-card h-full overflow-hidden flex flex-col">
+                                <div class="work-card-image-container">
+                                   <img src="https://placehold.co/600x400/f472b6/0f172a?text=Project+1" alt="プロジェクト1の画像" class="w-full h-48 object-cover work-card-image">
+                                </div>
+                                <div class="p-6 flex-grow work-card-content">
+                                    <div class="mb-4"> <span class="skill-tag">Unity</span> </div>
+                                    <h4 class="text-xl font-bold mb-2 text-slate-100">3DアクションRPG</h4>
+                                    <p class="text-sm text-slate-400 mb-4">担当: リードプランナー</p>
+                                    <p class="text-sm leading-relaxed text-slate-300">5人チームでの共同制作。企画、仕様書作成、レベルデザインを担当。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="work-card-container">
+                        <div class="work-card-wrapper interactive-card project-glow-2 cursor-pointer"
+                             data-title="パズルゲーム『Chrono Cube』"
+                             data-image="https://placehold.co/800x450/a78bfa/0f172a?text=Project+2"
+                             data-platform="Unreal Engine / C++"
+                             data-info="大学2年次 | 個人制作 | 制作期間: 3ヶ月"
+                             data-description="時間をテーマにした3Dパズルゲーム。時間を巻き戻す能力を使い、ギミックを解きながらゴールを目指します。「もし時間を戻せたら？」という発想から、プレイヤーにひらめきの快感を与えられるようなステージ設計を心がけました。企画から実装まで、全ての工程を一人で担当し、ゲーム制作の全体像を把握する良い経験となりました。">
+                            <div class="bg-card inner-card h-full overflow-hidden flex flex-col">
+                                <div class="work-card-image-container">
+                                    <img src="https://placehold.co/600x400/a78bfa/0f172a?text=Project+2" alt="プロジェクト2の画像" class="w-full h-48 object-cover work-card-image">
+                                </div>
+                                <div class="p-6 flex-grow work-card-content">
+                                    <div class="mb-4"><span class="skill-tag">Unreal Engine</span></div>
+                                    <h4 class="text-xl font-bold mb-2 text-slate-100">時間操作パズルゲーム</h4>
+                                    <p class="text-sm text-slate-400 mb-4">担当: 全て (個人制作)</p>
+                                    <p class="text-sm leading-relaxed text-slate-300">「時間を戻す」能力を核にしたギミックとステージデザインを考案・実装。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                     <div class="work-card-container">
+                        <div class="work-card-wrapper interactive-card project-glow-3 cursor-pointer"
+                             data-title="学園祭向けARゲーム"
+                             data-image="https://placehold.co/800x450/22d3ee/0f172a?text=Project+3"
+                             data-platform="Unity / AR Foundation"
+                             data-info="大学祭実行委員として | チーム制作 (3人) | 担当: 企画・実装"
+                             data-description="大学のキャンパスを舞台にした、スマートフォン向けのARスタンプラリーゲームを企画・開発しました。来場者がキャンパス内の特定の場所でカメラをかざすと、マスコットキャラクターが出現し、スタンプが手に入るという内容です。子供から大人まで楽しめるよう、直感的な操作性と分かりやすいルール設計に注力しました。">
+                            <div class="bg-card inner-card h-full overflow-hidden flex flex-col">
+                                <div class="work-card-image-container">
+                                   <img src="https://placehold.co/600x400/22d3ee/0f172a?text=Project+3" alt="プロジェクト3の画像" class="w-full h-48 object-cover work-card-image">
+                                </div>
+                                <div class="p-6 flex-grow work-card-content">
+                                    <div class="mb-4"><span class="skill-tag">AR</span></div>
+                                    <h4 class="text-xl font-bold mb-2 text-slate-100">学園祭向けARゲーム</h4>
+                                    <p class="text-sm text-slate-400 mb-4">担当: 企画・実装</p>
+                                    <p class="text-sm leading-relaxed text-slate-300">大学のキャンパスを舞台にした、スマートフォン向けARスタンプラリーを開発。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                </div>
+                <div class="mt-12 text-center">
+                    <a href="projects.html" class="menu-item inline-block text-xl px-10 py-4">
+                        もっとみる
+                    </a>
+                </div>
+            </section>
+    
+            <section id="vision" class="mb-20 md:mb-32 scroll-mt-20 scroll-reveal">
+                <div class="section-title-wrapper">
+                    <div class="section-title-container">
+                        <h3 class="text-3xl font-bold tracking-widest section-title text-slate-100 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="text-cyan-400 w-12 h-12 mr-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                            <span>将来像</span>
+                        </h3>
+                    </div>
+                </div>
+                <div class="bg-card p-8 md:p-12 max-w-4xl mx-auto">
+                    <blockquote class="border-l-4 border-cyan-400 pl-6">
+                        <p id="vision-quote" class="text-lg md:text-xl italic leading-loose text-cyan-200 typewriter-text">
+                            "技術の進化がもたらす新しい「遊び」の可能性を追求し、世界中の人々が世代や文化を超えて熱中できるインタラクティブ体験を創造したい。"
                         </p>
-                    </div>
-                     <!-- 強み 2 -->
-                    <div>
-                        <h4 class="text-xl font-bold mb-3 text-cyan-300 flex items-center">
-                             <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                            コミュニケーション能力
-                        </h4>
-                        <p class="text-base text-slate-300 leading-relaxed">
-                            多様なバックグラウンドを持つメンバーと円滑に意思疎通を図り、チームの結束力を高めることができます。ハッカソンでは、異なる意見を調整し、全員が納得するゴールへと導いた経験があります。
-                        </p>
-                    </div>
-                     <!-- 強み 3 -->
-                    <div>
-                        <h4 class="text-xl font-bold mb-3 text-cyan-300 flex items-center">
-                            <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
-                            プロジェクトマネジメント
-                        </h4>
-                        <p class="text-base text-slate-300 leading-relaxed">
-                            チーム制作ではリーダーとして、タスクの洗い出し、スケジュール管理、進捗確認を行いました。課題が発生した際には、原因を分析し、解決策を提示することで、プロジェクトを円滑に遂行しました。
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="activities" class="mb-20 md:mb-32 scroll-mt-20 scroll-reveal">
-            <div class="section-title-wrapper">
-                <div class="section-title-container">
-                    <h3 class="text-3xl font-bold tracking-widest section-title text-slate-100 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="text-cyan-400 w-12 h-12 mr-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-12v4m-2-2h4M12 17v4m-2-2h4m-2-2l-2-2m0 0l-2 2m2-2v4.5M17 3l-2 2m0 0l2 2m-2-2h4.5M3 14h4.5M3 14l2-2m-2 2l2 2m12-2l2 2m0 0l2-2m-2 2v-4.5M14 3h4.5m0 0l-2 2m2-2l-2-2" /></svg>
-                        <span>活動実績</span>
-                    </h3>
-                </div>
-            </div>
-            <div class="works-container">
-                <!-- Activity Card 1 -->
-                <div class="work-card-container">
-                    <div class="work-card-wrapper interactive-card activity-glow cursor-pointer" 
-                        data-title="イベント主催・運営"
-                        data-description="・〇〇大学にて、新入生向けゲーム開発ワークショップを企画・運営 (2024年)<br>・学園祭にて、来場者参加型のインディーゲーム展示会を主催 (2023年)">
-                        <div class="bg-card inner-card h-full overflow-hidden flex flex-col justify-center items-center p-6">
-                             <svg class="w-16 h-16 mb-4 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            <h4 class="text-xl font-bold text-center text-slate-100">イベント主催・運営</h4>
-                            <p class="text-sm text-slate-400 mt-2">クリックして詳細を見る</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Activity Card 2 -->
-                <div class="work-card-container">
-                    <div class="work-card-wrapper interactive-card activity-glow cursor-pointer"
-                        data-title="団体運営"
-                        data-description="・ゲーム開発サークル「〇〇」の代表として、メンバーの進捗管理や外部との渉外を担当 (2023年〜現在)">
-                        <div class="bg-card inner-card h-full overflow-hidden flex flex-col justify-center items-center p-6">
-                            <svg class="w-16 h-16 mb-4 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                            <h4 class="text-xl font-bold text-center text-slate-100">団体運営</h4>
-                             <p class="text-sm text-slate-400 mt-2">クリックして詳細を見る</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Activity Card 3 -->
-                <div class="work-card-container">
-                    <div class="work-card-wrapper interactive-card activity-glow cursor-pointer"
-                        data-title="ハッカソン実績"
-                        data-description="・〇〇テックハッカソン - 企業賞受賞 (2024年)<br>・ゲーム開発ハッカソン - 優秀賞 (2023年)<br>・〇〇大学ハッカソン - 参加 (2023年)">
-                        <div class="bg-card inner-card h-full overflow-hidden flex flex-col justify-center items-center p-6">
-                             <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 mb-4 text-cyan-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                            <h4 class="text-xl font-bold text-center text-slate-100">ハッカソン</h4>
-                             <p class="text-sm text-slate-400 mt-2">クリックして詳細を見る</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <section id="projects" class="mb-20 md:mb-32 scroll-mt-20 scroll-reveal">
-             <div class="section-title-wrapper">
-                <div class="section-title-container">
-                    <h3 class="text-3xl font-bold tracking-widest section-title text-slate-100 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="text-cyan-400 w-12 h-12 mr-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2 1M4 7l2-1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" /></svg>
-                        <span>制作物</span>
-                    </h3>
-                </div>
-            </div>
-            <div class="works-container">
-
-                <div class="work-card-container">
-                    <div class="work-card-wrapper interactive-card project-glow-1 cursor-pointer" 
-                         data-title="3DアクションRPG『Code of Valor』"
-                         data-image="https://placehold.co/800x450/f472b6/0f172a?text=Project+1"
-                         data-platform="Unity / C#"
-                         data-info="大学3年次 | チーム制作 (5人) | 担当: リードプランナー"
-                         data-description="中世ファンタジーの世界を舞台にした3DアクションRPGです。5人チームのリーダー兼企画担当として、コンセプト設計、仕様書作成、レベルデザイン、パラメータ調整などを行いました。プレイヤーのスキルと戦略が試される、歯ごたえのある戦闘バランスを特に意識して設計しました。">
-                        <div class="bg-card inner-card h-full overflow-hidden flex flex-col">
-                            <div class="work-card-image-container">
-                               <img src="https://placehold.co/600x400/f472b6/0f172a?text=Project+1" alt="プロジェクト1の画像" class="w-full h-48 object-cover work-card-image">
-                            </div>
-                            <div class="p-6 flex-grow work-card-content">
-                                <div class="mb-4"> <span class="skill-tag">Unity</span> </div>
-                                <h4 class="text-xl font-bold mb-2 text-slate-100">3DアクションRPG</h4>
-                                <p class="text-sm text-slate-400 mb-4">担当: リードプランナー</p>
-                                <p class="text-sm leading-relaxed text-slate-300">5人チームでの共同制作。企画、仕様書作成、レベルデザインを担当。</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="work-card-container">
-                    <div class="work-card-wrapper interactive-card project-glow-2 cursor-pointer"
-                         data-title="パズルゲーム『Chrono Cube』"
-                         data-image="https://placehold.co/800x450/a78bfa/0f172a?text=Project+2"
-                         data-platform="Unreal Engine / C++"
-                         data-info="大学2年次 | 個人制作 | 制作期間: 3ヶ月"
-                         data-description="時間をテーマにした3Dパズルゲーム。時間を巻き戻す能力を使い、ギミックを解きながらゴールを目指します。「もし時間を戻せたら？」という発想から、プレイヤーにひらめきの快感を与えられるようなステージ設計を心がけました。企画から実装まで、全ての工程を一人で担当し、ゲーム制作の全体像を把握する良い経験となりました。">
-                        <div class="bg-card inner-card h-full overflow-hidden flex flex-col">
-                            <div class="work-card-image-container">
-                                <img src="https://placehold.co/600x400/a78bfa/0f172a?text=Project+2" alt="プロジェクト2の画像" class="w-full h-48 object-cover work-card-image">
-                            </div>
-                            <div class="p-6 flex-grow work-card-content">
-                                <div class="mb-4"><span class="skill-tag">Unreal Engine</span></div>
-                                <h4 class="text-xl font-bold mb-2 text-slate-100">時間操作パズルゲーム</h4>
-                                <p class="text-sm text-slate-400 mb-4">担当: 全て (個人制作)</p>
-                                <p class="text-sm leading-relaxed text-slate-300">「時間を戻す」能力を核にしたギミックとステージデザインを考案・実装。</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                 <div class="work-card-container">
-                    <div class="work-card-wrapper interactive-card project-glow-3 cursor-pointer"
-                         data-title="学園祭向けARゲーム"
-                         data-image="https://placehold.co/800x450/22d3ee/0f172a?text=Project+3"
-                         data-platform="Unity / AR Foundation"
-                         data-info="大学祭実行委員として | チーム制作 (3人) | 担当: 企画・実装"
-                         data-description="大学のキャンパスを舞台にした、スマートフォン向けのARスタンプラリーゲームを企画・開発しました。来場者がキャンパス内の特定の場所でカメラをかざすと、マスコットキャラクターが出現し、スタンプが手に入るという内容です。子供から大人まで楽しめるよう、直感的な操作性と分かりやすいルール設計に注力しました。">
-                        <div class="bg-card inner-card h-full overflow-hidden flex flex-col">
-                            <div class="work-card-image-container">
-                               <img src="https://placehold.co/600x400/22d3ee/0f172a?text=Project+3" alt="プロジェクト3の画像" class="w-full h-48 object-cover work-card-image">
-                            </div>
-                            <div class="p-6 flex-grow work-card-content">
-                                <div class="mb-4"><span class="skill-tag">AR</span></div>
-                                <h4 class="text-xl font-bold mb-2 text-slate-100">学園祭向けARゲーム</h4>
-                                <p class="text-sm text-slate-400 mb-4">担当: 企画・実装</p>
-                                <p class="text-sm leading-relaxed text-slate-300">大学のキャンパスを舞台にした、スマートフォン向けARスタンプラリーを開発。</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <section id="vision" class="mb-20 md:mb-32 scroll-mt-20 scroll-reveal">
-            <div class="section-title-wrapper">
-                <div class="section-title-container">
-                    <h3 class="text-3xl font-bold tracking-widest section-title text-slate-100 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="text-cyan-400 w-12 h-12 mr-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                        <span>将来像</span>
-                    </h3>
-                </div>
-            </div>
-            <div class="bg-card p-8 md:p-12 max-w-4xl mx-auto">
-                <blockquote class="border-l-4 border-cyan-400 pl-6">
-                    <p id="vision-quote" class="text-lg md:text-xl italic leading-loose text-cyan-200 typewriter-text">
-                        "技術の進化がもたらす新しい「遊び」の可能性を追求し、世界中の人々が世代や文化を超えて熱中できるインタラクティブ体験を創造したい。"
+                    </blockquote>
+                    <p id="vision-text" class="mt-6 text-base md:text-lg leading-loose typewriter-text">
+                        VR/ARやAIといった新しい技術は、これまでにないゲーム体験を生み出す大きな可能性を秘めていると信じています。私は、これらの技術をただ使うだけでなく、それによってどのような新しい「感情」や「コミュニケーション」が生まれるのかを深く洞察し、企画に落とし込めるプランナーになりたいです。貴社が持つ高い技術力と開発環境の中で、新たなエンターテインメントの形を模索し、世界に驚きを届けることに貢献したいと考えています。
                     </p>
-                </blockquote>
-                <p id="vision-text" class="mt-6 text-base md:text-lg leading-loose typewriter-text">
-                    VR/ARやAIといった新しい技術は、これまでにないゲーム体験を生み出す大きな可能性を秘めていると信じています。私は、これらの技術をただ使うだけでなく、それによってどのような新しい「感情」や「コミュニケーション」が生まれるのかを深く洞察し、企画に落とし込めるプランナーになりたいです。貴社が持つ高い技術力と開発環境の中で、新たなエンターテインメントの形を模索し、世界に驚きを届けることに貢献したいと考えています。
+                </div>
+            </section>
+            
+            <section id="contact" class="text-center bg-card p-8 md:p-12 scroll-mt-20 scroll-reveal">
+                <h3 class="text-4xl font-bold mb-4 text-gradient-flame">連絡先・リンク</h3>
+                <p class="max-w-2xl mx-auto text-slate-300 mb-8">
+                    ポートフォリオをご覧いただき、ありがとうございます。ご連絡や、より詳細な制作物については、下記リンクよりご確認いただけます。
                 </p>
-            </div>
-        </section>
-        
-        <section id="contact" class="text-center bg-card p-8 md:p-12 scroll-mt-20 scroll-reveal">
-            <h3 class="text-4xl font-bold mb-4 text-gradient-flame">連絡先・リンク</h3>
-            <p class="max-w-2xl mx-auto text-slate-300 mb-8">
-                ポートフォリオをご覧いただき、ありがとうございます。ご連絡や、より詳細な制作物については、下記リンクよりご確認いただけます。
-            </p>
-            <div class="flex justify-center items-center space-x-6">
-                <a href="#" target="_blank" rel="noopener noreferrer" class="text-slate-300 hover:text-cyan-300 transition-colors transform hover:scale-110" title="GitHub">
-                    <svg class="w-10 h-10" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-                </a>
-                 <a href="#" target="_blank" rel="noopener noreferrer" class="text-slate-300 hover:text-cyan-300 transition-colors transform hover:scale-110" title="X (Twitter)">
-                    <svg class="w-10 h-10" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                </a>
-                 <a href="mailto:your-email@example.com" class="text-slate-300 hover:text-cyan-300 transition-colors transform hover:scale-110" title="Email">
-                    <svg class="w-10 h-10" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/></svg>
-                </a>
-            </div>
-        </section>
+                <div class="flex justify-center items-center space-x-6">
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="text-slate-300 hover:text-cyan-300 transition-colors transform hover:scale-110" title="GitHub">
+                        <svg class="w-10 h-10" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                    </a>
+                     <a href="#" target="_blank" rel="noopener noreferrer" class="text-slate-300 hover:text-cyan-300 transition-colors transform hover:scale-110" title="X (Twitter)">
+                        <svg class="w-10 h-10" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    </a>
+                     <a href="mailto:your-email@example.com" class="text-slate-300 hover:text-cyan-300 transition-colors transform hover:scale-110" title="Email">
+                        <svg class="w-10 h-10" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/></svg>
+                    </a>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer class="bg-black/20 mt-20 py-8">
@@ -490,7 +522,11 @@
             scrollElements.forEach((el) => { if (elementInView(el, 1.25)) { displayScrollElement(el); } });
         }
         window.addEventListener('scroll', handleScrollAnimation);
-        handleScrollAnimation();
+        // Initial check
+        setTimeout(() => {
+            handleScrollAnimation();
+        }, 100);
+
 
         // 2. 3Dカードチルトエフェクト
         const cards = document.querySelectorAll('.interactive-card');
@@ -536,7 +572,7 @@
                         <p class="text-base leading-relaxed text-slate-300">${description.replace(/\n/g, '<br>')}</p>
                     </div>
                 `;
-            } else { // It's an activity card
+            } else { // It's an activity or strength card
                 modalHTML = `
                     <div class="p-6 md:p-8">
                         <h2 class="text-3xl font-bold mb-6 text-slate-100">${title}</h2>
@@ -555,10 +591,28 @@
             document.body.style.overflow = '';
         };
 
-        clickableCards.forEach(card => { 
+        clickableCards.forEach(card => {
             card.addEventListener('click', () => { 
                 openModal(card.dataset); 
             }); 
+        });
+
+        // Add event listeners for menu links to scroll smoothly
+        document.querySelectorAll('a.menu-item, a[href="#menu"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                // Only apply smooth scroll for internal links (starting with #)
+                if (href && href.startsWith('#')) {
+                    e.preventDefault();
+                    const targetElement = document.querySelector(href);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+                // Let default browser behavior handle external links like "projects.html"
+            });
         });
         
         modalCloseBtn.addEventListener('click', closeModal);
@@ -590,7 +644,7 @@
             typing();
         };
         const typewriterElements = [
-            { id: 'about-text', triggered: false }, 
+            { id: 'intro-text', triggered: false },
             { id: 'vision-quote', triggered: false }, 
             { id: 'vision-text', triggered: false }
         ];
@@ -602,7 +656,7 @@
             });
         };
         window.addEventListener('scroll', handleTypewriterAnimation);
-        handleTypewriterAnimation();
+        handleTypewriterAnimation(); // Initial check for intro
 
         // 5. ゲームオブジェクト風パーティクル
         const particlesContainer = document.getElementById('particles-container');
