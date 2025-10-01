@@ -29,111 +29,6 @@
 
         .retro-font { font-family: 'Press Start 2P', cursive; }
 
-        /* Site Navigation */
-        .site-header {
-            position: sticky;
-            top: 0;
-            z-index: 1001;
-            backdrop-filter: blur(14px);
-            background: linear-gradient(90deg, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.6));
-            border-bottom: 1px solid rgba(100, 255, 218, 0.2);
-            box-shadow: 0 4px 18px rgba(15, 23, 42, 0.35);
-        }
-        .nav-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0.85rem 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1.5rem;
-        }
-        .nav-brand {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.65rem;
-            font-weight: 900;
-            letter-spacing: 0.12em;
-            color: var(--glow-color-2);
-            text-transform: uppercase;
-            text-shadow: 0 0 12px rgba(100, 255, 218, 0.7);
-            transition: transform 0.3s ease;
-        }
-        .nav-brand:hover { transform: translateY(-2px); }
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        .nav-links a {
-            position: relative;
-            padding: 0.45rem 0.9rem;
-            font-weight: 600;
-            color: rgba(226, 232, 240, 0.85);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            transition: color 0.25s ease;
-        }
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            left: 10%;
-            bottom: 0.2rem;
-            width: 80%;
-            height: 2px;
-            background: linear-gradient(90deg, var(--glow-color-1), var(--accent-purple));
-            transform: scaleX(0);
-            transform-origin: center;
-            transition: transform 0.25s ease;
-        }
-        .nav-links a:hover {
-            color: var(--glow-color-1);
-        }
-        .nav-links a:hover::after {
-            transform: scaleX(1);
-        }
-        .nav-toggle {
-            display: none;
-            background: rgba(100, 255, 218, 0.12);
-            border: 1px solid rgba(100, 255, 218, 0.35);
-            color: var(--glow-color-1);
-            padding: 0.45rem 0.65rem;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .nav-toggle:hover {
-            background: rgba(100, 255, 218, 0.22);
-            transform: translateY(-1px);
-        }
-        @media (max-width: 768px) {
-            .nav-container { flex-wrap: wrap; }
-            .nav-toggle { display: inline-flex; }
-            .nav-links {
-                width: 100%;
-                flex-direction: column;
-                align-items: stretch;
-                gap: 0.5rem;
-                padding-top: 0.75rem;
-                display: none;
-            }
-            .nav-links a {
-                border: 1px solid rgba(100, 255, 218, 0.25);
-                border-radius: 12px;
-                text-align: center;
-                background: rgba(15, 23, 42, 0.65);
-            }
-            .nav-links a::after { display: none; }
-            .nav-links.is-open { display: flex; }
-        }
-
-        .nav-links a:focus-visible,
-        .nav-toggle:focus-visible,
-        .nav-brand:focus-visible {
-            outline: 2px solid var(--glow-color-1);
-            outline-offset: 4px;
-        }
-
         /* Loading Screen */
         #loading-screen {
             position: fixed;
@@ -210,7 +105,7 @@
         @keyframes glitch-anim { 10% { clip: rect(20px, 9999px, 96px, 0); } 20% { clip: rect(85px, 9999px, 78px, 0); } 30% { clip: rect(40px, 9999px, 16px, 0); } 40% { clip: rect(65px, 9999px, 44px, 0); } 50% { clip: rect(10px, 9999px, 90px, 0); } 60% { clip: rect(75px, 9999px, 23px, 0); } 70% { clip: rect(30px, 9999px, 70px, 0); } 80% { clip: rect(55px, 9999px, 35px, 0); } 90% { clip: rect(15px, 9999px, 85px, 0); } 100% { clip: rect(70px, 9999px, 50px, 0); } }
         @keyframes glitch-skew { 0%, 100% { transform: skew(0deg); } 10% { transform: skew(1deg); } 20% { transform: skew(-1deg); } 30% { transform: skew(0deg); } }
 
-        /* Card Enhancements (Based on "ドラフト04") */
+        /* Card Enhancements */
         .game-card {
             background: rgba(30, 41, 59, 0.8);
             backdrop-filter: blur(10px);
@@ -279,13 +174,18 @@
         }
         @keyframes blink { 50% { opacity: 0; } }
 
-        /* Menu System (Based on "ドラフト04") */
+        /* Menu System */
         .game-menu {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 1.5rem;
-            max-width: 1200px;
+            max-width: 900px;
             margin: 0 auto;
+        }
+        @media (max-width: 640px) {
+            .game-menu {
+                grid-template-columns: 1fr;
+            }
         }
         .menu-button {
             background: rgba(30, 41, 59, 0.9);
@@ -411,6 +311,36 @@
             opacity: 1;
             transform: translateY(0);
         }
+        
+        /* Back to Top Button */
+        .back-to-top-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: rgba(100, 255, 218, 0.2);
+            border: 2px solid var(--glow-color-1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--glow-color-1);
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        .back-to-top-btn.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .back-to-top-btn:hover {
+            background: var(--glow-color-1);
+            color: #0f172a;
+            transform: scale(1.1);
+            box-shadow: 0 0 20px var(--glow-color-1);
+        }
     </style>
 </head>
 <body>
@@ -432,30 +362,11 @@
     <!-- Particles -->
     <div id="particles-container"></div>
 
-    <header class="site-header" role="banner">
-        <div class="nav-container">
-            <a href="#top" class="nav-brand">
-                <span>MIKAMI</span>
-                <span class="text-xs text-cyan-400">PORTFOLIO</span>
-            </a>
-            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
-                MENU
-            </button>
-            <nav id="primary-navigation" class="nav-links" aria-label="Primary navigation">
-                <a href="#top">トップ</a>
-                <a href="#menu">メニュー</a>
-                <a href="#projects">制作物</a>
-                <a href="#skills">スキル</a>
-                <a href="#contact">連絡先</a>
-            </nav>
-        </div>
-    </header>
-
     <!-- Main Content -->
     <main>
         <!-- Hero Section -->
-        <section id="top" class="min-h-screen flex flex-col items-center justify-center text-center p-6 relative">
-            <img src="Cashew3.JPEG" alt="Profile" class="w-64 h-64 md:w-80 md:h-80 rounded-full object-cover mb-6 border-4 border-cyan-400 shadow-lg"
+        <section class="min-h-screen flex flex-col items-center justify-center text-center p-6 relative">
+            <img src="Cashew3.jpg" alt="Profile" class="w-64 h-64 md:w-80 md:h-80 rounded-full object-cover mb-6 border-4 border-cyan-400 shadow-lg"
                  style="box-shadow: 0 0 50px rgba(100, 255, 218, 0.6);">
             
             <h1 class="text-6xl md:text-8xl font-black mb-4 glitch retro-font" data-text="MIKAMI">
@@ -463,7 +374,7 @@
             </h1>
             
             <div class="terminal-text text-xl mb-6">
-                > Role: <span class="text-pink-400" data-role-variants="Game Client Engineer|Game Planner|Experience Designer">Game Client Engineer</span><span class="typing-cursor"></span>
+                > Role: <span class="text-pink-400">Game Client Engineer</span><span class="typing-cursor"></span>
             </div>
             
             <p class="max-w-3xl text-lg leading-relaxed text-slate-300 mb-8">
@@ -600,6 +511,24 @@
                 </div>
             </section>
             
+            <section id="activities" class="py-20 scroll-mt-20 reveal">
+                <h2 class="text-4xl font-bold text-center mb-12 retro-font text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">[ ACTIVITIES ]</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="game-card p-6 text-center cursor-pointer" data-modal-target="activity-1">
+                        <svg class="w-16 h-16 mb-4 text-cyan-300 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <h3 class="text-2xl font-bold text-slate-100">イベント主催・運営</h3>
+                    </div>
+                    <div class="game-card p-6 text-center cursor-pointer" data-modal-target="activity-2">
+                        <svg class="w-16 h-16 mb-4 text-cyan-300 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        <h3 class="text-2xl font-bold text-slate-100">団体運営</h3>
+                    </div>
+                    <div class="game-card p-6 text-center cursor-pointer" data-modal-target="activity-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 mb-4 text-cyan-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <h3 class="text-2xl font-bold text-slate-100">ハッカソン</h3>
+                    </div>
+                </div>
+            </section>
+
             <!-- Contact Section -->
             <section id="contact" class="py-20 text-center reveal">
                 <h2 class="text-4xl font-bold mb-8 retro-font text-cyan-300"
@@ -644,375 +573,197 @@
             <div id="modal-body"></div>
         </div>
     </div>
+    
+    <!-- Back to Top Button -->
+    <a href="#" id="back-to-top-btn" class="back-to-top-btn">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+    </a>
 
     <script>
-        (() => {
-            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        // Loading Screen
+        window.addEventListener('load', () => {
+            const loadingScreen = document.getElementById('loading-screen');
+            const loadingBar = document.getElementById('loading-bar');
+            const loadingText = document.getElementById('loading-text');
+            
+            const messages = [
+                'Loading game assets...',
+                'Initializing renderer...',
+                'Loading player data...',
+                'Ready!'
+            ];
+            
+            let progress = 0;
+            let messageIndex = 0;
+            
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 100) progress = 100;
+                
+                loadingBar.style.width = progress + '%';
+                
+                if (progress > 25 * (messageIndex + 1) && messageIndex < messages.length - 1) {
+                    messageIndex++;
+                    loadingText.textContent = messages[messageIndex];
+                }
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        loadingScreen.classList.add('hidden');
+                    }, 500);
+                }
+            }, 100);
+        });
 
-            const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+        // Scroll Progress
+        window.addEventListener('scroll', () => {
+            const scrollProgress = document.getElementById('scroll-progress');
+            const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPosition = window.scrollY;
+            const progress = (scrollPosition / scrollTotal) * 100;
+            scrollProgress.style.width = progress + '%';
+        });
 
-            window.addEventListener('load', () => {
-                const loadingScreen = document.getElementById('loading-screen');
-                const loadingBar = document.getElementById('loading-bar');
-                const loadingText = document.getElementById('loading-text');
-
-                if (!loadingScreen || !loadingBar || !loadingText) return;
-
-                const messages = [
-                    'Loading game assets...',
-                    'Initializing renderer...',
-                    'Loading player data...',
-                    'Ready!'
-                ];
-
-                let progress = 0;
-                let messageIndex = 0;
-
-                const advance = () => {
-                    progress = clamp(progress + Math.random() * 12, 0, 100);
-                    loadingBar.style.width = `${progress}%`;
-
-                    const threshold = ((messageIndex + 1) / messages.length) * 100;
-                    if (progress >= threshold && messageIndex < messages.length - 1) {
-                        messageIndex += 1;
-                        loadingText.textContent = messages[messageIndex];
-                    }
-
-                    if (progress >= 100) {
-                        clearInterval(timer);
-                        setTimeout(() => {
-                            loadingScreen.classList.add('hidden');
-                        }, 400);
-                    }
-                };
-
-                loadingText.textContent = messages[0];
-                const timer = setInterval(advance, 120);
-                advance();
+        // Scroll Reveal
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealOnScroll = () => {
+            revealElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (elementTop < windowHeight - 100) {
+                    element.classList.add('active');
+                }
             });
+        };
+        
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll();
+        
+        // Particles
+        const particlesContainer = document.getElementById('particles-container');
+        const particleShapes = ['▲', '■', '●', '◆', '★'];
+        
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.textContent = particleShapes[Math.floor(Math.random() * particleShapes.length)];
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            particle.style.animationDuration = (Math.random() * 20 + 15) + 's';
+            particle.style.animationDelay = Math.random() * 5 + 's';
+            particlesContainer.appendChild(particle);
+        }
 
-            const initScrollProgress = () => {
-                const bar = document.getElementById('scroll-progress');
-                if (!bar) return;
+        // Modal Logic
+        const modal = document.getElementById('modal');
+        const modalBody = document.getElementById('modal-body');
+        
+        const projectData = {
+            '1': { title: 'Code of Valor', type: '3D Action RPG', tech: 'Unity / C#', description: '【このプロジェクトで直面した課題と、それをどのように解決したかを記述します】', role: 'リードプランナー', team: '5人チーム', period: '大学3年次' },
+            '2': { title: 'Chrono Cube', type: 'Puzzle Game', tech: 'Unreal Engine / C++', description: '【このプロジェクトで直面した課題と、それをどのように解決したかを記述します】', role: '全工程担当', team: '個人制作', period: '大学2年次（3ヶ月）' },
+            '3': { title: 'Campus AR Rally', type: 'AR Game', tech: 'Unity / AR Foundation', description: '【このプロジェクトで直面した課題と、それをどのように解決したかを記述します】', role: '企画・実装', team: '3人チーム', period: '学園祭実行委員として' }
+        };
 
-                let ticking = false;
-                const update = () => {
-                    const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
-                    const progress = scrollTotal > 0 ? (window.scrollY / scrollTotal) * 100 : 0;
-                    bar.style.width = `${clamp(progress, 0, 100)}%`;
-                    ticking = false;
-                };
+        const strengthData = {
+            'strengths-1': { title: 'プレゼンテーション能力', description: '大学のゼミやチーム制作発表会で、企画の意図や魅力を伝えるプレゼンテーションを多数経験しました。複雑なゲームシステムも、図やデモを用いて分かりやすく説明し、聞き手の心を掴むことを得意としています。' },
+            'strengths-2': { title: 'コミュニケーション能力', description: '多様なバックグラウンドを持つメンバーと円滑に意思疎通を図り、チームの結束力を高めることができます。ハッカソンでは、異なる意見を調整し、全員が納得するゴールへと導いた経験があります。' },
+            'strengths-3': { title: 'プロジェクトマネジメント', description: 'チーム制作ではリーダーとして、タスクの洗い出し、スケジュール管理、進捗確認を行いました。課題が発生した際には、原因を分析し、解決策を提示することで、プロジェクトを円滑に遂行しました。' }
+        };
 
-                update();
-                window.addEventListener('scroll', () => {
-                    if (!ticking) {
-                        window.requestAnimationFrame(update);
-                        ticking = true;
-                    }
-                }, { passive: true });
-            };
+        const activityData = {
+            'activity-1': { title: 'イベント主催・運営', description: '・〇〇大学にて、新入生向けゲーム開発ワークショップを企画・運営 (2024年)<br>・学園祭にて、来場者参加型のインディーゲーム展示会を主催 (2023年)' },
+            'activity-2': { title: '団体運営', description: '・ゲーム開発サークル「〇〇」の代表として、メンバーの進捗管理や外部との渉外を担当 (2023年〜現在)' },
+            'activity-3': { title: 'ハッカソン実績', description: '・〇〇テックハッカソン - 企業賞受賞 (2024年)<br>・ゲーム開発ハッカソン - 優秀賞 (2023年)<br>・〇〇大学ハッカソン - 参加 (2023年)' }
+        };
+        
+        document.querySelectorAll('[data-modal-target]').forEach(card => {
+            card.addEventListener('click', () => {
+                const targetId = card.dataset.modalTarget;
+                let data, htmlContent;
 
-            const initReveal = () => {
-                const revealElements = document.querySelectorAll('.reveal');
-                if (!revealElements.length) return;
-
-                if ('IntersectionObserver' in window) {
-                    const observer = new IntersectionObserver((entries, obs) => {
-                        entries.forEach(entry => {
-                            if (entry.isIntersecting) {
-                                entry.target.classList.add('active');
-                                obs.unobserve(entry.target);
-                            }
-                        });
-                    }, { threshold: 0.2, rootMargin: '0px 0px -10% 0px' });
-
-                    revealElements.forEach(el => observer.observe(el));
-                } else {
-                    revealElements.forEach(el => el.classList.add('active'));
+                if (targetId.startsWith('project-')) {
+                    data = projectData[targetId.replace('project-', '')];
+                    htmlContent = `
+                        <h2 class="text-4xl font-bold mb-4 retro-font text-cyan-300">${data.title}</h2>
+                        <p class="text-xl text-pink-400 mb-6">${data.type}</p>
+                        <div class="mb-6"><span class="inline-block px-4 py-2 bg-cyan-500/20 text-cyan-300 rounded-lg border-2 border-cyan-500/50 mr-2">${data.tech}</span></div>
+                        <div class="mb-6 space-y-2">
+                            <p class="terminal-text">Role: <span class="text-white">${data.role}</span></p>
+                            <p class="terminal-text">Team: <span class="text-white">${data.team}</span></p>
+                            <p class="terminal-text">Period: <span class="text-white">${data.period}</span></p>
+                        </div>
+                        <p class="text-lg leading-relaxed text-slate-300">${data.description}</p>
+                    `;
+                } else if (targetId.startsWith('strengths-')) {
+                    data = strengthData[targetId];
+                    htmlContent = `
+                        <h2 class="text-4xl font-bold mb-4 retro-font text-cyan-300">${data.title}</h2>
+                        <p class="text-lg leading-relaxed text-slate-300">${data.description}</p>
+                    `;
+                } else if (targetId.startsWith('activity-')) {
+                     data = activityData[targetId];
+                    htmlContent = `
+                        <h2 class="text-4xl font-bold mb-4 retro-font text-cyan-300">${data.title}</h2>
+                        <p class="text-lg leading-relaxed text-slate-300">${data.description}</p>
+                    `;
                 }
-            };
 
-            const initParticles = () => {
-                if (prefersReducedMotion) return;
-                const container = document.getElementById('particles-container');
-                if (!container) return;
 
-                const shapes = ['▲', '■', '●', '◆', '★'];
-                const fragment = document.createDocumentFragment();
-                const count = 30;
+                modalBody.innerHTML = htmlContent;
+                modal.classList.add('active');
+            });
+        });
 
-                for (let i = 0; i < count; i += 1) {
-                    const particle = document.createElement('div');
-                    particle.classList.add('particle');
-                    particle.textContent = shapes[Math.floor(Math.random() * shapes.length)];
-                    particle.style.left = `${Math.random() * 100}vw`;
-                    particle.style.fontSize = `${Math.random() * 20 + 10}px`;
-                    particle.style.animationDuration = `${Math.random() * 20 + 15}s`;
-                    particle.style.animationDelay = `${Math.random() * 5}s`;
-                    fragment.appendChild(particle);
-                }
+        
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+        
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+        
+        document.querySelector('.close-btn').addEventListener('click', closeModal);
 
-                container.innerHTML = '';
-                container.appendChild(fragment);
-            };
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
 
-            const buildProjectHtml = (data) => `
-        <h2 class="text-4xl font-bold mb-4 retro-font text-cyan-300">${data.title}</h2>
-        <p class="text-xl text-pink-400 mb-6">${data.type}</p>
-        <div class="mb-6 flex flex-wrap gap-2">
-            ${data.tech.map(tech => `<span class="inline-block px-4 py-2 bg-cyan-500/20 text-cyan-300 rounded-lg border-2 border-cyan-500/50">${tech}</span>`).join('')}
-        </div>
-        <div class="mb-6 space-y-2">
-            <p class="terminal-text">Role: <span class="text-white">${data.role}</span></p>
-            <p class="terminal-text">Team: <span class="text-white">${data.team}</span></p>
-            <p class="terminal-text">Period: <span class="text-white">${data.period}</span></p>
-        </div>
-        <p class="text-lg leading-relaxed text-slate-300">${data.description}</p>
-  `.trim();
-
-            const buildStrengthHtml = (data) => `
-        <h2 class="text-4xl font-bold mb-4 retro-font text-cyan-300">${data.title}</h2>
-        <p class="text-lg leading-relaxed text-slate-300">${data.description}</p>
-  `.trim();
-
-            const modal = (() => {
-                const modalEl = document.getElementById('modal');
-                const bodyEl = document.getElementById('modal-body');
-                const closeButton = modalEl?.querySelector('.close-btn');
-                let activeTrigger = null;
-
-                if (!modalEl || !bodyEl) return null;
-
-                const trapFocus = (event) => {
-                    if (event.key !== 'Tab') return;
-
-                    const focusable = modalEl.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-                    if (!focusable.length) {
-                        event.preventDefault();
-                        return;
-                    }
-
-                    const first = focusable[0];
-                    const last = focusable[focusable.length - 1];
-
-                    if (event.shiftKey && document.activeElement === first) {
-                        event.preventDefault();
-                        last.focus();
-                    } else if (!event.shiftKey && document.activeElement === last) {
-                        event.preventDefault();
-                        first.focus();
-                    }
-                };
-
-                const close = () => {
-                    modalEl.classList.remove('active');
-                    modalEl.setAttribute('aria-hidden', 'true');
-                    modalEl.removeEventListener('keydown', trapFocus);
-                    if (activeTrigger) {
-                        activeTrigger.focus();
-                        activeTrigger = null;
-                    }
-                };
-
-                const open = (html, trigger) => {
-                    bodyEl.innerHTML = html;
-                    modalEl.classList.add('active');
-                    modalEl.setAttribute('aria-hidden', 'false');
-                    activeTrigger = trigger || null;
-                    modalEl.addEventListener('keydown', trapFocus);
-                    window.requestAnimationFrame(() => closeButton?.focus());
-                };
-
-                closeButton?.addEventListener('click', close);
-                modalEl.addEventListener('click', (event) => {
-                    if (event.target === modalEl) close();
-                });
-                document.addEventListener('keydown', (event) => {
-                    if (event.key === 'Escape' && modalEl.classList.contains('active')) {
-                        close();
-                    }
-                });
-
-                return { open, close };
-            })();
-
-            const projectData = {
-                'project-1': {
-                    title: 'Code of Valor',
-                    type: '3D Action RPG',
-                    tech: ['Unity', 'C#'],
-                    description: '【このプロジェクトで直面した課題と、それをどのように解決したかを記述します】',
-                    role: 'リードプランナー',
-                    team: '5人チーム',
-                    period: '大学3年次'
-                },
-                'project-2': {
-                    title: 'Chrono Cube',
-                    type: 'Puzzle Game',
-                    tech: ['Unreal Engine', 'C++'],
-                    description: '【このプロジェクトで直面した課題と、それをどのように解決したかを記述します】',
-                    role: '全工程担当',
-                    team: '個人制作',
-                    period: '大学2年次（3ヶ月）'
-                },
-                'project-3': {
-                    title: 'Campus AR Rally',
-                    type: 'AR Game',
-                    tech: ['Unity', 'AR Foundation'],
-                    description: '【このプロジェクトで直面した課題と、それをどのように解決したかを記述します】',
-                    role: '企画・実装',
-                    team: '3人チーム',
-                    period: '学園祭実行委員として'
-                }
-            };
-
-            const strengthData = {
-                'strengths-1': {
-                    title: 'プレゼンテーション能力',
-                    description: '大学のゼミやチーム制作発表会で、企画の意図や魅力を伝えるプレゼンテーションを多数経験しました。複雑なゲームシステムも、図やデモを用いて分かりやすく説明し、聞き手の心を掴むことを得意としています。'
-                },
-                'strengths-2': {
-                    title: 'コミュニケーション能力',
-                    description: '多様なバックグラウンドを持つメンバーと円滑に意思疎通を図り、チームの結束力を高めることができます。ハッカソンでは、異なる意見を調整し、全員が納得するゴールへと導いた経験があります。'
-                },
-                'strengths-3': {
-                    title: 'プロジェクトマネジメント',
-                    description: 'チーム制作ではリーダーとして、タスクの洗い出し、スケジュール管理、進捗確認を行いました。課題が発生した際には、原因を分析し、解決策を提示することで、プロジェクトを円滑に遂行しました。'
-                }
-            };
-
-            const initModalTriggers = () => {
-                if (!modal) return;
-                document.addEventListener('click', (event) => {
-                    const trigger = event.target.closest('[data-modal-target]');
-                    if (!trigger) return;
-
-                    const targetId = trigger.getAttribute('data-modal-target');
-                    if (!targetId) return;
-
-                    if (projectData[targetId]) {
-                        modal.open(buildProjectHtml(projectData[targetId]), trigger);
-                    } else if (strengthData[targetId]) {
-                        modal.open(buildStrengthHtml(strengthData[targetId]), trigger);
-                    }
-                });
-            };
-
-            const initSmoothScroll = () => {
-                const links = document.querySelectorAll('a[href^="#"]');
-                if (!links.length) return;
-
-                const supportsNativeSmoothScroll = 'scrollBehavior' in document.documentElement.style;
-
-                links.forEach(link => {
-                    link.addEventListener('click', (event) => {
-                        const targetId = link.getAttribute('href');
-                        if (!targetId || targetId === '#') return;
-
-                        const target = document.querySelector(targetId);
-                        if (!target) return;
-
-                        event.preventDefault();
-                        if (supportsNativeSmoothScroll) {
-                            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        } else {
-                            const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
-                            window.scrollTo({
-                                top: targetPosition,
-                                behavior: 'smooth'
-                            });
-                        }
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
                     });
-                });
-            };
-
-            const initNavigation = () => {
-                const toggle = document.querySelector('.nav-toggle');
-                const navLinks = document.querySelector('.nav-links');
-                if (!toggle || !navLinks) return;
-
-                const closeMenu = () => {
-                    navLinks.classList.remove('is-open');
-                    toggle.setAttribute('aria-expanded', 'false');
-                };
-
-                toggle.addEventListener('click', () => {
-                    const isOpen = navLinks.classList.toggle('is-open');
-                    toggle.setAttribute('aria-expanded', String(isOpen));
-                });
-
-                navLinks.addEventListener('click', (event) => {
-                    const link = event.target.closest('a');
-                    if (!link) return;
-                    closeMenu();
-                });
-
-                window.addEventListener('resize', () => {
-                    if (window.innerWidth > 768) {
-                        closeMenu();
-                    }
-                });
-            };
-
-            const initTypewriter = () => {
-                if (prefersReducedMotion) return;
-
-                const roleEl = document.querySelector('.terminal-text span.text-pink-400');
-                const cursorEl = document.querySelector('.terminal-text .typing-cursor');
-                if (!roleEl) return;
-
-                const variantsAttr = roleEl.getAttribute('data-role-variants');
-                const variants = variantsAttr ? variantsAttr.split('|').map(text => text.trim()).filter(Boolean) : [
-                    roleEl.textContent.trim(),
-                    'Game Planner',
-                    'Experience Designer'
-                ];
-
-                let currentVariant = 0;
-                let charIndex = 0;
-                let isDeleting = false;
-
-                const type = () => {
-                    const fullText = variants[currentVariant];
-                    const visibleText = isDeleting ? fullText.substring(0, charIndex - 1) : fullText.substring(0, charIndex + 1);
-                    roleEl.textContent = visibleText;
-
-                    if (!isDeleting && visibleText.length === fullText.length) {
-                        setTimeout(() => {
-                            isDeleting = true;
-                            type();
-                        }, 1800);
-                        return;
-                    }
-
-                    if (isDeleting && visibleText.length === 0) {
-                        isDeleting = false;
-                        currentVariant = (currentVariant + 1) % variants.length;
-                    }
-
-                    charIndex = isDeleting ? charIndex - 1 : charIndex + 1;
-
-                    const delay = isDeleting ? 70 : 110;
-                    setTimeout(type, delay + (Math.random() * 40));
-                };
-
-                if (cursorEl) {
-                    cursorEl.style.animation = 'blink 0.7s infinite';
                 }
-
-                type();
-            };
-
-            document.addEventListener('DOMContentLoaded', () => {
-                initScrollProgress();
-                initReveal();
-                initParticles();
-                initModalTriggers();
-                initSmoothScroll();
-                initNavigation();
-                initTypewriter();
             });
-        })();
+        });
+
+        // Back to Top Button Logic
+        const backToTopBtn = document.getElementById('back-to-top-btn');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 400) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
     </script>
 </body>
 </html>
