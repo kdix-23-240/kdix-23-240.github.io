@@ -10,49 +10,37 @@
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;700;900&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --glow-color-1: #64ffda; /* Teal/Aqua */
-            --glow-color-2: #f7fafc; /* White/Cream */
+            --glow-color-1: #64ffda;
+            --glow-color-2: #f7fafc;
             --accent-pink: #f472b6;
             --accent-purple: #a78bfa;
+            --bg-color: #0f172a;
         }
 
         body {
             font-family: 'Inter', 'Noto Sans JP', sans-serif;
             color: #cbd5e1;
             overflow-x: hidden;
-            background-color: #0f172a;
+            background-color: var(--bg-color);
             background-image:
-                linear-gradient(rgba(100, 255, 218, 0.03) 2px, transparent 2px),
-                linear-gradient(90deg, rgba(100, 255, 218, 0.03) 2px, transparent 2px);
-            background-size: 50px 50px;
+                linear-gradient(rgba(100, 255, 218, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(100, 255, 218, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
         }
-
+        
         .retro-font { font-family: 'Press Start 2P', cursive; }
 
-        /* Loading Screen */
         #loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #0f172a;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-color);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
             z-index: 9999;
             transition: opacity 0.5s ease-out;
         }
-        #loading-screen.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
+        #loading-screen.hidden { opacity: 0; pointer-events: none; }
         .loading-bar-container {
-            width: 300px;
-            height: 30px;
+            width: 300px; height: 30px;
             border: 3px solid var(--glow-color-1);
-            position: relative;
             box-shadow: 0 0 20px var(--glow-color-1);
         }
         .loading-bar {
@@ -60,113 +48,70 @@
             background: linear-gradient(90deg, var(--glow-color-1), var(--accent-purple));
             width: 0%;
             transition: width 0.1s linear;
-            box-shadow: 0 0 15px var(--glow-color-1);
         }
-
-        /* Progress Bar */
         #scroll-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
+            position: fixed; top: 0; left: 0;
             height: 4px;
             background: linear-gradient(90deg, var(--glow-color-1), var(--accent-purple), var(--accent-pink));
             width: 0%;
             z-index: 1000;
             box-shadow: 0 0 10px var(--glow-color-1);
         }
-
-        /* Glitch Effect */
-        .glitch {
-            position: relative;
-            animation: glitch-skew 1s infinite;
-        }
-        .glitch::before,
-        .glitch::after {
+        .glitch { position: relative; }
+        .glitch::before, .glitch::after {
             content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #0f172a;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-color);
         }
         .glitch::before {
-            left: 2px;
-            text-shadow: -2px 0 var(--accent-pink);
+            left: 2px; text-shadow: -2px 0 var(--accent-pink);
             clip: rect(24px, 550px, 90px, 0);
             animation: glitch-anim 3s infinite linear alternate-reverse;
         }
         .glitch::after {
-            left: -2px;
-            text-shadow: -2px 0 var(--glow-color-1);
+            left: -2px; text-shadow: -2px 0 var(--glow-color-1);
             clip: rect(85px, 550px, 140px, 0);
             animation: glitch-anim 2s infinite linear alternate-reverse;
         }
-        @keyframes glitch-anim { 10% { clip: rect(20px, 9999px, 96px, 0); } 20% { clip: rect(85px, 9999px, 78px, 0); } 30% { clip: rect(40px, 9999px, 16px, 0); } 40% { clip: rect(65px, 9999px, 44px, 0); } 50% { clip: rect(10px, 9999px, 90px, 0); } 60% { clip: rect(75px, 9999px, 23px, 0); } 70% { clip: rect(30px, 9999px, 70px, 0); } 80% { clip: rect(55px, 9999px, 35px, 0); } 90% { clip: rect(15px, 9999px, 85px, 0); } 100% { clip: rect(70px, 9999px, 50px, 0); } }
-        @keyframes glitch-skew { 0%, 100% { transform: skew(0deg); } 10% { transform: skew(1deg); } 20% { transform: skew(-1deg); } 30% { transform: skew(0deg); } }
-
-        /* Card Enhancements */
+        @keyframes glitch-anim {
+            10% { clip: rect(20px, 9999px, 96px, 0); }
+            20% { clip: rect(85px, 9999px, 78px, 0); }
+            30% { clip: rect(40px, 9999px, 16px, 0); }
+            40% { clip: rect(65px, 9999px, 44px, 0); }
+            50% { clip: rect(10px, 9999px, 90px, 0); }
+        }
         .game-card {
             background: rgba(30, 41, 59, 0.8);
             backdrop-filter: blur(10px);
-            border: 2px solid rgba(100, 255, 218, 0.3);
+            border-radius: 1rem;
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
-            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
-            height: 100%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 1px solid rgba(100, 255, 218, 0.1);
         }
         .game-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            border-color: var(--glow-color-1);
-            box-shadow: 0 0 30px rgba(100, 255, 218, 0.3), 0 20px 40px rgba(0, 0, 0, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 20px var(--glow-color-1);
+            border-color: rgba(100, 255, 218, 0.3);
         }
-
-        /* Achievement Badge */
-        .achievement-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: rgba(244, 114, 182, 0.1);
-            border: 2px solid var(--accent-pink);
-            border-radius: 50px;
-            font-size: 0.875rem;
-            font-weight: 700;
-            color: var(--accent-pink);
-            text-shadow: 0 0 10px var(--accent-pink);
-            box-shadow: 0 0 20px rgba(244, 114, 182, 0.3);
-            transition: all 0.3s ease;
-        }
-        .achievement-badge:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 30px rgba(244, 114, 182, 0.5);
-        }
-
-        /* Scanline Effect */
+        
         .scanlines {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
             background: linear-gradient(transparent 50%, rgba(0, 0, 0, 0.1) 50%);
             background-size: 100% 4px;
             pointer-events: none;
             z-index: 9998;
             opacity: 0.1;
         }
-
-        /* Terminal Text Effect */
         .terminal-text {
             font-family: 'Courier New', monospace;
             color: var(--glow-color-1);
             text-shadow: 0 0 5px var(--glow-color-1);
         }
         .typing-cursor {
-            display: inline-block;
-            width: 10px;
-            height: 1.2em;
+            display: inline-block; width: 10px; height: 1.2em;
             background: var(--glow-color-1);
             margin-left: 5px;
             animation: blink 0.7s infinite;
@@ -174,68 +119,19 @@
         }
         @keyframes blink { 50% { opacity: 0; } }
 
-        /* Menu System */
-        .game-menu {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-            max-width: 900px;
-            margin: 0 auto;
+        .skill-tag {
+             display: inline-block;
+             background-color: rgba(100, 255, 218, 0.1);
+             color: var(--glow-color-1);
+             padding: 0.25rem 0.75rem;
+             border-radius: 9999px;
+             font-size: 0.75rem;
+             font-weight: 700;
+             border: 1px solid rgba(100, 255, 218, 0.2);
         }
-        @media (max-width: 640px) {
-            .game-menu {
-                grid-template-columns: 1fr;
-            }
-        }
-        .menu-button {
-            background: rgba(30, 41, 59, 0.9);
-            border: 3px solid rgba(100, 255, 218, 0.5);
-            padding: 2rem 1.5rem;
-            text-align: center;
-            cursor: pointer;
-            position: relative;
-            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
-            transition: all 0.3s ease;
-        }
-        .menu-button::before {
-            content: '▶';
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.5rem;
-            color: var(--glow-color-1);
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-        .menu-button:hover {
-            background: rgba(100, 255, 218, 0.2);
-            transform: translateX(10px);
-            border-color: var(--glow-color-1);
-            box-shadow: 0 0 30px rgba(100, 255, 218, 0.4);
-        }
-        .menu-button:hover::before { opacity: 1; }
-        .menu-button .icon { margin-bottom: 0.75rem; }
-        .menu-button .icon svg { width: 3.5rem; height: 3.5rem; margin: 0 auto; }
-        .menu-button .title { font-size: 1.75rem; font-weight: 700; color: var(--glow-color-2); }
-
-
-        /* Particles */
-        #particles-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-        .particle {
-            position: absolute;
-            color: rgba(100, 255, 218, 0.5);
-            animation: float-particle linear infinite;
-            font-size: 20px;
-        }
+        
+        #particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        .particle { position: absolute; color: rgba(100, 255, 218, 0.5); animation: float-particle linear infinite; font-size: 20px; }
         @keyframes float-particle {
             from { transform: translateY(100vh) rotate(0deg); opacity: 0; }
             10% { opacity: 1; }
@@ -243,161 +139,214 @@
             to { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
         }
 
-        /* Modal */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            opacity: 0;
-            pointer-events: none;
+        .reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        .back-to-top-btn {
+             position: fixed; bottom: 2rem; right: 2rem;
+             width: 50px; height: 50px;
+             background: rgba(100, 255, 218, 0.2);
+             border: 2px solid var(--glow-color-1);
+             border-radius: 50%;
+             display: flex; justify-content: center; align-items: center;
+             color: var(--glow-color-1); z-index: 1000; opacity: 0; pointer-events: none;
+             transition: all 0.3s ease;
+        }
+        .back-to-top-btn.visible { opacity: 1; pointer-events: auto; }
+        .back-to-top-btn:hover {
+             background: var(--glow-color-1); color: #0f172a; transform: scale(1.1);
+             box-shadow: 0 0 20px var(--glow-color-1);
+        }
+
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(8px);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 10000; opacity: 0; pointer-events: none;
             transition: opacity 0.3s ease;
         }
-        .modal.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .modal-content {
-            background: rgba(30, 41, 59, 0.95);
-            border: 3px solid var(--glow-color-1);
-            max-width: 800px;
-            width: 90%;
+        .modal-overlay.visible { opacity: 1; pointer-events: auto; }
+        .modal-container {
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid var(--glow-color-1);
+            box-shadow: 0 0 40px rgba(100, 255, 218, 0.3);
+            border-radius: 1rem;
+            width: 90%; max-width: 800px;
             max-height: 90vh;
             overflow-y: auto;
-            padding: 2rem;
+            padding: 2.5rem;
             position: relative;
-            clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
-            box-shadow: 0 0 50px rgba(100, 255, 218, 0.3);
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
         }
-        .close-btn {
+        .modal-overlay.visible .modal-container { transform: scale(1); }
+        .modal-close-btn {
+            position: absolute; top: 1rem; right: 1rem;
+            width: 40px; height: 40px;
+            background: rgba(100, 255, 218, 0.1);
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            color: var(--glow-color-1);
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer; transition: all 0.2s ease;
+        }
+        .modal-close-btn:hover { background: var(--glow-color-1); color: var(--bg-color); transform: rotate(90deg); }
+
+        /* Main Menu Styles */
+        .game-menu {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        @media (max-width: 1024px) {
+            .game-menu { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 640px) {
+            .game-menu { grid-template-columns: 1fr; }
+        }
+        .menu-button {
+            position: relative;
+            cursor: pointer;
+            padding: 0;
+            display: block;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 1rem;
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
+            border: 3px solid transparent;
+            overflow: hidden;
+        }
+        .menu-button::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, var(--glow-color-1), var(--accent-purple));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+        .menu-button::after {
+            content: '';
+            position: absolute; top: 3px; left: 3px; right: 3px; bottom: 3px;
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
+            border-radius: 0.75rem;
+            z-index: 0;
+        }
+        .menu-button:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(100, 255, 218, 0.3);
+        }
+        .menu-button:hover::before { opacity: 1; }
+        .menu-content {
+            position: relative; z-index: 1;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            min-height: 120px;
+        }
+        .menu-button .icon {
+            width: 50px; height: 50px;
+            flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(100, 255, 218, 0.05);
+            border-radius: 0.75rem;
+            border: 2px solid rgba(100, 255, 218, 0.2);
+            transition: all 0.3s ease;
+        }
+        .menu-button:hover .icon {
+            background: rgba(100, 255, 218, 0.15);
+            border-color: var(--glow-color-1);
+            transform: rotate(10deg) scale(1.1);
+        }
+        .menu-button .icon svg {
+            width: 1.75rem; height: 1.75rem;
+            color: var(--glow-color-1);
+            transition: all 0.3s ease;
+        }
+        .menu-button .title {
+            font-size: 1.5rem; font-weight: 900;
+            color: #f7fafc;
+            transition: all 0.3s ease;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        .menu-button:hover .title {
+            color: var(--glow-color-1);
+            text-shadow: 0 0 20px var(--glow-color-1);
+        }
+        .menu-button.featured {
+            grid-column: span 3;
+            background: linear-gradient(135deg, rgba(100, 255, 218, 0.05), rgba(15, 23, 42, 0.95));
+        }
+        @media (max-width: 1024px) {
+            .menu-button.featured { grid-column: span 2; }
+        }
+        @media (max-width: 640px) {
+            .menu-button.featured { grid-column: span 1; }
+        }
+        .menu-button.featured .title { font-size: 2rem; }
+        .menu-button.featured .icon { width: 60px; height: 60px; }
+        .menu-button.featured .icon svg { width: 2.25rem; height: 2.25rem; }
+        .menu-button.featured::before {
+            background: linear-gradient(135deg, var(--glow-color-1), var(--accent-purple), var(--accent-pink), var(--glow-color-1));
+            background-size: 200% 200%;
+            animation: gradient-shift 3s ease infinite;
+        }
+        @keyframes gradient-shift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+        
+        .info-icon {
             position: absolute;
             top: 1rem;
             right: 1rem;
-            width: 40px;
-            height: 40px;
-            background: rgba(244, 114, 182, 0.2);
-            border: 2px solid var(--accent-pink);
+            width: 2rem;
+            height: 2rem;
+            background-color: rgba(0,0,0,0.5);
             border-radius: 50%;
             display: flex;
-            justify-content: center;
             align-items: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .close-btn:hover {
-            background: var(--accent-pink);
-            transform: rotate(90deg);
-        }
-        .close-btn:hover svg {
-             color: #fff;
-        }
-        .skill-tag { display: inline-block; background-color: rgba(100, 255, 218, 0.1); color: var(--glow-color-1); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; border: 1px solid rgba(100, 255, 218, 0.2);}
-
-
-        /* Scroll Reveal */
-        .reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease-out;
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* Back to Top Button */
-        .back-to-top-btn {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 50px;
-            height: 50px;
-            background: rgba(100, 255, 218, 0.2);
-            border: 2px solid var(--glow-color-1);
-            border-radius: 50%;
-            display: flex;
             justify-content: center;
-            align-items: center;
-            color: var(--glow-color-1);
-            z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
+            color: white;
+            font-weight: bold;
+            font-family: serif;
+            font-size: 1.25rem;
             transition: all 0.3s ease;
+            opacity: 0.7;
         }
-        .back-to-top-btn.visible {
+
+        .group:hover .info-icon {
             opacity: 1;
-            pointer-events: auto;
-        }
-        .back-to-top-btn:hover {
-            background: var(--glow-color-1);
-            color: #0f172a;
             transform: scale(1.1);
-            box-shadow: 0 0 20px var(--glow-color-1);
+            box-shadow: 0 0 10px var(--glow-color-1);
         }
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
     <div id="loading-screen">
-        <h2 class="retro-font text-2xl mb-8 text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">
-            LOADING...
-        </h2>
+        <h2 class="retro-font text-2xl mb-8 text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">LOADING...</h2>
         <div class="loading-bar-container">
             <div class="loading-bar" id="loading-bar"></div>
         </div>
         <p class="terminal-text mt-4" id="loading-text">Initializing portfolio systems...</p>
     </div>
 
-    <!-- Scanlines -->
     <div class="scanlines"></div>
-    <!-- Scroll Progress -->
     <div id="scroll-progress"></div>
-    <!-- Particles -->
     <div id="particles-container"></div>
 
-    <!-- Main Content -->
     <main>
-        <!-- Hero Section -->
         <section class="min-h-screen flex flex-col items-center justify-center text-center p-6 relative">
-            <img src="Cashew3.jpg" alt="Profile" class="w-64 h-64 md:w-80 md:h-80 rounded-full object-cover mb-6 border-4 border-cyan-400 shadow-lg"
+            <img src="profile.jpg" alt="Profile" onerror="this.onerror=null;this.src='https://placehold.co/320x320/0f172a/64ffda?text=AM';" class="w-64 h-64 md:w-80 md:h-80 rounded-full object-cover mb-6 border-4 border-cyan-400 shadow-lg"
                  style="box-shadow: 0 0 50px rgba(100, 255, 218, 0.6);">
-            
-            <h1 class="text-6xl md:text-8xl font-black mb-4 glitch retro-font" data-text="MIKAMI">
-                MIKAMI
-            </h1>
-            
+            <h1 class="text-6xl md:text-8xl font-black mb-4 glitch retro-font" data-text="MIKAMI">MIKAMI</h1>
             <div class="terminal-text text-xl mb-6">
                 > Role: <span class="text-pink-400">Game Client Engineer</span><span class="typing-cursor"></span>
             </div>
-            
             <p class="max-w-3xl text-lg leading-relaxed text-slate-300 mb-8">
-                【ここにあなたのキャッチコピーを挿入】<br>
-                近畿大学情報学部情報学科実世界コンピューティングコース所属。
-                「つい夢中になる体験」をデザインで届け、人の心を動かすゲームクリエイターを目指しています
+                対話と構造設計を軸に、チームのポテンシャルを最大限に引き出し、ゲームのクオリティを次のレベルへと導くエンジニア。<br>
+                近畿大学情報学部 実世界コンピューティングコース所属。<br>
+                リーダー経験で培った課題解決力と丁寧なコミュニケーションで、「つい夢中になる体験」を届けます。
             </p>
-            
-            <div class="flex flex-wrap justify-center gap-4">
-                <div class="achievement-badge">
-                    <span>🏆</span>
-                    <span>ハッカソン受賞</span>
-                </div>
-                <div class="achievement-badge">
-                    <span>👥</span>
-                    <span>チームリーダー経験</span>
-                </div>
-                <div class="achievement-badge">
-                    <span>🎮</span>
-                    <span>5作品制作</span>
-                </div>
-            </div>
-
             <a href="#menu" class="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce">
                 <svg class="w-12 h-12 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7" />
@@ -406,200 +355,388 @@
         </section>
 
         <div class="container mx-auto px-6">
-            <!-- Menu Section -->
             <section id="menu" class="py-20 scroll-mt-20 reveal">
-                <h2 class="text-4xl font-bold text-center mb-12 retro-font text-cyan-300"
+                <h2 class="text-5xl md:text-6xl font-black text-center mb-16 retro-font text-cyan-300"
                     style="text-shadow: 0 0 20px #64ffda;">
-                    [ MAIN MENU ]
+                    MAIN MENU
                 </h2>
                 <div class="game-menu">
-                     <a href="#projects" class="menu-button">
-                        <div class="icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2 1M4 7l2-1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" /></svg>
+                    <a href="#projects" class="menu-button featured">
+                        <div class="menu-content">
+                            <div class="icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2 1M4 7l2-1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
+                                </svg>
+                            </div>
+                            <h3 class="title">制作物 (PROJECTS)</h3>
                         </div>
-                        <div class="title">制作物</div>
                     </a>
                     <a href="#skills" class="menu-button">
-                        <div class="icon">
-                             <svg xmlns="http://www.w3.org/2000/svg" class="text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4M14 3v4m-2-2h4M12 17v4m-2-2h4m5-12v4m-2-2h4M18 17v4m-2-2h4" /></svg>
+                        <div class="menu-content">
+                            <div class="icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4M14 3v4m-2-2h4M12 17v4m-2-2h4m5-12v4m-2-2h4M18 17v4m-2-2h4" />
+                                </svg>
+                            </div>
+                            <h3 class="title">スキル (SKILLS)</h3>
                         </div>
-                        <div class="title">スキル</div>
                     </a>
                     <a href="#activities" class="menu-button">
-                        <div class="icon">
-                             <svg xmlns="http://www.w3.org/2000/svg" class="text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                         <div class="menu-content">
+                            <div class="icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                             <h3 class="title">活動実績 (ACTIVITIES)</h3>
                         </div>
-                        <div class="title">活動実績</div>
+                    </a>
+                    <a href="#mind" class="menu-button">
+                        <div class="menu-content">
+                            <div class="icon">
+                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+                            </div>
+                            <h3 class="title">哲学 (PHILOSOPHY)</h3>
+                        </div>
+                    </a>
+                    <a href="#vision" class="menu-button">
+                        <div class="menu-content">
+                            <div class="icon">
+                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                            </div>
+                            <h3 class="title">将来像 (VISION)</h3>
+                        </div>
                     </a>
                     <a href="#contact" class="menu-button">
-                         <div class="icon">
-                           <svg xmlns="http://www.w3.org/2000/svg" class="text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                        <div class="menu-content">
+                            <div class="icon">
+                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                            </div>
+                            <h3 class="title">連絡先 (CONTACT)</h3>
                         </div>
-                        <div class="title">連絡先</div>
                     </a>
                 </div>
             </section>
 
-             <!-- Projects Section -->
             <section id="projects" class="py-20 scroll-mt-20 reveal">
-                <h2 class="text-4xl font-bold text-center mb-12 retro-font text-cyan-300"
-                    style="text-shadow: 0 0 20px #64ffda;">
-                    [ PROJECT FILES ]
-                </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="game-card p-6 cursor-pointer" data-modal-target="project-1">
-                         <img src="https://placehold.co/600x400/f472b6/0f172a?text=Project+1" alt="Project 1" class="w-full h-40 object-cover mb-4" style="clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);">
-                        <h3 class="text-2xl font-bold text-slate-100 mb-2">Code of Valor</h3>
-                        <p class="text-sm text-cyan-400 mb-4">3D Action RPG</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="skill-tag">Unity</span>
-                            <span class="skill-tag">C#</span>
+                <h2 class="text-5xl md:text-6xl font-black text-center mb-16 retro-font text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">PROJECTS</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                    <!-- Project Card: Streamerio -->
+                    <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card" data-modal-target="project-streamerio">
+                        <img src="image_de656f.jpg" alt="Streamerio" class="w-full h-64 object-cover transform group-hover:scale-110 transition duration-500">
+                        <div class="info-icon">i</div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex items-center justify-center">
+                            <div class="w-20 h-20 bg-black/50 rounded-full flex items-center justify-center text-cyan-300 text-4xl opacity-80 group-hover:opacity-0 group-hover:scale-125 transition-all duration-300">▶</div>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6">
+                            <h3 class="text-2xl font-bold text-white mb-1">Streamerio</h3>
+                            <p class="text-cyan-300 text-sm mb-3">ライブ配信連携アクション | Leader, Director</p>
+                            <p class="text-base font-bold text-slate-200 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse">詳細を見る</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="skill-tag">Unity</span><span class="skill-tag">C#</span><span class="skill-tag">VContainer</span><span class="skill-tag">UniTask</span>
+                            </div>
+                            <div class="flex gap-4">
+                                <a href="#" onclick="event.stopPropagation()" class="px-4 py-2 bg-cyan-400 text-slate-900 font-bold rounded-lg hover:bg-cyan-300 transition-transform hover:scale-105">▶ 動画 (準備中)</a>
+                                <a href="https://github.com/kdix-23-240/Streamerio" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all hover:scale-105">{ } ソース</a>
+                            </div>
                         </div>
                     </div>
-                    <div class="game-card p-6 cursor-pointer" data-modal-target="project-2">
-                        <img src="https://placehold.co/600x400/a78bfa/0f172a?text=Project+2" alt="Project 2" class="w-full h-40 object-cover mb-4" style="clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);">
-                        <h3 class="text-2xl font-bold text-slate-100 mb-2">Chrono Cube</h3>
-                        <p class="text-sm text-cyan-400 mb-4">Puzzle Game</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="skill-tag">Unreal Engine</span>
-                            <span class="skill-tag">C++</span>
+
+                    <!-- Other Project Cards (Placeholders) -->
+                    <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card" data-modal-target="project-kanscream">
+                        <img src="https://placehold.co/600x400/a78bfa/0f172a?text=KANSCREAM" alt="KANSCREAM" class="w-full h-64 object-cover transform group-hover:scale-110 transition duration-500">
+                         <div class="info-icon">i</div>
+                         <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex items-center justify-center">
+                            <p class="text-white/80 retro-font text-xl">DETAILS SOON</p>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6">
+                            <h3 class="text-2xl font-bold text-white mb-1">KANSCREAM</h3>
+                            <p class="text-cyan-300 text-sm mb-3">ホラーゲーム</p>
+                            <p class="text-base font-bold text-slate-200 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse">詳細を見る</p>
                         </div>
                     </div>
-                    <div class="game-card p-6 cursor-pointer" data-modal-target="project-3">
-                        <img src="https://placehold.co/600x400/64ffda/0f172a?text=Project+3" alt="Project 3" class="w-full h-40 object-cover mb-4" style="clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);">
-                        <h3 class="text-2xl font-bold text-slate-100 mb-2">Campus AR Rally</h3>
-                        <p class="text-sm text-cyan-400 mb-4">AR Game</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="skill-tag">Unity</span>
-                            <span class="skill-tag">AR Foundation</span>
+                     <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card" data-modal-target="project-gricon">
+                        <img src="https://placehold.co/600x400/f472b6/0f172a?text=GriCon" alt="GriCon" class="w-full h-64 object-cover transform group-hover:scale-110 transition duration-500">
+                         <div class="info-icon">i</div>
+                         <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex items-center justify-center">
+                            <p class="text-white/80 retro-font text-xl">DETAILS SOON</p>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6">
+                            <h3 class="text-2xl font-bold text-white mb-1">GriCon</h3>
+                            <p class="text-cyan-300 text-sm mb-3">パズルアクション</p>
+                            <p class="text-base font-bold text-slate-200 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse">詳細を見る</p>
                         </div>
                     </div>
                 </div>
+                <div class="text-center mt-12">
+                    <button class="text-cyan-300 border-2 border-cyan-400/50 rounded-full px-8 py-3 font-bold hover:bg-cyan-400/20 hover:border-cyan-400 transition-all">
+                        もっとみる
+                    </button>
+                </div>
             </section>
 
-            <!-- Skills Section -->
-            <section id="skills" class="py-20 scroll-mt-20 reveal">
-                <h2 class="text-4xl font-bold text-center mb-12 retro-font text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">[ SKILLS & STRENGTHS ]</h2>
-                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="game-card p-6">
-                        <h3 class="text-2xl font-bold text-slate-100 mb-4 flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg> Languages & Engines</h3>
-                        <div class="flex flex-wrap gap-2">
+             <section id="skills" class="py-20 scroll-mt-20 reveal">
+                <h2 class="text-5xl md:text-6xl font-black text-center mb-16 retro-font text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">SKILLS</h2>
+                 <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="game-card p-8 flex flex-col">
+                        <h3 class="text-2xl font-bold text-slate-100 mb-4">ゲーム開発 & 設計</h3>
+                        <p class="text-slate-400 mb-4 flex-grow">Unity/C#を主軸に、拡張性と保守性を見据えたクラス設計を得意とします。DIコンテナ(VContainer)やUniTask/R3を積極的に活用し、「未来の自分や仲間を助けるコード」を記述することを信条としています。</p>
+                        <div class="flex flex-wrap gap-3 mt-auto">
                             <span class="skill-tag">Unity</span>
                             <span class="skill-tag">C#</span>
-                            <span class="skill-tag">Unreal Engine</span>
+                            <span class="skill-tag">VContainer</span>
+                            <span class="skill-tag">UniTask</span>
+                            <span class="skill-tag">Class Design</span>
+                        </div>
+                    </div>
+                     <div class="game-card p-8 flex flex-col">
+                        <h3 class="text-2xl font-bold text-slate-100 mb-4">リーダーシップ & プロジェクト管理</h3>
+                         <p class="text-slate-400 mb-4 flex-grow">ハッカソンでのリーダー経験を通じて、チームの成果を最大化する環境構築に長けています。Discordでの効果的な情報共有の設計、定期的な進捗会による課題の早期発見と解決、メンバーのモチベーション管理を得意とします。</p>
+                        <div class="flex flex-wrap gap-3 mt-auto">
+                            <span class="skill-tag">Team Leadership</span>
+                            <span class="skill-tag">Agile Facilitation</span>
+                            <span class="skill-tag">Communication Design</span>
+                            <span class="skill-tag">Task Management</span>
+                        </div>
+                    </div>
+                    <div class="game-card p-8 flex flex-col">
+                        <h3 class="text-2xl font-bold text-slate-100 mb-4">ツール & プラットフォーム</h3>
+                         <p class="text-slate-400 mb-4 flex-grow">Git/GitHubフローに沿ったチーム開発を円滑に行えます。Notionでのドキュメント管理や、C++での開発経験もあります。</p>
+                        <div class="flex flex-wrap gap-3 mt-auto">
+                            <span class="skill-tag">Git</span>
+                            <span class="skill-tag">GitHub</span>
+                            <span class="skill-tag">Notion</span>
+                            <span class="skill-tag">Discord</span>
                             <span class="skill-tag">C++</span>
-                             <span class="skill-tag">Python</span>
-                        </div>
-                    </div>
-                    <div class="game-card p-6">
-                        <h3 class="text-2xl font-bold text-slate-100 mb-4 flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg> Tools & Others</h3>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="skill-tag">Git/GitHub</span>
-                            <span class="skill-tag">Visual Studio</span>
-                            <span class="skill-tag">Blender</span>
-                            <span class="skill-tag">Photoshop</span>
-                        </div>
-                    </div>
-                    <div class="game-card p-6 md:col-span-2">
-                        <h3 class="text-2xl font-bold text-slate-100 mb-4 flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4M14 3v4m-2-2h4M12 17v4m-2-2h4m5-12v4m-2-2h4M18 17v4m-2-2h4" /></svg> Strengths</h3>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="skill-tag cursor-pointer" data-modal-target="strengths-1">プレゼンテーション能力</span>
-                            <span class="skill-tag cursor-pointer" data-modal-target="strengths-2">コミュニケーション能力</span>
-                            <span class="skill-tag cursor-pointer" data-modal-target="strengths-3">プロジェクトマネジメント</span>
                         </div>
                     </div>
                 </div>
             </section>
             
             <section id="activities" class="py-20 scroll-mt-20 reveal">
-                <h2 class="text-4xl font-bold text-center mb-12 retro-font text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">[ ACTIVITIES ]</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="game-card p-6 text-center cursor-pointer" data-modal-target="activity-1">
-                        <svg class="w-16 h-16 mb-4 text-cyan-300 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        <h3 class="text-2xl font-bold text-slate-100">イベント主催・運営</h3>
+                <h2 class="text-5xl md:text-6xl font-black text-center mb-16 retro-font text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">ACTIVITIES</h2>
+                <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="game-card p-8 cursor-pointer hover:border-cyan-400 md:col-span-2 lg:col-span-3" data-modal-target="activity-hackathons">
+                        <div class="flex items-start gap-6 flex-col sm:flex-row">
+                            <svg class="w-16 h-16 flex-shrink-0 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            <div>
+                                <h3 class="text-3xl font-bold text-slate-100 mb-3">ハッカソン</h3>
+                                <p class="text-lg text-cyan-400">11回参加 / 7つの賞を受賞</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="game-card p-6 text-center cursor-pointer" data-modal-target="activity-2">
-                        <svg class="w-16 h-16 mb-4 text-cyan-300 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        <h3 class="text-2xl font-bold text-slate-100">団体運営</h3>
+                    <div class="game-card p-8 cursor-pointer hover:border-cyan-400 lg:col-span-1" data-modal-target="activity-interns">
+                        <svg class="w-12 h-12 mb-4 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                        <h3 class="text-2xl font-bold text-slate-100 mb-2">インターン</h3>
+                        <p class="text-slate-300">2社での就業経験</p>
                     </div>
-                    <div class="game-card p-6 text-center cursor-pointer" data-modal-target="activity-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 mb-4 text-cyan-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                        <h3 class="text-2xl font-bold text-slate-100">ハッカソン</h3>
+                     <div class="game-card p-8 cursor-pointer hover:border-cyan-400 lg:col-span-1" data-modal-target="activity-events">
+                        <svg class="w-12 h-12 mb-4 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <h3 class="text-2xl font-bold text-slate-100 mb-2">イベント主催</h3>
+                        <p class="text-slate-300">企画・運営・メンター経験</p>
+                    </div>
+                    <div class="game-card p-8 cursor-pointer hover:border-cyan-400 lg:col-span-1" data-modal-target="activity-community">
+                        <svg class="w-12 h-12 mb-4 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283-.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        <h3 class="text-2xl font-bold text-slate-100 mb-2">団体運営</h3>
+                        <p class="text-slate-300">ゲーム制作団体の運営経験</p>
                     </div>
                 </div>
             </section>
-
-            <!-- Contact Section -->
+            
+            <section id="mind" class="py-20 scroll-mt-20 reveal">
+                <h2 class="text-5xl md:text-6xl font-black text-center mb-16 retro-font text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">PHILOSOPHY</h2>
+                 <div class="game-card p-12 md:p-16 max-w-4xl mx-auto text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-cyan-400 mx-auto mb-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+                    <p class="text-2xl md:text-3xl leading-relaxed text-slate-200 font-medium mb-8">
+                       優れたコードは、<br class="md:hidden">最高のコミュニケーションツール
+                    </p>
+                    <p class="text-lg leading-relaxed text-slate-400 max-w-2xl mx-auto">
+                        私にとって、優れたコードは最高のコミュニケーションツールです。それは、今のチームメンバーが迷わず開発できる道しるべとなり、未来の自分が機能拡張する際の頼れる相棒にもなります。VContainerのような新しい技術や設計パターンを学ぶのは、このコミュニケーションの質を高め、拡張性と保守性に優れたプロダクトを実現するためです。<br><br>
+                        技術の追求は、プレイヤーに「圧倒的な面白さ」を届けるという最終目的を、「チーム全員で」達成するための最も確かな手段であると信じています。
+                    </p>
+                </div>
+            </section>
+            
+            <section id="vision" class="py-20 scroll-mt-20 reveal">
+                 <h2 class="text-5xl md:text-6xl font-black text-center mb-16 retro-font text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">VISION</h2>
+                 <div class="max-w-5xl mx-auto">
+                    <div class="game-card p-12 md:p-16 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-cyan-400/5 rounded-full blur-3xl"></div>
+                        <div class="relative">
+                             <div class="flex items-center gap-4 mb-8">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                                <h3 class="text-3xl md:text-4xl font-black text-slate-100">リードエンジニアとしての未来</h3>
+                            </div>
+                            <p class="text-xl leading-relaxed text-slate-300">
+                               3年後、中規模以上のタイトル開発において、技術とチームの両面からプロジェクトを牽引するリードエンジニアになることを目指しています。技術選定やクラス設計といったアーキテクチャの視点と、チームのボトルネックを解消するマネジメントの視点を両立させ、開発プロセス全体を最適化したいです。<br><br>
+                               将来的には、プランナーの「面白い」というアイデアを、エンジニアが「最高の形」で実装できる、その架け橋となる存在を目指しています。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
             <section id="contact" class="py-20 text-center reveal">
-                <h2 class="text-4xl font-bold mb-8 retro-font text-cyan-300"
-                    style="text-shadow: 0 0 20px #64ffda;">
-                    [ CONTACT ]
-                </h2>
-                <div class="flex justify-center gap-8">
-                    <a href="#" class="text-slate-300 hover:text-cyan-300 transition-all transform hover:scale-110">
-                        <svg class="w-12 h-12" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-                        </svg>
+                <h2 class="text-5xl md:text-6xl font-black mb-12 retro-font text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">CONTACT</h2>
+                <p class="text-xl text-slate-300 mb-10 max-w-2xl mx-auto">
+                    お気軽にご連絡ください。
+                </p>
+                <div class="flex justify-center gap-8 flex-wrap">
+                    <a href="https://github.com/ユーザー名" target="_blank" class="group">
+                        <div class="w-20 h-20 rounded-full bg-cyan-400/10 flex items-center justify-center border-2 border-cyan-400/30 transition-all group-hover:bg-cyan-400 group-hover:border-cyan-400 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-cyan-400/50">
+                            <svg class="w-10 h-10 text-cyan-400 group-hover:text-slate-900 transition-colors" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                        </div>
                     </a>
-                    <a href="#" class="text-slate-300 hover:text-cyan-300 transition-all transform hover:scale-110">
-                        <svg class="w-12 h-12" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                        </svg>
+                    <a href="https://x.com/ユーザー名" target="_blank" class="group">
+                         <div class="w-20 h-20 rounded-full bg-cyan-400/10 flex items-center justify-center border-2 border-cyan-400/30 transition-all group-hover:bg-cyan-400 group-hover:border-cyan-400 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-cyan-400/50">
+                            <svg class="w-10 h-10 text-cyan-400 group-hover:text-slate-900 transition-colors" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        </div>
                     </a>
-                    <a href="mailto:your-email@example.com" class="text-slate-300 hover:text-cyan-300 transition-all transform hover:scale-110">
-                        <svg class="w-12 h-12" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/>
-                        </svg>
+                    <a href="mailto:your-email@example.com" class="group">
+                        <div class="w-20 h-20 rounded-full bg-cyan-400/10 flex items-center justify-center border-2 border-cyan-400/30 transition-all group-hover:bg-cyan-400 group-hover:border-cyan-400 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-cyan-400/50">
+                            <svg class="w-10 h-10 text-cyan-400 group-hover:text-slate-900 transition-colors" viewBox="0 0 24 24" fill="currentColor"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/></svg>
+                        </div>
                     </a>
                 </div>
             </section>
         </div>
     </main>
 
-    <footer class="bg-black/30 py-8 mt-20">
+    <footer class="bg-black/50 py-12 mt-20 border-t border-cyan-400/20">
         <div class="container mx-auto px-6 text-center">
-            <p class="terminal-text">© 2025 AKIHIDE MIKAMI - ALL RIGHTS RESERVED</p>
+            <p class="terminal-text text-lg">© 2025 AKIHIDE MIKAMI</p>
         </div>
     </footer>
 
+    <a href="#" id="back-to-top-btn" class="back-to-top-btn">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+    </a>
+    
     <!-- Modal -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <div class="close-btn" onclick="closeModal()">
-                <svg class="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
+    <div id="modal-overlay" class="modal-overlay">
+        <div id="modal-container" class="modal-container">
+            <button id="modal-close-btn" class="modal-close-btn">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div id="modal-content">
+                <!-- Content will be injected here -->
             </div>
-            <div id="modal-body"></div>
         </div>
     </div>
-    
-    <!-- Back to Top Button -->
-    <a href="#" id="back-to-top-btn" class="back-to-top-btn">
-        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
-    </a>
+
+    <!-- Modal Content Placeholders (hidden) -->
+    <div class="hidden">
+        <div id="modal-content-project-streamerio">
+            <img src="image_de656f.jpg" alt="Streamerio" class="w-full h-64 object-cover mb-6 rounded-lg">
+            <h3 class="text-4xl font-black text-slate-100 mb-2">Streamerio</h3>
+            <p class="text-lg text-cyan-400 mb-6">配信者&視聴者 vs 視聴者 アクションシューティングライブゲーム</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-8">
+                <div><p class="text-sm text-slate-400">役割</p><p class="font-bold text-lg text-slate-200">リーダー, ディレクター, エンジニア</p></div>
+                <div><p class="text-sm text-slate-400">チーム</p><p class="font-bold text-lg text-slate-200">5名</p></div>
+                <div><p class="text-sm text-slate-400">期間</p><p class="font-bold text-lg text-slate-200">1週間 (継続開発中)</p></div>
+            </div>
+            
+            <div class="space-y-6 text-left">
+                <div>
+                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
+                        コンセプト：『配信を、誰もが参加できるゲームスタジアムに』
+                    </h4>
+                    <p class="text-slate-300 leading-relaxed pl-8">1週間のハッカソンで「配信者と視聴者が一体となって熱狂できる体験」を創りたいという思いから、このプロジェクトは始まりました。単なるゲームではなく、ライブ配信そのものを遊び場に変える挑戦です。</p>
+                </div>
+
+                <div>
+                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+                        技術思想：『未来へのコミュニケーションとしての設計』
+                    </h4>
+                    <p class="text-slate-300 leading-relaxed pl-8">私の信念は「優れたコードは、未来のチームメイトへの最高のコミュニケーションツールになる」ということです。この考えに基づき、本作ではDIコンテナとしてVContainerを初めて導入。これは、将来の機能追加や仕様変更に柔軟に対応できる拡張性の高い構造を、チームの共通言語として実装するためでした。非同期処理にUniTaskやR3を採用したのも、複雑な処理を誰もが読みやすく、メンテナンスしやすい形で記述するためです。技術選定は、常にチームの未来を見据えた投資であると考えています。</p>
+                </div>
+
+                <div>
+                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                        チームシナジー：『対話がクオリティを底上げする』
+                    </h4>
+                    <p class="text-slate-300 leading-relaxed pl-8">即席チームのポテンシャルを最大限引き出すため、リーダーとして「心理的安全性」の高い環境構築を主導しました。Discordに思考を垂れ流せるtimesチャンネルを設け、週2回の進捗会では課題を早期に共有。特に最終日の現地開発2日間では、4〜6時間ごとに進捗確認会を実施し、全員のタスク状況とコードフリーズまでの工数を常に共有しました。この細やかな軌道修正により、ハッカソン終盤でも焦ることなく、全員でゲームを楽しみながらデバッグするほどの余裕が生まれました。風通しの良い対話こそが、最終的なゲームのクオリティに直結すると確信しています。</p>
+                </div>
+            </div>
+
+             <div class="mt-8 flex gap-4">
+                <a href="https://github.com/kdix-23-240/Streamerio" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all">{ } GitHubでソースを見る</a>
+            </div>
+        </div>
+        <div id="modal-content-project-kanscream">
+            <img src="https://placehold.co/800x400/a78bfa/0f172a?text=KANSCREAM" alt="KANSCREAM" class="w-full h-64 object-cover mb-6 rounded-lg">
+            <h3 class="text-4xl font-black text-slate-100 mb-2">KANSCREAM</h3>
+            <p class="text-slate-300 leading-relaxed">
+                詳細準備中です。
+            </p>
+        </div>
+        <div id="modal-content-project-gricon">
+            <img src="https://placehold.co/800x400/f472b6/0f172a?text=GriCon" alt="GriCon" class="w-full h-64 object-cover mb-6 rounded-lg">
+            <h3 class="text-4xl font-black text-slate-100 mb-2">GriCon</h3>
+            <p class="text-slate-300 leading-relaxed">
+                詳細準備中です。
+            </p>
+        </div>
+        <div id="modal-content-activity-hackathons">
+            <h3 class="text-4xl font-black text-slate-100 mb-2">ハッカソン実績</h3>
+            <p class="text-lg text-cyan-400 mb-6">短期間でのチーム開発とアウトプットに挑戦し、数々の賞をいただきました。</p>
+            <div class="mt-6">
+                <h4 class="text-2xl font-bold text-cyan-300 mb-4 border-b-2 border-cyan-400/50 pb-2">受賞実績</h4>
+                <div class="space-y-4">
+                    <div><p class="font-bold text-slate-100 text-lg">第三回 58ハッカソン</p><p class="text-sm text-pink-300 font-semibold">株式会社スーパーハムスター！賞 受賞</p></div>
+                    <div><p class="font-bold text-slate-100 text-lg">テックシーカー</p><p class="text-sm text-pink-300 font-semibold">TEQS(会場)賞 受賞</p></div>
+                    <div><p class="font-bold text-slate-100 text-lg">技育博2025 vol.3</p><p class="text-sm text-pink-300 font-semibold">株式会社WingArc1st賞 受賞</p></div>
+                     <div><p class="font-bold text-slate-100 text-lg">第二回 58ハッカソン</p><p class="text-sm text-pink-300 font-semibold">株式会社GONENGO賞・株式会社スタディスト賞 W受賞</p></div>
+                     <div><p class="font-bold text-slate-100 text-lg">技育博2025 vol.1</p><p class="text-sm text-pink-300 font-semibold">株式会社ゆめみ賞 受賞</p></div>
+                    <div><p class="font-bold text-slate-100 text-lg">KC3Hack2025</p><p class="text-sm text-pink-300 font-semibold">デザイン賞 受賞</p></div>
+                </div>
+            </div>
+            <div class="mt-8">
+                <h4 class="text-2xl font-bold text-cyan-300 mb-4 border-b-2 border-cyan-400/50 pb-2">参加実績</h4>
+                <ul class="list-disc list-inside text-slate-300 space-y-2">
+                    <li>SPAJAM</li><li>XRHackathon</li><li>JPHacks2024</li><li>複数大学コラボハッカソン</li><li>第一回 58ハッカソン</li>
+                </ul>
+            </div>
+        </div>
+        <div id="modal-content-activity-interns">
+            <h3 class="text-4xl font-black text-slate-100 mb-2">インターンシップ</h3>
+            <p class="text-lg text-cyan-400 mb-6">プロの現場で開発スキルとチームワークを学びました。</p>
+            <div class="space-y-6">
+                <div><h4 class="text-xl font-bold text-slate-100 mb-2">株式会社ミラティブ (1ヶ月)</h4><p>ライブ配信アプリ「Mirrativ」のギフト制作に関わる就業型インターンシップに参加。Unityエンジニアとして、既存の複雑なコードベースを理解し、新機能の実装と改修を行いました。コードレビューやチームでの議論を通じて、大規模サービスにおける品質担保の重要性と、他者と協力して開発を進める実践的なスキルを習得しました。</p></div>
+                <div><h4 class="text-xl font-bold text-slate-100 mb-2">株式会社サイバーエージェント (2日間)</h4><p>ゲーム開発に特化した短期集中型のハッカソンに参加。社員メンターの指導のもと、チームで企画から実装までを行い、高速なプロトタイピング能力とチームでの課題解決能力を磨きました。</p></div>
+            </div>
+        </div>
+        <div id="modal-content-activity-events">
+          <h3 class="text-4xl font-black text-slate-100 mb-2">イベント主催・運営</h3>
+          <p class="text-lg text-cyan-400 mb-6">コミュニティへの貢献と、技術を広める活動に力を入れています。</p>
+           <ul class="list-disc list-inside text-slate-300 space-y-2">
+                <li>部内ハッカソンのメンター</li><li>デジタル絵馬アトラクションの一般公開</li><li>小学生向けプログラミング教室のサポート</li><li>小学生向けアイデアソンの企画・運営</li><li>複数大学コラボイベントの企画・運営 (複数回)</li><li>所属団体内でのLT会、勉強会、ディスカッションイベントの主催 (複数回)</li>
+            </ul>
+        </div>
+        <div id="modal-content-activity-community">
+            <h3 class="text-4xl font-black text-slate-100 mb-2">団体運営</h3>
+            <p class="text-lg text-cyan-400 mb-6">リーダーシップと組織運営の経験を積みました。</p>
+            <div><h4 class="text-xl font-bold text-slate-100 mb-2">kitbucket (ゲーム制作団体)</h4><p>所属するゲーム制作団体にて、運営メンバーとして活動。新メンバーの受け入れやオンボーディング、イベント企画などを担当し、メンバーが活動しやすい環境作りに貢献しました。異なるスキルセットを持つメンバー間のコミュニケーションを促進し、チーム制作が活発に行われるよう尽力しました。</p></div>
+        </div>
+    </div>
 
     <script>
-        // Loading Screen
-        window.addEventListener('load', () => {
+        document.addEventListener('DOMContentLoaded', () => {
+            // Loading Screen
             const loadingScreen = document.getElementById('loading-screen');
             const loadingBar = document.getElementById('loading-bar');
             const loadingText = document.getElementById('loading-text');
             
-            const messages = [
-                'Loading game assets...',
-                'Initializing renderer...',
-                'Loading player data...',
-                'Ready!'
-            ];
-            
+            const messages = ['Loading game assets...', 'Initializing renderer...', 'Loading player data...', 'Ready!'];
             let progress = 0;
             let messageIndex = 0;
             
             const interval = setInterval(() => {
                 progress += Math.random() * 15;
                 if (progress > 100) progress = 100;
-                
                 loadingBar.style.width = progress + '%';
                 
                 if (progress > 25 * (messageIndex + 1) && messageIndex < messages.length - 1) {
@@ -614,157 +751,96 @@
                     }, 500);
                 }
             }, 100);
-        });
 
-        // Scroll Progress
-        window.addEventListener('scroll', () => {
+            // Scroll Progress
             const scrollProgress = document.getElementById('scroll-progress');
-            const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
-            const scrollPosition = window.scrollY;
-            const progress = (scrollPosition / scrollTotal) * 100;
-            scrollProgress.style.width = progress + '%';
-        });
-
-        // Scroll Reveal
-        const revealElements = document.querySelectorAll('.reveal');
-        
-        const revealOnScroll = () => {
-            revealElements.forEach(element => {
-                const elementTop = element.getBoundingClientRect().top;
-                const windowHeight = window.innerHeight;
-                
-                if (elementTop < windowHeight - 100) {
-                    element.classList.add('active');
-                }
+            const backToTopBtn = document.getElementById('back-to-top-btn');
+            window.addEventListener('scroll', () => {
+                const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPosition = window.scrollY;
+                const progress = (scrollPosition / scrollTotal) * 100;
+                scrollProgress.style.width = progress + '%';
+                backToTopBtn.classList.toggle('visible', scrollPosition > 400);
             });
-        };
-        
-        window.addEventListener('scroll', revealOnScroll);
-        revealOnScroll();
-        
-        // Particles
-        const particlesContainer = document.getElementById('particles-container');
-        const particleShapes = ['▲', '■', '●', '◆', '★'];
-        
-        for (let i = 0; i < 30; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            particle.textContent = particleShapes[Math.floor(Math.random() * particleShapes.length)];
-            particle.style.left = Math.random() * 100 + 'vw';
-            particle.style.fontSize = (Math.random() * 20 + 10) + 'px';
-            particle.style.animationDuration = (Math.random() * 20 + 15) + 's';
-            particle.style.animationDelay = Math.random() * 5 + 's';
-            particlesContainer.appendChild(particle);
-        }
 
-        // Modal Logic
-        const modal = document.getElementById('modal');
-        const modalBody = document.getElementById('modal-body');
-        
-        const projectData = {
-            '1': { title: 'Code of Valor', type: '3D Action RPG', tech: 'Unity / C#', description: '【このプロジェクトで直面した課題と、それをどのように解決したかを記述します】', role: 'リードプランナー', team: '5人チーム', period: '大学3年次' },
-            '2': { title: 'Chrono Cube', type: 'Puzzle Game', tech: 'Unreal Engine / C++', description: '【このプロジェクトで直面した課題と、それをどのように解決したかを記述します】', role: '全工程担当', team: '個人制作', period: '大学2年次（3ヶ月）' },
-            '3': { title: 'Campus AR Rally', type: 'AR Game', tech: 'Unity / AR Foundation', description: '【このプロジェクトで直面した課題と、それをどのように解決したかを記述します】', role: '企画・実装', team: '3人チーム', period: '学園祭実行委員として' }
-        };
+            // Reveal on Scroll
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealOnScroll = () => {
+                revealElements.forEach(element => {
+                    if (element.getBoundingClientRect().top < window.innerHeight - 100) {
+                        element.classList.add('active');
+                    }
+                });
+            };
+            window.addEventListener('scroll', revealOnScroll);
+            revealOnScroll();
 
-        const strengthData = {
-            'strengths-1': { title: 'プレゼンテーション能力', description: '大学のゼミやチーム制作発表会で、企画の意図や魅力を伝えるプレゼンテーションを多数経験しました。複雑なゲームシステムも、図やデモを用いて分かりやすく説明し、聞き手の心を掴むことを得意としています。' },
-            'strengths-2': { title: 'コミュニケーション能力', description: '多様なバックグラウンドを持つメンバーと円滑に意思疎通を図り、チームの結束力を高めることができます。ハッカソンでは、異なる意見を調整し、全員が納得するゴールへと導いた経験があります。' },
-            'strengths-3': { title: 'プロジェクトマネジメント', description: 'チーム制作ではリーダーとして、タスクの洗い出し、スケジュール管理、進捗確認を行いました。課題が発生した際には、原因を分析し、解決策を提示することで、プロジェクトを円滑に遂行しました。' }
-        };
-
-        const activityData = {
-            'activity-1': { title: 'イベント主催・運営', description: '・〇〇大学にて、新入生向けゲーム開発ワークショップを企画・運営 (2024年)<br>・学園祭にて、来場者参加型のインディーゲーム展示会を主催 (2023年)' },
-            'activity-2': { title: '団体運営', description: '・ゲーム開発サークル「〇〇」の代表として、メンバーの進捗管理や外部との渉外を担当 (2023年〜現在)' },
-            'activity-3': { title: 'ハッカソン実績', description: '・〇〇テックハッカソン - 企業賞受賞 (2024年)<br>・ゲーム開発ハッカソン - 優秀賞 (2023年)<br>・〇〇大学ハッカソン - 参加 (2023年)' }
-        };
-        
-        document.querySelectorAll('[data-modal-target]').forEach(card => {
-            card.addEventListener('click', () => {
-                const targetId = card.dataset.modalTarget;
-                let data, htmlContent;
-
-                if (targetId.startsWith('project-')) {
-                    data = projectData[targetId.replace('project-', '')];
-                    htmlContent = `
-                        <h2 class="text-4xl font-bold mb-4 retro-font text-cyan-300">${data.title}</h2>
-                        <p class="text-xl text-pink-400 mb-6">${data.type}</p>
-                        <div class="mb-6"><span class="inline-block px-4 py-2 bg-cyan-500/20 text-cyan-300 rounded-lg border-2 border-cyan-500/50 mr-2">${data.tech}</span></div>
-                        <div class="mb-6 space-y-2">
-                            <p class="terminal-text">Role: <span class="text-white">${data.role}</span></p>
-                            <p class="terminal-text">Team: <span class="text-white">${data.team}</span></p>
-                            <p class="terminal-text">Period: <span class="text-white">${data.period}</span></p>
-                        </div>
-                        <p class="text-lg leading-relaxed text-slate-300">${data.description}</p>
-                    `;
-                } else if (targetId.startsWith('strengths-')) {
-                    data = strengthData[targetId];
-                    htmlContent = `
-                        <h2 class="text-4xl font-bold mb-4 retro-font text-cyan-300">${data.title}</h2>
-                        <p class="text-lg leading-relaxed text-slate-300">${data.description}</p>
-                    `;
-                } else if (targetId.startsWith('activity-')) {
-                     data = activityData[targetId];
-                    htmlContent = `
-                        <h2 class="text-4xl font-bold mb-4 retro-font text-cyan-300">${data.title}</h2>
-                        <p class="text-lg leading-relaxed text-slate-300">${data.description}</p>
-                    `;
-                }
-
-
-                modalBody.innerHTML = htmlContent;
-                modal.classList.add('active');
-            });
-        });
-
-        
-        function closeModal() {
-            modal.classList.remove('active');
-        }
-        
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal();
-        });
-        
-        document.querySelector('.close-btn').addEventListener('click', closeModal);
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeModal();
-        });
-
-        // Smooth Scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Back to Top Button Logic
-        const backToTopBtn = document.getElementById('back-to-top-btn');
-
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 400) {
-                backToTopBtn.classList.add('visible');
-            } else {
-                backToTopBtn.classList.remove('visible');
+            // Particles
+            const particlesContainer = document.getElementById('particles-container');
+            const particleShapes = ['▲', '■', '●', '◆', '★', '+', 'x'];
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.textContent = particleShapes[Math.floor(Math.random() * particleShapes.length)];
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.fontSize = (Math.random() * 15 + 10) + 'px';
+                particle.style.animationDuration = (Math.random() * 20 + 15) + 's';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particlesContainer.appendChild(particle);
             }
-        });
 
-        backToTopBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
+            // Smooth Scroll
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+
+            // Modal Logic
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modalContainer = document.getElementById('modal-container');
+            const modalContent = document.getElementById('modal-content');
+            const closeModalBtn = document.getElementById('modal-close-btn');
+
+            const openModal = (targetId) => {
+                const contentTemplate = document.getElementById(`modal-content-${targetId}`);
+                if (contentTemplate) {
+                    modalContent.innerHTML = contentTemplate.innerHTML;
+                    modalOverlay.classList.add('visible');
+                    document.body.style.overflow = 'hidden';
+                }
+            };
+
+            const closeModal = () => {
+                modalOverlay.classList.remove('visible');
+                document.body.style.overflow = '';
+            };
+
+            document.querySelectorAll('[data-modal-target]').forEach(trigger => {
+                trigger.addEventListener('click', () => {
+                    const targetId = trigger.dataset.modalTarget;
+                    openModal(targetId);
+                });
+            });
+
+            closeModalBtn.addEventListener('click', closeModal);
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) {
+                    closeModal();
+                }
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modalOverlay.classList.contains('visible')) {
+                    closeModal();
+                }
             });
         });
     </script>
 </body>
 </html>
+
 
