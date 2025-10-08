@@ -336,7 +336,7 @@
 
     <main>
         <section class="min-h-screen flex flex-col items-center justify-center text-center p-6 relative">
-            <img src="profile.jpg" alt="Profile" onerror="this.onerror=null;this.src='https://placehold.co/320x320/0f172a/64ffda?text=AM';" class="w-64 h-64 md:w-80 md:h-80 rounded-full object-cover mb-6 border-4 border-cyan-400 shadow-lg"
+            <img src="Cashew3.JPEG" alt="Profile" onerror="this.onerror=null;this.src='https://placehold.co/320x320/0f172a/64ffda?text=AM';" class="w-64 h-64 md:w-80 md:h-80 rounded-full object-cover mb-6 border-4 border-cyan-400 shadow-lg"
                  style="box-shadow: 0 0 50px rgba(100, 255, 218, 0.6);">
             <h1 class="text-6xl md:text-8xl font-black mb-4 glitch retro-font" data-text="MIKAMI">MIKAMI</h1>
             <div class="terminal-text text-xl mb-6">
@@ -422,9 +422,14 @@
                 <h2 class="text-5xl md:text-6xl font-black text-center mb-16 retro-font text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">PROJECTS</h2>
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
                     <!-- Project Card: Streamerio -->
-                    <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card" data-modal-target="project-streamerio">
-                        <img src="image_de656f.jpg" alt="Streamerio" class="w-full h-64 object-cover transform group-hover:scale-110 transition duration-500">
+                    <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-streamerio">
+                        <!-- Default Image (Title) -->
+                        <img src="streamerio_title.png" alt="Streamerio" class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition-all duration-500">
+                        <!-- Hover Image (Gameplay) -->
+                        <img src="streamerio_gameplay.png" alt="Streamerio Gameplay" class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition-opacity duration-500 opacity-0 group-hover:opacity-100">
+
                         <div class="info-icon">i</div>
+
                         <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex items-center justify-center">
                             <div class="w-20 h-20 bg-black/50 rounded-full flex items-center justify-center text-cyan-300 text-4xl opacity-80 group-hover:opacity-0 group-hover:scale-125 transition-all duration-300">▶</div>
                         </div>
@@ -437,7 +442,7 @@
                             </div>
                             <div class="flex gap-4">
                                 <a href="#" onclick="event.stopPropagation()" class="px-4 py-2 bg-cyan-400 text-slate-900 font-bold rounded-lg hover:bg-cyan-300 transition-transform hover:scale-105">▶ 動画 (準備中)</a>
-                                <a href="https://github.com/kdix-23-240/Streamerio" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all hover:scale-105">{ } ソース</a>
+                                <a href="[https://github.com/kdix-23-240/Streamerio](https://github.com/kdix-23-240/Streamerio)" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all hover:scale-105">{ } ソース</a>
                             </div>
                         </div>
                     </div>
@@ -627,7 +632,7 @@
     <!-- Modal Content Placeholders (hidden) -->
     <div class="hidden">
         <div id="modal-content-project-streamerio">
-            <img src="image_de656f.jpg" alt="Streamerio" class="w-full h-64 object-cover mb-6 rounded-lg">
+            <img src="streamerio_title.png" alt="Streamerio" class="w-full h-64 object-cover mb-6 rounded-lg">
             <h3 class="text-4xl font-black text-slate-100 mb-2">Streamerio</h3>
             <p class="text-lg text-cyan-400 mb-6">配信者&視聴者 vs 視聴者 アクションシューティングライブゲーム</p>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-8">
@@ -842,5 +847,6 @@
     </script>
 </body>
 </html>
+
 
 
