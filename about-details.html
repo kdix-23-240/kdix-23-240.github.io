@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me | Akihide Mikami's Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --glow-color-1: #64ffda;
+            --glow-color-2: #f7fafc;
+            --accent-pink: #f472b6;
+            --accent-purple: #a78bfa;
+            --bg-color: #0f172a;
+        }
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            color: #cbd5e1;
+            overflow-x: hidden;
+            background-color: var(--bg-color);
+            background-image:
+                linear-gradient(rgba(100, 255, 218, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(100, 255, 218, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .scanlines {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(transparent 50%, rgba(0, 0, 0, 0.1) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.1;
+        }
+        .game-card {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 1px solid rgba(100, 255, 218, 0.1);
+        }
+        .reveal { 
+            opacity: 0; 
+            transform: translateY(50px); 
+            transition: all 0.8s ease-out; 
+        }
+        .reveal.active { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+    </style>
+</head>
+<body>
+    <div class="scanlines"></div>
+
+    <header class="sticky top-0 z-50 bg-slate-900/50 backdrop-blur-md border-b border-cyan-400/20">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-black text-white">Akihide Mikami</h1>
+            <a href="index.html" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all">
+                ← ホームに戻る
+            </a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-16 md:py-24">
+        <section class="text-center mb-24">
+            <h2 class="text-5xl md:text-6xl font-black text-cyan-300 mb-6" style="text-shadow: 0 0 20px #64ffda;">
+                できること / したいこと
+            </h2>
+            <p class="max-w-3xl mx-auto text-lg leading-relaxed text-slate-300">
+                私のスキルセットとその背景にあるストーリー、そして未来に向けた展望についてご紹介します。
+            </p>
+        </section>
+
+        <!-- CAN DO -->
+        <section id="cando" class="mb-24 reveal">
+            <h3 class="text-4xl md:text-5xl font-black text-slate-100 mb-12 flex items-center gap-4">
+                <span class="text-cyan-300">#</span> できること
+            </h3>
+            <div class="space-y-12">
+                <!-- Game Dev & Design -->
+                <div class="game-card p-8 md:p-12">
+                    <div class="flex items-start gap-6">
+                        <div class="flex-shrink-0 w-16 h-16 bg-cyan-400/10 rounded-lg flex items-center justify-center border border-cyan-400/30">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-cyan-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+                        </div>
+                        <div>
+                            <h4 class="text-3xl font-bold text-slate-100 mb-3">ゲーム開発 & 設計</h4>
+                            <p class="text-slate-400 leading-relaxed mb-6">
+                                Unity/C#を主軸に、拡張性と保守性を見据えたクラス設計を得意とします。DIコンテナ(VContainer)やUniTask/R3を積極的に活用し、「未来の自分や仲間を助けるコード」を記述することを信条としています。
+                            </p>
+                            <h5 class="font-bold text-cyan-300 text-lg mb-2">それを裏付けるストーリー:</h5>
+                            <p class="text-slate-300 leading-relaxed border-l-4 border-cyan-400/50 pl-4">
+                                「Streamerio」開発時、将来の機能追加（敵の種類増加など）を予見し、DIコンテナのVContainerを導入しました。これにより、各クラスを疎結合に保ち、チームメンバーが互いの実装を意識せずともスムーズに開発を進められる土台を築きました。これは、私の「優れたコードはコミュニケーションツールである」という哲学の実践例です。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Leadership & Management -->
+                <div class="game-card p-8 md:p-12">
+                    <div class="flex items-start gap-6">
+                        <div class="flex-shrink-0 w-16 h-16 bg-cyan-400/10 rounded-lg flex items-center justify-center border border-cyan-400/30">
+                           <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-cyan-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283-.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                        </div>
+                        <div>
+                            <h4 class="text-3xl font-bold text-slate-100 mb-3">リーダーシップ & プロジェクト管理</h4>
+                            <p class="text-slate-400 leading-relaxed mb-6">
+                                チームの成果を最大化する環境構築に長けています。Discordでの効果的な情報共有の設計、定期的な進捗会による課題の早期発見と解決、メンバーのモチベーション管理を得意とします。
+                            </p>
+                            <h5 class="font-bold text-cyan-300 text-lg mb-2">それを裏付けるストーリー:</h5>
+                            <p class="text-slate-300 leading-relaxed border-l-4 border-cyan-400/50 pl-4">
+                                「Streamerio」のハッカソン終盤、2日間の現地開発では、集中によるチームの分断を防ぐため、4〜6時間ごとの進捗確認会を設けました。これにより、タスクの進捗だけでなく「デプロイに時間がかかりそう」といった懸念も早期に共有され、全員で優先順位を再設定できました。結果、発表直前に慌てることなく、チーム全員で完成したゲームをプレイする余裕さえ生まれました。この経験から、緻密なコミュニケーション設計がクオリティに直結することを学びました。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WANT TO DO -->
+        <section id="wanttodo" class="mb-24 reveal">
+            <h3 class="text-4xl md:text-5xl font-black text-slate-100 mb-12 flex items-center gap-4">
+                <span class="text-pink-300">#</span> したいこと
+            </h3>
+            <div class="space-y-12">
+                <!-- Philosophy -->
+                <div class="game-card p-8 md:p-12">
+                    <div class="flex items-start gap-6">
+                        <div class="flex-shrink-0 w-16 h-16 bg-pink-400/10 rounded-lg flex items-center justify-center border border-pink-400/30">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-pink-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>
+                        </div>
+                        <div>
+                            <h4 class="text-3xl font-bold text-slate-100 mb-3">制作哲学の体現</h4>
+                            <p class="text-slate-300 leading-relaxed">
+                                「優れたコードは最高のコミュニケーションツールである」という信念を、より大規模で長期的なプロジェクトで実践したいと考えています。ハッカソンで得た知見を活かし、複雑な仕様や度重なる変更にも耐えうる、柔軟で読みやすいコードベースを設計することで、チーム全体の生産性とゲームのクオリティ向上に貢献したいです。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VISION -->
+        <section id="vision" class="reveal">
+            <h3 class="text-4xl md:text-5xl font-black text-slate-100 mb-12 flex items-center gap-4">
+                <span class="text-purple-300">#</span> 将来像
+            </h3>
+            <div class="space-y-12">
+                <div class="game-card p-8 md:p-12">
+                    <div class="flex items-start gap-6">
+                        <div class="flex-shrink-0 w-16 h-16 bg-purple-400/10 rounded-lg flex items-center justify-center border border-purple-400/30">
+                           <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                        </div>
+                        <div>
+                            <h4 class="text-3xl font-bold text-slate-100 mb-3">リードエンジニアへの挑戦</h4>
+                            <p class="text-slate-300 leading-relaxed">
+                                将来は、技術とチームの両面からプロジェクトを牽引するリードエンジニアを目指しています。具体的には、プランナーの「面白い」という抽象的なアイデアを、エンジニアチームが「最高の形」で実装できるような技術選定やアーキテクチャ設計を行う役割です。技術的な視点だけでなく、チームのボトルネックを解消し、メンバー全員が楽しく、かつ高いパフォーマンスで開発に集中できる環境を整えることで、ゲームの面白さを根本から支える存在になりたいです。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-black/50 py-12 mt-24 border-t border-cyan-400/20">
+        <div class="container mx-auto px-6 text-center">
+            <p class="terminal-text text-lg">© 2025 AKIHIDE MIKAMI</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealOnScroll = () => {
+                revealElements.forEach(element => {
+                    if (element.getBoundingClientRect().top < window.innerHeight - 100) {
+                        element.classList.add('active');
+                    }
+                });
+            };
+            window.addEventListener('scroll', revealOnScroll);
+            revealOnScroll(); // Initial check
+        });
+    </script>
+</body>
+</html>
+
