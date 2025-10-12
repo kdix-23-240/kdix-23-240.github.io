@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;700;900&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
+        /* CSS Variables */
         :root {
             --glow-color-1: #64ffda;
             --glow-color-2: #f7fafc;
@@ -17,6 +18,7 @@
             --bg-color: #0f172a;
         }
 
+        /* Base Styles */
         body {
             font-family: 'Inter', 'Noto Sans JP', sans-serif;
             color: #cbd5e1;
@@ -28,18 +30,29 @@
             background-size: 40px 40px;
         }
         
-        .retro-font { font-family: 'Press Start 2P', cursive; }
-
+        /* Loading Screen */
         #loading-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
             background: var(--bg-color);
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center;
             z-index: 9999;
+            opacity: 1; /* Default to visible */
             transition: opacity 0.5s ease-out;
         }
-        #loading-screen.hidden { opacity: 0; pointer-events: none; }
+        #loading-screen.hidden { 
+            opacity: 0; 
+            pointer-events: none; 
+        }
         .loading-bar-container {
-            width: 300px; height: 30px;
+            width: 300px; 
+            height: 30px;
             border: 3px solid var(--glow-color-1);
             box-shadow: 0 0 20px var(--glow-color-1);
         }
@@ -49,27 +62,59 @@
             width: 0%;
             transition: width 0.1s linear;
         }
+        .terminal-text {
+            font-family: 'Courier New', monospace;
+            color: var(--glow-color-1);
+            text-shadow: 0 0 5px var(--glow-color-1);
+        }
+        .typing-cursor {
+            display: inline-block; 
+            width: 10px; 
+            height: 1.2em;
+            background: var(--glow-color-1);
+            margin-left: 5px;
+            animation: blink 0.7s infinite;
+            vertical-align: middle;
+        }
+        @keyframes blink { 
+            50% { opacity: 0; } 
+        }
+
+        /* Scroll Progress Bar */
         #scroll-progress {
-            position: fixed; top: 0; left: 0;
+            position: fixed; 
+            top: 0; 
+            left: 0;
             height: 4px;
             background: linear-gradient(90deg, var(--glow-color-1), var(--accent-purple), var(--accent-pink));
             width: 0%;
             z-index: 1000;
             box-shadow: 0 0 10px var(--glow-color-1);
         }
-        .glitch { position: relative; }
+
+        /* Glitch Effect */
+        .glitch { 
+            position: relative; 
+            font-family: 'Press Start 2P', cursive;
+        }
         .glitch::before, .glitch::after {
             content: attr(data-text);
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
             background: var(--bg-color);
         }
         .glitch::before {
-            left: 2px; text-shadow: -2px 0 var(--accent-pink);
+            left: 2px; 
+            text-shadow: -2px 0 var(--accent-pink);
             clip: rect(24px, 550px, 90px, 0);
             animation: glitch-anim 3s infinite linear alternate-reverse;
         }
         .glitch::after {
-            left: -2px; text-shadow: -2px 0 var(--glow-color-1);
+            left: -2px; 
+            text-shadow: -2px 0 var(--glow-color-1);
             clip: rect(85px, 550px, 140px, 0);
             animation: glitch-anim 2s infinite linear alternate-reverse;
         }
@@ -80,6 +125,8 @@
             40% { clip: rect(65px, 9999px, 44px, 0); }
             50% { clip: rect(10px, 9999px, 90px, 0); }
         }
+
+        /* Game Card Base */
         .game-card {
             background: rgba(30, 41, 59, 0.8);
             backdrop-filter: blur(10px);
@@ -96,42 +143,48 @@
             border-color: rgba(100, 255, 218, 0.3);
         }
         
+        /* Scanlines Overlay */
         .scanlines {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
+            position: fixed; 
+            top: 0; 
+            left: 0;
+            width: 100%; 
+            height: 100%;
             background: linear-gradient(transparent 50%, rgba(0, 0, 0, 0.1) 50%);
             background-size: 100% 4px;
             pointer-events: none;
             z-index: 9998;
             opacity: 0.1;
         }
-        .terminal-text {
-            font-family: 'Courier New', monospace;
-            color: var(--glow-color-1);
-            text-shadow: 0 0 5px var(--glow-color-1);
-        }
-        .typing-cursor {
-            display: inline-block; width: 10px; height: 1.2em;
-            background: var(--glow-color-1);
-            margin-left: 5px;
-            animation: blink 0.7s infinite;
-            vertical-align: middle;
-        }
-        @keyframes blink { 50% { opacity: 0; } }
 
+        /* Skill Tags */
         .skill-tag {
-             display: inline-block;
-             background-color: rgba(100, 255, 218, 0.1);
-             color: var(--glow-color-1);
-             padding: 0.25rem 0.75rem;
-             border-radius: 9999px;
-             font-size: 0.75rem;
-             font-weight: 700;
-             border: 1px solid rgba(100, 255, 218, 0.2);
+            display: inline-block;
+            background-color: rgba(100, 255, 218, 0.1);
+            color: var(--glow-color-1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border: 1px solid rgba(100, 255, 218, 0.2);
         }
         
-        #particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-        .particle { position: absolute; color: rgba(100, 255, 218, 0.5); animation: float-particle linear infinite; font-size: 20px; }
+        /* Particles Background */
+        #particles-container { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: -1; 
+            pointer-events: none; 
+        }
+        .particle { 
+            position: absolute; 
+            color: rgba(100, 255, 218, 0.5); 
+            animation: float-particle linear infinite; 
+            font-size: 20px; 
+        }
         @keyframes float-particle {
             from { transform: translateY(100vh) rotate(0deg); opacity: 0; }
             10% { opacity: 1; }
@@ -139,40 +192,75 @@
             to { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
         }
 
-        .reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s ease-out; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        /* Reveal on Scroll Animation */
+        .reveal { 
+            opacity: 0; 
+            transform: translateY(50px); 
+            transition: all 0.8s ease-out; 
+        }
+        .reveal.active { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
 
+        /* Back to Top Button */
         .back-to-top-btn {
-             position: fixed; bottom: 2rem; right: 2rem;
-             width: 50px; height: 50px;
-             background: rgba(100, 255, 218, 0.2);
-             border: 2px solid var(--glow-color-1);
-             border-radius: 50%;
-             display: flex; justify-content: center; align-items: center;
-             color: var(--glow-color-1); z-index: 1000; opacity: 0; pointer-events: none;
-             transition: all 0.3s ease;
+            position: fixed; 
+            bottom: 2rem; 
+            right: 2rem;
+            width: 50px; 
+            height: 50px;
+            background: rgba(100, 255, 218, 0.2);
+            border: 2px solid var(--glow-color-1);
+            border-radius: 50%;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            color: var(--glow-color-1); 
+            z-index: 1000; 
+            opacity: 0; 
+            pointer-events: none;
+            transition: all 0.3s ease;
         }
-        .back-to-top-btn.visible { opacity: 1; pointer-events: auto; }
+        .back-to-top-btn.visible { 
+            opacity: 1; 
+            pointer-events: auto; 
+        }
         .back-to-top-btn:hover {
-             background: var(--glow-color-1); color: #0f172a; transform: scale(1.1);
-             box-shadow: 0 0 20px var(--glow-color-1);
+            background: var(--glow-color-1); 
+            color: var(--bg-color); 
+            transform: scale(1.1);
+            box-shadow: 0 0 20px var(--glow-color-1);
         }
 
+        /* Modal Styles */
         .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
             background: rgba(15, 23, 42, 0.8);
             backdrop-filter: blur(8px);
-            display: flex; justify-content: center; align-items: center;
-            z-index: 10000; opacity: 0; pointer-events: none;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            z-index: 10000; 
+            opacity: 0; 
+            pointer-events: none;
             transition: opacity 0.3s ease;
         }
-        .modal-overlay.visible { opacity: 1; pointer-events: auto; }
+        .modal-overlay.visible { 
+            opacity: 1; 
+            pointer-events: auto; 
+        }
         .modal-container {
             background: rgba(30, 41, 59, 0.9);
             border: 1px solid var(--glow-color-1);
             box-shadow: 0 0 40px rgba(100, 255, 218, 0.3);
             border-radius: 1rem;
-            width: 90%; max-width: 800px;
+            width: 90%; 
+            max-width: 800px;
             max-height: 90vh;
             overflow-y: auto;
             padding: 2.5rem;
@@ -180,33 +268,32 @@
             transform: scale(0.95);
             transition: transform 0.3s ease;
         }
-        .modal-overlay.visible .modal-container { transform: scale(1); }
+        .modal-overlay.visible .modal-container { 
+            transform: scale(1); 
+        }
         .modal-close-btn {
-            position: absolute; top: 1rem; right: 1rem;
-            width: 40px; height: 40px;
+            position: absolute; 
+            top: 1rem; 
+            right: 1rem;
+            width: 40px; 
+            height: 40px;
             background: rgba(100, 255, 218, 0.1);
             border: 1px solid rgba(100, 255, 218, 0.3);
             color: var(--glow-color-1);
             border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            cursor: pointer; transition: all 0.2s ease;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            cursor: pointer; 
+            transition: all 0.2s ease;
         }
-        .modal-close-btn:hover { background: var(--glow-color-1); color: var(--bg-color); transform: rotate(90deg); }
+        .modal-close-btn:hover { 
+            background: var(--glow-color-1); 
+            color: var(--bg-color); 
+            transform: rotate(90deg); 
+        }
 
-        /* Main Menu Styles */
-        .game-menu {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        @media (max-width: 1024px) {
-            .game-menu { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 640px) {
-            .game-menu { grid-template-columns: 1fr; }
-        }
+        /* Main Menu Specific Styles */
         .menu-button {
             position: relative;
             cursor: pointer;
@@ -220,7 +307,11 @@
         }
         .menu-button::before {
             content: '';
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            bottom: 0;
             background: linear-gradient(135deg, var(--glow-color-1), var(--accent-purple));
             opacity: 0;
             transition: opacity 0.4s ease;
@@ -228,7 +319,11 @@
         }
         .menu-button::after {
             content: '';
-            position: absolute; top: 3px; left: 3px; right: 3px; bottom: 3px;
+            position: absolute; 
+            top: 3px; 
+            left: 3px; 
+            right: 3px; 
+            bottom: 3px;
             background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
             border-radius: 0.75rem;
             z-index: 0;
@@ -237,19 +332,24 @@
             transform: translateY(-8px) scale(1.02);
             box-shadow: 0 20px 60px rgba(100, 255, 218, 0.3);
         }
-        .menu-button:hover::before { opacity: 1; }
+        .menu-button:hover::before { 
+            opacity: 1; 
+        }
         .menu-content {
-            position: relative; z-index: 1;
+            position: relative; 
+            z-index: 1;
             padding: 2rem;
             display: flex;
             align-items: center;
             gap: 1.5rem;
-            min-height: 120px;
         }
         .menu-button .icon {
-            width: 50px; height: 50px;
+            width: 50px; 
+            height: 50px;
             flex-shrink: 0;
-            display: flex; align-items: center; justify-content: center;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
             background: rgba(100, 255, 218, 0.05);
             border-radius: 0.75rem;
             border: 2px solid rgba(100, 255, 218, 0.2);
@@ -261,12 +361,14 @@
             transform: rotate(10deg) scale(1.1);
         }
         .menu-button .icon svg {
-            width: 1.75rem; height: 1.75rem;
+            width: 1.75rem; 
+            height: 1.75rem;
             color: var(--glow-color-1);
             transition: all 0.3s ease;
         }
         .menu-button .title {
-            font-size: 1.5rem; font-weight: 900;
+            font-size: 1.5rem; 
+            font-weight: 900;
             color: #f7fafc;
             transition: all 0.3s ease;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
@@ -276,54 +378,69 @@
             text-shadow: 0 0 20px var(--glow-color-1);
         }
         .menu-button.featured {
-            grid-column: span 3;
             background: linear-gradient(135deg, rgba(100, 255, 218, 0.05), rgba(15, 23, 42, 0.95));
         }
-        @media (max-width: 1024px) {
-            .menu-button.featured { grid-column: span 2; }
+       
+        .menu-button.featured .title { 
+            font-size: 2.5rem; 
         }
-        @media (max-width: 640px) {
-            .menu-button.featured { grid-column: span 1; }
+        .menu-button.featured .icon { 
+            width: 80px; 
+            height: 80px; 
         }
-        .menu-button.featured .title { font-size: 2rem; }
-        .menu-button.featured .icon { width: 60px; height: 60px; }
-        .menu-button.featured .icon svg { width: 2.25rem; height: 2.25rem; }
+        .menu-button.featured .icon svg { 
+            width: 3rem; 
+            height: 3rem; 
+        }
         .menu-button.featured::before {
             background: linear-gradient(135deg, var(--glow-color-1), var(--accent-purple), var(--accent-pink), var(--glow-color-1));
             background-size: 200% 200%;
             animation: gradient-shift 3s ease infinite;
         }
-        @keyframes gradient-shift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+        @keyframes gradient-shift { 
+            0%, 100% { background-position: 0% 50%; } 
+            50% { background-position: 100% 50%; } 
+        }
         
-        .info-icon {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            width: 2rem;
-            height: 2rem;
-            background-color: rgba(0,0,0,0.5);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-family: serif;
-            font-size: 1.25rem;
-            transition: all 0.3s ease;
-            opacity: 0.7;
+        /* Project Card Image Handling */
+        .project-card-image-container {
+            position: relative;
+            width: 100%;
+            height: 100%; /* Take full height of the card */
+            overflow: hidden;
         }
 
-        .group:hover .info-icon {
-            opacity: 1;
+        .project-card-image {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1);
+            transition: transform 0.5s ease;
+            z-index: 0;
+        }
+
+        .group:hover .project-card-image {
             transform: scale(1.1);
-            box-shadow: 0 0 10px var(--glow-color-1);
+        }
+
+        .project-card-image.hover-image {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .group:hover .project-card-image.default-image {
+            opacity: 0;
+        }
+        .group:hover .project-card-image.hover-image {
+            opacity: 1;
         }
     </style>
 </head>
 <body>
     <div id="loading-screen">
-        <h2 class="retro-font text-2xl mb-8 text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">LOADING...</h2>
+        <h2 class="font-bold text-2xl mb-8 text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">LOADING...</h2>
         <div class="loading-bar-container">
             <div class="loading-bar" id="loading-bar"></div>
         </div>
@@ -338,7 +455,7 @@
         <section class="min-h-screen flex flex-col items-center justify-center text-center p-6 relative">
             <img src="./images/Cashew3.JPEG" alt="Profile" onerror="this.onerror=null;this.src='https://placehold.co/320x320/0f172a/64ffda?text=AM';" class="w-64 h-64 md:w-80 md:h-80 rounded-full object-cover mb-6 border-4 border-cyan-400 shadow-lg"
                  style="box-shadow: 0 0 50px rgba(100, 255, 218, 0.6);">
-            <h1 class="text-6xl md:text-8xl font-black mb-4 glitch retro-font" data-text="MIKAMI">MIKAMI</h1>
+            <h1 class="text-6xl md:text-8xl font-black mb-4 glitch" data-text="MIKAMI">MIKAMI</h1>
             <div class="terminal-text text-xl mb-6">
                 > Role: <span class="text-pink-400">Game Client Engineer</span><span class="typing-cursor"></span>
             </div>
@@ -356,187 +473,228 @@
 
         <div class="container mx-auto px-6">
             <section id="menu" class="py-20 scroll-mt-20 reveal">
-                <h2 class="text-5xl md:text-6xl font-black text-center mb-16 retro-font text-cyan-300"
+                <h2 class="text-5xl md:text-6xl font-black text-center mb-16 text-cyan-300"
                     style="text-shadow: 0 0 20px #64ffda;">
-                    MAIN MENU
+                    メインメニュー
                 </h2>
-                <div class="game-menu">
-                    <a href="#projects" class="menu-button featured">
-                        <div class="menu-content">
-                            <div class="icon">
+                <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Large Featured Button -->
+                    <a href="#projects" class="menu-button featured flex flex-col justify-center">
+                        <div class="menu-content p-8">
+                             <div class="icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2 1M4 7l2-1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
                                 </svg>
                             </div>
-                            <h3 class="title">制作物 (PROJECTS)</h3>
+                            <h3 class="title">制作物</h3>
                         </div>
                     </a>
-                    <a href="#skills" class="menu-button">
-                        <div class="menu-content">
-                            <div class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4M14 3v4m-2-2h4M12 17v4m-2-2h4m5-12v4m-2-2h4M18 17v4m-2-2h4" />
-                                </svg>
+
+                    <!-- Column for other buttons -->
+                    <div class="grid grid-cols-1 gap-8">
+                        <a href="#activities" class="menu-button">
+                             <div class="menu-content">
+                                <div class="icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <h3 class="title">活動実績</h3>
                             </div>
-                            <h3 class="title">スキル (SKILLS)</h3>
-                        </div>
-                    </a>
-                    <a href="#activities" class="menu-button">
-                         <div class="menu-content">
-                            <div class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
+                        </a>
+                        <a href="#about" class="menu-button">
+                            <div class="menu-content">
+                                <div class="icon">
+                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+                                </div>
+                                <h3 class="title">できること/したいこと</h3>
                             </div>
-                             <h3 class="title">活動実績 (ACTIVITIES)</h3>
-                        </div>
-                    </a>
-                    <a href="#mind" class="menu-button">
-                        <div class="menu-content">
-                            <div class="icon">
-                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+                        </a>
+                        <a href="#contact" class="menu-button">
+                            <div class="menu-content">
+                                <div class="icon">
+                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                                </div>
+                                <h3 class="title">連絡先</h3>
                             </div>
-                            <h3 class="title">哲学 (PHILOSOPHY)</h3>
-                        </div>
-                    </a>
-                    <a href="#vision" class="menu-button">
-                        <div class="menu-content">
-                            <div class="icon">
-                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                            </div>
-                            <h3 class="title">将来像 (VISION)</h3>
-                        </div>
-                    </a>
-                    <a href="#contact" class="menu-button">
-                        <div class="menu-content">
-                            <div class="icon">
-                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                            </div>
-                            <h3 class="title">連絡先 (CONTACT)</h3>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                 </div>
             </section>
 
             <section id="projects" class="py-20 scroll-mt-20 reveal">
-                <h2 class="text-5xl md:text-6xl font-black text-center mb-16 retro-font text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">PROJECTS</h2>
+                <h2 class="text-5xl md:text-6xl font-black text-center mb-16 text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">制作物</h2>
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
                     <!-- Project Card: Streamerio -->
                     <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-streamerio">
-                        <!-- Default Image (Title) -->
-                        <img src="./images/streamerio_title.png" alt="Streamerio" class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition-all duration-500">
-                        <!-- Hover Image (Gameplay) -->
-                        <img src="./images/streamerio_gameplay.png" alt="Streamerio Gameplay" class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition-opacity duration-500 opacity-0 group-hover:opacity-100">
-
-                        <div class="info-icon">i</div>
-
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex items-center justify-center">
-                            <div class="w-20 h-20 bg-black/50 rounded-full flex items-center justify-center text-cyan-300 text-4xl opacity-80 group-hover:opacity-0 group-hover:scale-125 transition-all duration-300">▶</div>
+                        <div class="project-card-image-container">
+                            <img src="./images/streamerio_title.png" alt="Streamerio" class="project-card-image default-image">
+                            <img src="./images/streamerio_gameplay.png" alt="Streamerio Gameplay" class="project-card-image hover-image">
                         </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6">
+                        
+                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent z-10">
+                            <h3 class="text-2xl font-bold text-white mb-1">Streamerio</h3>
+                            <p class="text-cyan-300 text-sm">ライブ配信連携アクション | Leader, Director</p>
+                        </div>
+
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 z-20">
                             <h3 class="text-2xl font-bold text-white mb-1">Streamerio</h3>
                             <p class="text-cyan-300 text-sm mb-3">ライブ配信連携アクション | Leader, Director</p>
-                            <p class="text-base font-bold text-slate-200 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse">詳細を見る</p>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="skill-tag">Unity</span><span class="skill-tag">C#</span><span class="skill-tag">VContainer</span><span class="skill-tag">UniTask</span>
-                            </div>
-                            <div class="flex gap-4">
-                                <a href="#" onclick="event.stopPropagation()" class="px-4 py-2 bg-cyan-400 text-slate-900 font-bold rounded-lg hover:bg-cyan-300 transition-transform hover:scale-105">▶ 動画 (準備中)</a>
-                                <a href="https://github.com/kdix-23-240/Streamerio" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all hover:scale-105">{ } ソース</a>
+                            <div class="pt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p class="text-base font-bold text-slate-200 mb-4 animate-pulse">詳細を見る</p>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span class="skill-tag">Unity</span><span class="skill-tag">C#</span><span class="skill-tag">VContainer</span><span class="skill-tag">UniTask</span>
+                                </div>
+                                <div class="flex gap-4">
+                                    <a href="#" onclick="event.stopPropagation()" class="px-4 py-2 bg-cyan-400 text-slate-900 font-bold rounded-lg hover:bg-cyan-300 transition-transform hover:scale-105">▶ 動画 (準備中)</a>
+                                    <a href="https://github.com/kdix-23-240/Streamerio" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all hover:scale-105">{ } ソース</a>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Project Card: KANSCREAM -->
                     <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-kanscream">
-                        <img src="./images/kanscream_title.png" alt="KANSCREAM" class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition-all duration-500">
-                        <img src="./images/kanscream_gameplay.png" alt="KANSCREAM Gameplay" class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition-opacity duration-500 opacity-0 group-hover:opacity-100">
-                         <div class="info-icon">i</div>
-                         <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex items-center justify-center">
-                            <p class="text-white/80 retro-font text-xl">関西vs関東</p>
+                        <div class="project-card-image-container">
+                            <img src="./images/kanscream_title.png" alt="KANSCREAM" class="project-card-image default-image">
+                            <img src="./images/kanscream_gameplay.png" alt="KANSCREAM Gameplay" class="project-card-image hover-image">
                         </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6">
+                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent z-10">
+                            <h3 class="text-2xl font-bold text-white mb-1">KANSCREAM</h3>
+                            <p class="text-cyan-300 text-sm">改造オセロ | Leader, Lead Engineer</p>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 z-20">
                             <h3 class="text-2xl font-bold text-white mb-1">KANSCREAM</h3>
                             <p class="text-cyan-300 text-sm mb-3">改造オセロ | Leader, Lead Engineer</p>
-                             <p class="text-base font-bold text-slate-200 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse">詳細を見る</p>
-                             <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="skill-tag">Unity</span><span class="skill-tag">C#</span><span class="skill-tag">UX Design</span>
-                            </div>
-                             <div class="flex gap-4">
-                                <a href="https://github.com/kc3hack/2025_8" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all hover:scale-105">{ } ソース</a>
-                                <a href="https://qiita.com/nut_nuts_nut/items/a7f6cf3cc2211835e938" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 border border-purple-400 text-purple-400 font-bold rounded-lg hover:bg-purple-400 hover:text-slate-900 transition-all hover:scale-105">Qiita</a>
+                             <div class="pt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p class="text-base font-bold text-slate-200 mb-4 animate-pulse">詳細を見る</p>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span class="skill-tag">Unity</span><span class="skill-tag">C#</span><span class="skill-tag">UX Design</span>
+                                </div>
+                                <div class="flex gap-4">
+                                    <a href="https://github.com/kc3hack/2025_8" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all hover:scale-105">{ } ソース</a>
+                                    <a href="https://qiita.com/nut_nuts_nut/items/a7f6cf3cc2211835e938" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 border border-purple-400 text-purple-400 font-bold rounded-lg hover:bg-purple-400 hover:text-slate-900 transition-all hover:scale-105">Qiita</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                      <!-- Project Card: GriCon -->
                     <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-gricon">
-                        <img src="./images/gricon_title.png" alt="GriCon" class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition-all duration-500">
-                        <img src="https://img.youtube.com/vi/EZxbcKHtADs/maxresdefault.jpg" alt="GriCon Gameplay" class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-110 transition-opacity duration-500 opacity-0 group-hover:opacity-100">
-                         <div class="info-icon">i</div>
-                         <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex items-center justify-center">
-                            <p class="text-white/80 retro-font text-xl">直感操作コントローラー</p>
+                        <div class="project-card-image-container">
+                            <img src="./images/gricon_title.png" alt="GriCon" class="project-card-image default-image">
+                            <img src="https://img.youtube.com/vi/EZxbcKHtADs/maxresdefault.jpg" alt="GriCon Gameplay" class="project-card-image hover-image">
                         </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6">
+                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent z-10">
+                            <h3 class="text-2xl font-bold text-white mb-1">GriCon</h3>
+                            <p class="text-cyan-300 text-sm">ゼロボタンコントローラー & イライラ棒 | Planner, Engineer</p>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 z-20">
                             <h3 class="text-2xl font-bold text-white mb-1">GriCon</h3>
                             <p class="text-cyan-300 text-sm mb-3">ゼロボタンコントローラー & イライラ棒 | Planner, Engineer</p>
-                            <p class="text-base font-bold text-slate-200 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse">詳細を見る</p>
+                            <div class="pt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <p class="text-base font-bold text-slate-200 mb-4 animate-pulse">詳細を見る</p>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span class="skill-tag">Unity</span><span class="skill-tag">C#</span><span class="skill-tag">Hardware Control</span><span class="skill-tag">UX Design</span>
+                                </div>
+                                <div class="flex gap-4">
+                                    <a href="https://www.youtube.com/watch?v=EZxbcKHtADs" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 bg-cyan-400 text-slate-900 font-bold rounded-lg hover:bg-cyan-300 transition-transform hover:scale-105">▶ 動画</a>
+                                    <a href="https://github.com/kdix-23-240/GriCon?tab=readme-ov-file" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all hover:scale-105">{ } ソース</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Project Card: E-ma -->
+                    <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-ema">
+                        <div class="project-card-image-container">
+                            <img src="./images/ema_title.jpg" alt="E-ma" class="project-card-image default-image">
+                            <img src="https://img.youtube.com/vi/AXuaWGYiIFM/maxresdefault.jpg" alt="E-ma Gameplay" class="project-card-image hover-image">
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent z-10">
+                            <h3 class="text-2xl font-bold text-white mb-1">E-ma</h3>
+                            <p class="text-cyan-300 text-sm">デジタル絵馬アトラクション</p>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 z-20">
+                           <h3 class="text-2xl font-bold text-white mb-1">E-ma</h3>
+                            <p class="text-cyan-300 text-sm mb-3">デジタル絵馬アトラクション</p>
+                            <p class="text-base font-bold text-slate-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse">詳細を見る</p>
                             <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="skill-tag">Unity</span><span class="skill-tag">C#</span><span class="skill-tag">Hardware Control</span><span class="skill-tag">UX Design</span>
+                                <span class="skill-tag">Unity</span><span class="skill-tag">C#</span><span class="skill-tag">Projection Mapping</span>
                             </div>
-                             <div class="flex gap-4">
-                                <a href="https://www.youtube.com/watch?v=EZxbcKHtADs" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 bg-cyan-400 text-slate-900 font-bold rounded-lg hover:bg-cyan-300 transition-transform hover:scale-105">▶ 動画</a>
-                                <a href="https://github.com/kdix-23-240/GriCon?tab=readme-ov-file" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all hover:scale-105">{ } ソース</a>
+                            <div class="flex gap-4">
+                                <a href="https://www.youtube.com/watch?v=AXuaWGYiIFM" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 bg-cyan-400 text-slate-900 font-bold rounded-lg hover:bg-cyan-300 transition-transform hover:scale-105">▶ 動画</a>
+                                <a href="https://github.com/momoyama-tech/e-ma-unity" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all hover:scale-105">{ } ソース</a>
+                                <a href="https://pinnate-smash-23b.notion.site/E-ma-19efe465481f804e9a28cbca9379be98" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 border border-blue-400 text-blue-400 font-bold rounded-lg hover:bg-blue-400 hover:text-slate-900 transition-all">Notion</a>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="text-center mt-12">
-                    <button class="text-cyan-300 border-2 border-cyan-400/50 rounded-full px-8 py-3 font-bold hover:bg-cyan-400/20 hover:border-cyan-400 transition-all">
-                        もっとみる
-                    </button>
-                </div>
-            </section>
-
-             <section id="skills" class="py-20 scroll-mt-20 reveal">
-                <h2 class="text-5xl md:text-6xl font-black text-center mb-16 retro-font text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">SKILLS</h2>
-                 <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="game-card p-8 flex flex-col">
-                        <h3 class="text-2xl font-bold text-slate-100 mb-4">ゲーム開発 & 設計</h3>
-                        <p class="text-slate-400 mb-4 flex-grow">Unity/C#を主軸に、拡張性と保守性を見据えたクラス設計を得意とします。DIコンテナ(VContainer)やUniTask/R3を積極的に活用し、「未来の自分や仲間を助けるコード」を記述することを信条としています。</p>
-                        <div class="flex flex-wrap gap-3 mt-auto">
-                            <span class="skill-tag">Unity</span>
-                            <span class="skill-tag">C#</span>
-                            <span class="skill-tag">VContainer</span>
-                            <span class="skill-tag">UniTask</span>
-                            <span class="skill-tag">Class Design</span>
+                    <!-- Project Card: MAGRAT -->
+                    <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-magrat">
+                        <div class="project-card-image-container">
+                            <img src="https://placehold.co/600x400/94a3b8/0f172a?text=MAGRAT" alt="MAGRAT" class="project-card-image default-image">
+                            <img src="https://placehold.co/600x400/94a3b8/0f172a?text=NoImage" alt="MAGRAT Gameplay" class="project-card-image hover-image">
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent z-10">
+                            <h3 class="text-2xl font-bold text-white mb-1">MAGRAT</h3>
+                            <p class="text-cyan-300 text-sm">磁石切り替えアクション | Planner, Lead Engineer</p>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 z-20">
+                            <h3 class="text-2xl font-bold text-white mb-1">MAGRAT</h3>
+                            <p class="text-cyan-300 text-sm mb-3">磁石切り替えアクション | Planner, Lead Engineer</p>
+                            <p class="text-base font-bold text-slate-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse">詳細を見る</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="skill-tag">RE-Engine</span><span class="skill-tag">C++</span><span class="skill-tag">Team Building</span>
+                            </div>
                         </div>
                     </div>
-                     <div class="game-card p-8 flex flex-col">
-                        <h3 class="text-2xl font-bold text-slate-100 mb-4">リーダーシップ & プロジェクト管理</h3>
-                         <p class="text-slate-400 mb-4 flex-grow">ハッカソンでのリーダー経験を通じて、チームの成果を最大化する環境構築に長けています。Discordでの効果的な情報共有の設計、定期的な進捗会による課題の早期発見と解決、メンバーのモチベーション管理を得意とします。</p>
-                        <div class="flex flex-wrap gap-3 mt-auto">
-                            <span class="skill-tag">Team Leadership</span>
-                            <span class="skill-tag">Agile Facilitation</span>
-                            <span class="skill-tag">Communication Design</span>
-                            <span class="skill-tag">Task Management</span>
+                    <!-- Project Card: Kami -->
+                    <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-kami">
+                        <div class="project-card-image-container">
+                            <img src="./images/kami_title.jpg" alt="Kami" class="project-card-image default-image">
+                            <img src="./images/kami_gameplay.jpg" alt="Kami Gameplay" class="project-card-image hover-image">
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent z-10">
+                            <h3 class="text-2xl font-bold text-white mb-1">神は人々の命を落とさない</h3>
+                            <p class="text-cyan-300 text-sm">命拾いアクション | Solo Engineer</p>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 z-20">
+                            <h3 class="text-2xl font-bold text-white mb-1">神は人々の命を落とさない</h3>
+                            <p class="text-cyan-300 text-sm mb-3">命拾いアクション | Solo Engineer</p>
+                            <p class="text-base font-bold text-slate-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse">詳細を見る</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="skill-tag">Unity</span><span class="skill-tag">C#</span><span class="skill-tag">MVP</span><span class="skill-tag">SOLID</span>
+                            </div>
+                            <div class="flex gap-4">
+                                <a href="https://topaz.dev/projects/7d04bf96e7ef603b1b45" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 border border-green-400 text-green-400 font-bold rounded-lg hover:bg-green-400 hover:text-slate-900 transition-all">Topa'z</a>
+                            </div>
                         </div>
                     </div>
-                    <div class="game-card p-8 flex flex-col">
-                        <h3 class="text-2xl font-bold text-slate-100 mb-4">ツール & プラットフォーム</h3>
-                         <p class="text-slate-400 mb-4 flex-grow">Git/GitHubフローに沿ったチーム開発を円滑に行えます。Notionでのドキュメント管理や、C++での開発経験もあります。</p>
-                        <div class="flex flex-wrap gap-3 mt-auto">
-                            <span class="skill-tag">Git</span>
-                            <span class="skill-tag">GitHub</span>
-                            <span class="skill-tag">Notion</span>
-                            <span class="skill-tag">Discord</span>
-                            <span class="skill-tag">C++</span>
+                    <!-- Project Card: Capybara -->
+                    <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-capybara">
+                        <div class="project-card-image-container">
+                            <img src="./images/capybara_title.jpg" alt="Capybara" class="project-card-image default-image">
+                            <img src="./images/capybara_gameplay.png" alt="Capybara Gameplay" class="project-card-image hover-image">
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent z-10">
+                            <h3 class="text-2xl font-bold text-white mb-1">カピバラゲーム</h3>
+                            <p class="text-cyan-300 text-sm">カピバラランゲーム | Leader, Engineer</p>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 z-20">
+                            <h3 class="text-2xl font-bold text-white mb-1">カピバラゲーム</h3>
+                            <p class="text-cyan-300 text-sm mb-3">カピバラランゲーム | Leader, Engineer</p>
+                            <p class="text-base font-bold text-slate-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse">詳細を見る</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="skill-tag">Unity</span><span class="skill-tag">C#</span><span class="skill-tag">Kid-Friendly Design</span>
+                            </div>
+                            <div class="flex gap-4">
+                                <a href="https://unityroom.com/games/capybaragame" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 border border-red-400 text-red-400 font-bold rounded-lg hover:bg-red-400 hover:text-slate-900 transition-all">unityroom</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
             
             <section id="activities" class="py-20 scroll-mt-20 reveal">
-                <h2 class="text-5xl md:text-6xl font-black text-center mb-16 retro-font text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">ACTIVITIES</h2>
+                <h2 class="text-5xl md:text-6xl font-black text-center mb-16 text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">活動実績</h2>
                 <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div class="game-card p-8 cursor-pointer hover:border-cyan-400 md:col-span-2 lg:col-span-3" data-modal-target="activity-hackathons">
                         <div class="flex items-start gap-6 flex-col sm:flex-row">
@@ -565,41 +723,49 @@
                 </div>
             </section>
             
-            <section id="mind" class="py-20 scroll-mt-20 reveal">
-                <h2 class="text-5xl md:text-6xl font-black text-center mb-16 retro-font text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">PHILOSOPHY</h2>
-                 <div class="game-card p-12 md:p-16 max-w-4xl mx-auto text-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-cyan-400 mx-auto mb-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
-                    <p class="text-2xl md:text-3xl leading-relaxed text-slate-200 font-medium mb-8">
-                       優れたコードは、<br class="md:hidden">最高のコミュニケーションツール
-                    </p>
-                    <p class="text-lg leading-relaxed text-slate-400 max-w-2xl mx-auto">
-                        私にとって、優れたコードは最高のコミュニケーションツールです。それは、今のチームメンバーが迷わず開発できる道しるべとなり、未来の自分が機能拡張する際の頼れる相棒にもなります。VContainerのような新しい技術や設計パターンを学ぶのは、このコミュニケーションの質を高め、拡張性と保守性に優れたプロダクトを実現するためです。<br><br>
-                        技術の追求は、プレイヤーに「圧倒的な面白さ」を届けるという最終目的を、「チーム全員で」達成するための最も確かな手段であると信じています。
-                    </p>
-                </div>
-            </section>
-            
-            <section id="vision" class="py-20 scroll-mt-20 reveal">
-                 <h2 class="text-5xl md:text-6xl font-black text-center mb-16 retro-font text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">VISION</h2>
-                 <div class="max-w-5xl mx-auto">
-                    <div class="game-card p-12 md:p-16 relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-64 h-64 bg-cyan-400/5 rounded-full blur-3xl"></div>
-                        <div class="relative">
-                             <div class="flex items-center gap-4 mb-8">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                                <h3 class="text-3xl md:text-4xl font-black text-slate-100">リードエンジニアとしての未来</h3>
-                            </div>
-                            <p class="text-xl leading-relaxed text-slate-300">
-                               3年後、中規模以上のタイトル開発において、技術とチームの両面からプロジェクトを牽引するリードエンジニアになることを目指しています。技術選定やクラス設計といったアーキテクチャの視点と、チームのボトルネックを解消するマネジメントの視点を両立させ、開発プロセス全体を最適化したいです。<br><br>
-                               将来的には、プランナーの「面白い」というアイデアを、エンジニアが「最高の形」で実装できる、その架け橋となる存在を目指しています。
-                            </p>
+            <section id="about" class="py-20 scroll-mt-20 reveal">
+                <h2 class="text-5xl md:text-6xl font-black text-center mb-16 text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">
+                    できること / したいこと
+                </h2>
+                <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Card 1: What I can do -->
+                    <div class="game-card p-8">
+                        <h3 class="text-3xl font-bold text-slate-100 mb-4">できること</h3>
+                        <div class="space-y-4">
+                            <a href="about-details.html#gamedev" class="block p-4 bg-slate-800/50 rounded-lg hover:bg-cyan-400/20 transition-colors">
+                                <h4 class="font-bold text-cyan-300 text-xl">ゲーム開発 & 設計</h4>
+                                <p class="text-slate-400 text-sm mt-1">拡張性と保守性を見据えたクラス設計、DIコンテナや非同期処理を活用した実装が得意です。</p>
+                            </a>
+                            <a href="about-details.html#leadership" class="block p-4 bg-slate-800/50 rounded-lg hover:bg-cyan-400/20 transition-colors">
+                                <h4 class="font-bold text-cyan-300 text-xl">リーダーシップ & プロジェクト管理</h4>
+                                <p class="text-slate-400 text-sm mt-1">チームの成果を最大化する環境構築、円滑なコミュニケーション設計、タスク管理を実践します。</p>
+                            </a>
                         </div>
                     </div>
+                    <!-- Card 2: What I want to do -->
+                    <div class="game-card p-8">
+                        <h3 class="text-3xl font-bold text-slate-100 mb-4">したいこと</h3>
+                        <div class="space-y-4">
+                            <a href="about-details.html#philosophy" class="block p-4 bg-slate-800/50 rounded-lg hover:bg-pink-400/20 transition-colors">
+                                <h4 class="font-bold text-pink-300 text-xl">制作哲学の体現</h4>
+                                <p class="text-slate-400 text-sm mt-1">「優れたコードは最高のコミュニケーションツールである」という信念を、より大規模な開発で実践したいです。</p>
+                            </a>
+                            <a href="about-details.html#vision" class="block p-4 bg-slate-800/50 rounded-lg hover:bg-pink-400/20 transition-colors">
+                                <h4 class="font-bold text-pink-300 text-xl">リードエンジニアへの挑戦</h4>
+                                <p class="text-slate-400 text-sm mt-1">技術とチームの両面からプロジェクトを牽引し、プランナーとエンジニアの架け橋となる存在を目指します。</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-12">
+                    <a href="about-details.html" class="text-purple-300 border-2 border-purple-400/50 rounded-full px-8 py-3 font-bold hover:bg-purple-400/20 hover:border-purple-400 transition-all text-lg">
+                        詳しくはこちら →
+                    </a>
                 </div>
             </section>
             
             <section id="contact" class="py-20 text-center reveal">
-                <h2 class="text-5xl md:text-6xl font-black mb-12 retro-font text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">CONTACT</h2>
+                <h2 class="text-5xl md:text-6xl font-black mb-12 text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">連絡先</h2>
                 <p class="text-xl text-slate-300 mb-10 max-w-2xl mx-auto">
                     お気軽にご連絡ください。
                 </p>
@@ -614,7 +780,7 @@
                             <svg class="w-10 h-10 text-cyan-400 group-hover:text-slate-900 transition-colors" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                         </div>
                     </a>
-                    <a href="mailto:your-email@example.com" class="group">
+                    <a href="mailto:your-email@example.com" target="_blank" class="group">
                         <div class="w-20 h-20 rounded-full bg-cyan-400/10 flex items-center justify-center border-2 border-cyan-400/30 transition-all group-hover:bg-cyan-400 group-hover:border-cyan-400 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-cyan-400/50">
                             <svg class="w-10 h-10 text-cyan-400 group-hover:text-slate-900 transition-colors" viewBox="0 0 24 24" fill="currentColor"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/></svg>
                         </div>
@@ -738,7 +904,7 @@
                 <a href="https://qiita.com/nut_nuts_nut/items/a7f6cf3cc2211835e938" target="_blank" class="px-4 py-2 border border-purple-400 text-purple-400 font-bold rounded-lg hover:bg-purple-400 hover:text-slate-900 transition-all">QiitaでUX設計の裏側を見る</a>
             </div>
         </div>
-        <div id="modal-content-project-gricon">
+        <div id="modal-content-gricon">
             <img src="./images/gricon_title.png" alt="GriCon" class="w-full h-64 object-cover mb-6 rounded-lg">
              <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
                 <h3 class="text-4xl font-black text-slate-100">GriCon</h3>
@@ -825,119 +991,141 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Loading Screen
-            const loadingScreen = document.getElementById('loading-screen');
-            const loadingBar = document.getElementById('loading-bar');
-            const loadingText = document.getElementById('loading-text');
-            
-            const messages = ['Loading game assets...', 'Initializing renderer...', 'Loading player data...', 'Ready!'];
-            let progress = 0;
-            let messageIndex = 0;
-            
-            const interval = setInterval(() => {
-                progress += Math.random() * 15;
-                if (progress > 100) progress = 100;
-                loadingBar.style.width = progress + '%';
-                
-                if (progress > 25 * (messageIndex + 1) && messageIndex < messages.length - 1) {
-                    messageIndex++;
-                    loadingText.textContent = messages[messageIndex];
-                }
-                
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        loadingScreen.classList.add('hidden');
-                    }, 500);
-                }
-            }, 100);
+            // Function to initialize the loading screen
+            const initLoadingScreen = () => {
+                const loadingScreen = document.getElementById('loading-screen');
+                if (!loadingScreen) return;
+                const loadingBar = document.getElementById('loading-bar');
+                const loadingText = document.getElementById('loading-text');
+                const messages = ['Loading game assets...', 'Initializing renderer...', 'Loading player data...', 'Ready!'];
+                let progress = 0;
+                let messageIndex = 0;
 
-            // Scroll Progress
-            const scrollProgress = document.getElementById('scroll-progress');
-            const backToTopBtn = document.getElementById('back-to-top-btn');
-            window.addEventListener('scroll', () => {
-                const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
-                const scrollPosition = window.scrollY;
-                const progress = (scrollPosition / scrollTotal) * 100;
-                scrollProgress.style.width = progress + '%';
-                backToTopBtn.classList.toggle('visible', scrollPosition > 400);
-            });
+                const interval = setInterval(() => {
+                    progress += Math.random() * 15;
+                    if (progress > 100) progress = 100;
+                    loadingBar.style.width = progress + '%';
+                    
+                    if (progress > 25 * (messageIndex + 1) && messageIndex < messages.length - 1) {
+                        messageIndex++;
+                        loadingText.textContent = messages[messageIndex];
+                    }
+                    
+                    if (progress >= 100) {
+                        clearInterval(interval);
+                        setTimeout(() => {
+                            loadingScreen.classList.add('hidden');
+                        }, 500);
+                    }
+                }, 100);
+            };
 
-            // Reveal on Scroll
-            const revealElements = document.querySelectorAll('.reveal');
-            const revealOnScroll = () => {
-                revealElements.forEach(element => {
-                    if (element.getBoundingClientRect().top < window.innerHeight - 100) {
-                        element.classList.add('active');
+            // Function to set up scroll-related effects
+            const setupScrollEffects = () => {
+                const scrollProgress = document.getElementById('scroll-progress');
+                const backToTopBtn = document.getElementById('back-to-top-btn');
+                const revealElements = document.querySelectorAll('.reveal');
+
+                const handleScroll = () => {
+                    // Scroll progress bar
+                    const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
+                    const scrollPosition = window.scrollY;
+                    const progress = (scrollPosition / scrollTotal) * 100;
+                    scrollProgress.style.width = progress + '%';
+
+                    // Back to top button visibility
+                    backToTopBtn.classList.toggle('visible', scrollPosition > 400);
+
+                    // Reveal elements on scroll
+                    revealElements.forEach(element => {
+                        if (element.getBoundingClientRect().top < window.innerHeight - 100) {
+                            element.classList.add('active');
+                        }
+                    });
+                };
+
+                window.addEventListener('scroll', handleScroll);
+                handleScroll(); // Initial check
+            };
+
+            // Function to initialize particle background
+            const initParticles = () => {
+                const particlesContainer = document.getElementById('particles-container');
+                if (!particlesContainer) return;
+                const particleShapes = ['▲', '■', '●', '◆', '★', '+', 'x'];
+                for (let i = 0; i < 30; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    particle.textContent = particleShapes[Math.floor(Math.random() * particleShapes.length)];
+                    particle.style.left = Math.random() * 100 + 'vw';
+                    particle.style.fontSize = (Math.random() * 15 + 10) + 'px';
+                    particle.style.animationDuration = (Math.random() * 20 + 15) + 's';
+                    particle.style.animationDelay = Math.random() * 10 + 's';
+                    particlesContainer.appendChild(particle);
+                }
+            };
+
+            // Function to set up smooth scrolling for anchor links
+            const setupSmoothScroll = () => {
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const targetId = this.getAttribute('href');
+                        const target = document.querySelector(targetId);
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    });
+                });
+            };
+
+            // Function to set up modal windows
+            const setupModals = () => {
+                const modalOverlay = document.getElementById('modal-overlay');
+                if (!modalOverlay) return;
+                const modalContent = document.getElementById('modal-content');
+                const closeModalBtn = document.getElementById('modal-close-btn');
+
+                const openModal = (targetId) => {
+                    const contentTemplate = document.getElementById(`modal-content-${targetId}`);
+                    if (contentTemplate) {
+                        modalContent.innerHTML = contentTemplate.innerHTML;
+                        modalOverlay.classList.add('visible');
+                        document.body.style.overflow = 'hidden';
+                    }
+                };
+
+                const closeModal = () => {
+                    modalOverlay.classList.remove('visible');
+                    document.body.style.overflow = '';
+                };
+
+                document.querySelectorAll('[data-modal-target]').forEach(trigger => {
+                    trigger.addEventListener('click', () => {
+                        const targetId = trigger.dataset.modalTarget;
+                        openModal(targetId);
+                    });
+                });
+
+                closeModalBtn.addEventListener('click', closeModal);
+                modalOverlay.addEventListener('click', (e) => {
+                    if (e.target === modalOverlay) {
+                        closeModal();
+                    }
+                });
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && modalOverlay.classList.contains('visible')) {
+                        closeModal();
                     }
                 });
             };
-            window.addEventListener('scroll', revealOnScroll);
-            revealOnScroll();
 
-            // Particles
-            const particlesContainer = document.getElementById('particles-container');
-            const particleShapes = ['▲', '■', '●', '◆', '★', '+', 'x'];
-            for (let i = 0; i < 30; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                particle.textContent = particleShapes[Math.floor(Math.random() * particleShapes.length)];
-                particle.style.left = Math.random() * 100 + 'vw';
-                particle.style.fontSize = (Math.random() * 15 + 10) + 'px';
-                particle.style.animationDuration = (Math.random() * 20 + 15) + 's';
-                particle.style.animationDelay = Math.random() * 10 + 's';
-                particlesContainer.appendChild(particle);
-            }
-
-            // Smooth Scroll
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth' });
-                    }
-                });
-            });
-
-            // Modal Logic
-            const modalOverlay = document.getElementById('modal-overlay');
-            const modalContainer = document.getElementById('modal-container');
-            const modalContent = document.getElementById('modal-content');
-            const closeModalBtn = document.getElementById('modal-close-btn');
-
-            const openModal = (targetId) => {
-                const contentTemplate = document.getElementById(`modal-content-${targetId}`);
-                if (contentTemplate) {
-                    modalContent.innerHTML = contentTemplate.innerHTML;
-                    modalOverlay.classList.add('visible');
-                    document.body.style.overflow = 'hidden';
-                }
-            };
-
-            const closeModal = () => {
-                modalOverlay.classList.remove('visible');
-                document.body.style.overflow = '';
-            };
-
-            document.querySelectorAll('[data-modal-target]').forEach(trigger => {
-                trigger.addEventListener('click', () => {
-                    const targetId = trigger.dataset.modalTarget;
-                    openModal(targetId);
-                });
-            });
-
-            closeModalBtn.addEventListener('click', closeModal);
-            modalOverlay.addEventListener('click', (e) => {
-                if (e.target === modalOverlay) {
-                    closeModal();
-                }
-            });
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && modalOverlay.classList.contains('visible')) {
-                    closeModal();
-                }
-            });
+            // Initialize all functionalities
+            initLoadingScreen();
+            setupScrollEffects();
+            initParticles();
+            setupSmoothScroll();
+            setupModals();
         });
     </script>
 </body>
