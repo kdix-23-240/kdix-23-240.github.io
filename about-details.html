@@ -71,21 +71,21 @@
     <main class="container mx-auto px-6 py-16 md:py-24">
         <section class="text-center mb-24">
             <h2 class="text-5xl md:text-6xl font-black text-cyan-300 mb-6" style="text-shadow: 0 0 20px #64ffda;">
-                できること / したいこと
+                すきなこと / したいこと
             </h2>
             <p class="max-w-3xl mx-auto text-lg leading-relaxed text-slate-300">
-                私のスキルセットとその背景にあるストーリー、そして未来に向けた展望についてご紹介します。
+                私の得意分野やスキル、その背景にある経験、そしてこれから挑戦したいことについてご紹介します。
             </p>
         </section>
 
         <!-- CAN DO -->
         <section id="cando" class="mb-24 reveal">
             <h3 class="text-4xl md:text-5xl font-black text-slate-100 mb-12 flex items-center gap-4">
-                <span class="text-cyan-300">#</span> できること
+                <span class="text-cyan-300">#</span> すきなこと
             </h3>
             <div class="space-y-12">
                 <!-- Game Dev & Design -->
-                <div class="game-card p-8 md:p-12">
+                <div id="gamedev" class="game-card p-8 md:p-12">
                     <div class="flex items-start gap-6">
                         <div class="flex-shrink-0 w-16 h-16 bg-cyan-400/10 rounded-lg flex items-center justify-center border border-cyan-400/30">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-cyan-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
@@ -93,17 +93,18 @@
                         <div>
                             <h4 class="text-3xl font-bold text-slate-100 mb-3">ゲーム開発 & 設計</h4>
                             <p class="text-slate-400 leading-relaxed mb-6">
-                                Unity/C#を主軸に、拡張性と保守性を見据えたクラス設計を得意とします。DIコンテナ(VContainer)やUniTask/R3を積極的に活用し、「未来の自分や仲間を助けるコード」を記述することを信条としています。
+                                Unity/C#を中心に、拡張性や保守性を意識したクラス設計を得意としています。DIコンテナ（VContainer）や非同期処理（UniTask / R3）を活用し、「未来の自分やチームが扱いやすいコード」を書くことを心がけています。
                             </p>
-                            <h5 class="font-bold text-cyan-300 text-lg mb-2">それを裏付けるストーリー:</h5>
+                            <h5 class="font-bold text-cyan-300 text-lg mb-2">実例:</h5>
                             <p class="text-slate-300 leading-relaxed border-l-4 border-cyan-400/50 pl-4">
-                                「Streamerio」開発時、将来の機能追加（敵の種類増加など）を予見し、DIコンテナのVContainerを導入しました。これにより、各クラスを疎結合に保ち、チームメンバーが互いの実装を意識せずともスムーズに開発を進められる土台を築きました。これは、私の「優れたコードはコミュニケーションツールである」という哲学の実践例です。
+                                「Streamerio」開発では、敵の追加や新機能実装を見据え、VContainerを導入して設計を行いました。結果として、各クラスを疎結合に保ち、チーム全体がスムーズに開発を進められる仕組みを構築できました。私にとってコードは、チーム間の意思疎通を助ける“コミュニケーションツール”でもあります。
                             </p>
                         </div>
                     </div>
                 </div>
+
                 <!-- Leadership & Management -->
-                <div class="game-card p-8 md:p-12">
+                <div id="leadership" class="game-card p-8 md:p-12">
                     <div class="flex items-start gap-6">
                         <div class="flex-shrink-0 w-16 h-16 bg-cyan-400/10 rounded-lg flex items-center justify-center border border-cyan-400/30">
                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-cyan-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283-.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
@@ -111,11 +112,11 @@
                         <div>
                             <h4 class="text-3xl font-bold text-slate-100 mb-3">リーダーシップ & プロジェクト管理</h4>
                             <p class="text-slate-400 leading-relaxed mb-6">
-                                チームの成果を最大化する環境構築に長けています。Discordでの効果的な情報共有の設計、定期的な進捗会による課題の早期発見と解決、メンバーのモチベーション管理を得意とします。
+                                チームの力を最大限に引き出す環境づくりが得意です。Discordでの情報整理、定期的な進捗共有、メンバーのサポートを通じて、安心して開発に集中できるチーム運営を意識しています。
                             </p>
-                            <h5 class="font-bold text-cyan-300 text-lg mb-2">それを裏付けるストーリー:</h5>
+                            <h5 class="font-bold text-cyan-300 text-lg mb-2">実例:</h5>
                             <p class="text-slate-300 leading-relaxed border-l-4 border-cyan-400/50 pl-4">
-                                「Streamerio」のハッカソン終盤、2日間の現地開発では、集中によるチームの分断を防ぐため、4〜6時間ごとの進捗確認会を設けました。これにより、タスクの進捗だけでなく「デプロイに時間がかかりそう」といった懸念も早期に共有され、全員で優先順位を再設定できました。結果、発表直前に慌てることなく、チーム全員で完成したゲームをプレイする余裕さえ生まれました。この経験から、緻密なコミュニケーション設計がクオリティに直結することを学びました。
+                                「Streamerio」開発の終盤では、集中作業による情報の分断を防ぐため、4〜6時間ごとに進捗確認会を行いました。これにより、技術的な課題を早期に共有でき、全員で優先度を見直しながら開発を進められました。結果として、最後まで落ち着いたチーム運営を実現できました。
                             </p>
                         </div>
                     </div>
@@ -130,7 +131,7 @@
             </h3>
             <div class="space-y-12">
                 <!-- Philosophy -->
-                <div class="game-card p-8 md:p-12">
+                <div id="philosophy" class="game-card p-8 md:p-12">
                     <div class="flex items-start gap-6">
                         <div class="flex-shrink-0 w-16 h-16 bg-pink-400/10 rounded-lg flex items-center justify-center border border-pink-400/30">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-pink-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>
@@ -138,7 +139,8 @@
                         <div>
                             <h4 class="text-3xl font-bold text-slate-100 mb-3">制作哲学の体現</h4>
                             <p class="text-slate-300 leading-relaxed">
-                                「優れたコードは最高のコミュニケーションツールである」という信念を、より大規模で長期的なプロジェクトで実践したいと考えています。ハッカソンで得た知見を活かし、複雑な仕様や度重なる変更にも耐えうる、柔軟で読みやすいコードベースを設計することで、チーム全体の生産性とゲームのクオリティ向上に貢献したいです。
+                                「優れたコードは最高のコミュニケーションツールである」という信念を、より大規模で長期的なプロジェクトで実践したいと考えています。  
+                                ハッカソンで培った柔軟な設計力を活かし、変化に強く、読みやすく、チーム全員が安心して開発を進められるコードベースを構築したいです。
                             </p>
                         </div>
                     </div>
@@ -147,7 +149,7 @@
         </section>
 
         <!-- VISION -->
-        <section id="vision" class="reveal">
+        <section id="vision" class="reveal mb-16">
             <h3 class="text-4xl md:text-5xl font-black text-slate-100 mb-12 flex items-center gap-4">
                 <span class="text-purple-300">#</span> 将来像
             </h3>
@@ -160,11 +162,20 @@
                         <div>
                             <h4 class="text-3xl font-bold text-slate-100 mb-3">リードエンジニアへの挑戦</h4>
                             <p class="text-slate-300 leading-relaxed">
-                                将来は、技術とチームの両面からプロジェクトを牽引するリードエンジニアを目指しています。具体的には、プランナーの「面白い」という抽象的なアイデアを、エンジニアチームが「最高の形」で実装できるような技術選定やアーキテクチャ設計を行う役割です。技術的な視点だけでなく、チームのボトルネックを解消し、メンバー全員が楽しく、かつ高いパフォーマンスで開発に集中できる環境を整えることで、ゲームの面白さを根本から支える存在になりたいです。
+                                将来的には、技術面とチーム運営の両方からプロジェクトを支えるリードエンジニアを目指しています。  
+                                プランナーの「面白い」というアイデアを、エンジニアが最高の形で実現できるよう、アーキテクチャ設計や技術選定を行いたいと考えています。  
+                                メンバーが楽しみながら開発に集中できる環境を整え、チーム全体で「面白さ」をつくり上げるリーダーになりたいです。
                             </p>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Back to Home Button -->
+            <div class="text-center mt-16">
+                <a href="index.html" class="px-8 py-3 border-2 border-cyan-400 text-cyan-400 font-bold rounded-full hover:bg-cyan-400 hover:text-slate-900 transition-all text-lg inline-block">
+                    ← ホームに戻る
+                </a>
             </div>
         </section>
     </main>
@@ -186,9 +197,8 @@
                 });
             };
             window.addEventListener('scroll', revealOnScroll);
-            revealOnScroll(); // Initial check
+            revealOnScroll();
         });
     </script>
 </body>
 </html>
-
