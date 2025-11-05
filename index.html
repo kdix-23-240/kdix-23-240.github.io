@@ -30,411 +30,342 @@
             background-size: 40px 40px;
         }
         
+        /* -------------------------------------------
+        --- [1] ORIGINAL STYLES (Kept) ---
+        ------------------------------------------- */
+
         /* Loading Screen */
         #loading-screen {
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg-color);
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center;
-            z-index: 9999;
-            opacity: 1; /* Default to visible */
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 9999; opacity: 1;
             transition: opacity 0.5s ease-out;
         }
-        #loading-screen.hidden { 
-            opacity: 0; 
-            pointer-events: none; 
-        }
-        .loading-bar-container {
-            width: 300px; 
-            height: 30px;
-            border: 3px solid var(--glow-color-1);
-            box-shadow: 0 0 20px var(--glow-color-1);
-        }
-        .loading-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--glow-color-1), var(--accent-purple));
-            width: 0%;
-            transition: width 0.1s linear;
-        }
-        .terminal-text {
-            font-family: 'Courier New', monospace;
-            color: var(--glow-color-1);
-            text-shadow: 0 0 5px var(--glow-color-1);
-        }
-        .typing-cursor {
-            display: inline-block; 
-            width: 10px; 
-            height: 1.2em;
-            background: var(--glow-color-1);
-            margin-left: 5px;
-            animation: blink 0.7s infinite;
-            vertical-align: middle;
-        }
-        @keyframes blink { 
-            50% { opacity: 0; } 
-        }
+        #loading-screen.hidden { opacity: 0; pointer-events: none; }
+        .loading-bar-container { width: 300px; height: 30px; border: 3px solid var(--glow-color-1); box-shadow: 0 0 20px var(--glow-color-1); }
+        .loading-bar { height: 100%; background: linear-gradient(90deg, var(--glow-color-1), var(--accent-purple)); width: 0%; transition: width 0.1s linear; }
+        .terminal-text { font-family: 'Courier New', monospace; color: var(--glow-color-1); text-shadow: 0 0 5px var(--glow-color-1); }
 
         /* Scroll Progress Bar */
         #scroll-progress {
-            position: fixed; 
-            top: 0; 
-            left: 0;
-            height: 4px;
+            position: fixed; top: 0; left: 0; height: 4px;
             background: linear-gradient(90deg, var(--glow-color-1), var(--accent-purple), var(--accent-pink));
-            width: 0%;
-            z-index: 1000;
-            box-shadow: 0 0 10px var(--glow-color-1);
+            width: 0%; z-index: 1000; box-shadow: 0 0 10px var(--glow-color-1);
         }
 
-        /* Glitch Effect */
-        .glitch { 
-            position: relative; 
-            font-family: 'Press Start 2P', cursive;
-        }
-        .glitch::before, .glitch::after {
-            content: attr(data-text);
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%;
-            background: var(--bg-color);
-        }
-        .glitch::before {
-            left: 2px; 
-            text-shadow: -2px 0 var(--accent-pink);
-            clip: rect(24px, 550px, 90px, 0);
-            animation: glitch-anim 3s infinite linear alternate-reverse;
-        }
-        .glitch::after {
-            left: -2px; 
-            text-shadow: -2px 0 var(--glow-color-1);
-            clip: rect(85px, 550px, 140px, 0);
-            animation: glitch-anim 2s infinite linear alternate-reverse;
-        }
-        @keyframes glitch-anim {
-            10% { clip: rect(20px, 9999px, 96px, 0); }
-            20% { clip: rect(85px, 9999px, 78px, 0); }
-            30% { clip: rect(40px, 9999px, 16px, 0); }
-            40% { clip: rect(65px, 9999px, 44px, 0); }
-            50% { clip: rect(10px, 9999px, 90px, 0); }
-        }
-
-        /* Game Card Base */
-        .game-card {
-            background: rgba(30, 41, 59, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 1rem;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            border: 1px solid rgba(100, 255, 218, 0.1);
-        }
-        .game-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 20px var(--glow-color-1);
-            border-color: rgba(100, 255, 218, 0.3);
-        }
-        
         /* Scanlines Overlay */
         .scanlines {
-            position: fixed; 
-            top: 0; 
-            left: 0;
-            width: 100%; 
-            height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(transparent 50%, rgba(0, 0, 0, 0.1) 50%);
             background-size: 100% 4px;
-            pointer-events: none;
-            z-index: 9998;
-            opacity: 0.1;
+            pointer-events: none; z-index: 9998; opacity: 0.1;
         }
 
-        /* Skill Tags */
+        /* Skill Tags (For Modals/Sections) */
         .skill-tag {
-            display: inline-block;
-            background-color: rgba(100, 255, 218, 0.1);
-            color: var(--glow-color-1);
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 700;
+            display: inline-block; background-color: rgba(100, 255, 218, 0.1);
+            color: var(--glow-color-1); padding: 0.25rem 0.75rem;
+            border-radius: 9999px; font-size: 0.75rem; font-weight: 700;
             border: 1px solid rgba(100, 255, 218, 0.2);
         }
         
         /* Particles Background */
-        #particles-container { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            z-index: -1; 
-            pointer-events: none; 
-        }
-        .particle { 
-            position: absolute; 
-            color: rgba(100, 255, 218, 0.5); 
-            animation: float-particle linear infinite; 
-            font-size: 20px; 
-        }
+        #particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        .particle { position: absolute; color: rgba(100, 255, 218, 0.5); animation: float-particle linear infinite; font-size: 20px; }
         @keyframes float-particle {
             from { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 0.5; }
+            10% { opacity: 1; } 90% { opacity: 0.5; }
             to { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
         }
 
-        /* Reveal on Scroll Animation */
-        .reveal { 
-            opacity: 0; 
-            transform: translateY(50px); 
-            transition: all 0.8s ease-out; 
-        }
-        .reveal.active { 
-            opacity: 1; 
-            transform: translateY(0); 
-        }
+        /* Reveal on Scroll */
+        .reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
         /* Back to Top Button */
         .back-to-top-btn {
-            position: fixed; 
-            bottom: 2rem; 
-            right: 2rem;
-            width: 50px; 
-            height: 50px;
-            background: rgba(100, 255, 218, 0.2);
-            border: 2px solid var(--glow-color-1);
-            border-radius: 50%;
-            display: flex; 
-            justify-content: center; 
-            align-items: center;
-            color: var(--glow-color-1); 
-            z-index: 1000; 
-            opacity: 0; 
-            pointer-events: none;
+            position: fixed; bottom: 2rem; right: 2rem;
+            width: 50px; height: 50px; background: rgba(100, 255, 218, 0.2);
+            border: 2px solid var(--glow-color-1); border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            color: var(--glow-color-1); z-index: 1000; opacity: 0; pointer-events: none;
             transition: all 0.3s ease;
         }
-        .back-to-top-btn.visible { 
-            opacity: 1; 
-            pointer-events: auto; 
-        }
+        .back-to-top-btn.visible { opacity: 1; pointer-events: auto; }
         .back-to-top-btn:hover {
-            background: var(--glow-color-1); 
-            color: var(--bg-color); 
-            transform: scale(1.1);
-            box-shadow: 0 0 20px var(--glow-color-1);
+            background: var(--glow-color-1); color: var(--bg-color); 
+            transform: scale(1.1); box-shadow: 0 0 20px var(--glow-color-1);
         }
 
         /* Modal Styles */
         .modal-overlay {
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%;
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(8px);
-            display: flex; 
-            justify-content: center; 
-            align-items: center;
-            z-index: 10000; 
-            opacity: 0; 
-            pointer-events: none;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(8px);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 10000; opacity: 0; pointer-events: none;
             transition: opacity 0.3s ease;
         }
-        .modal-overlay.visible { 
-            opacity: 1; 
-            pointer-events: auto; 
-        }
+        .modal-overlay.visible { opacity: 1; pointer-events: auto; }
         .modal-container {
-            background: rgba(30, 41, 59, 0.9);
-            border: 1px solid var(--glow-color-1);
-            box-shadow: 0 0 40px rgba(100, 255, 218, 0.3);
-            border-radius: 1rem;
-            width: 90%; 
-            max-width: 800px;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 2.5rem;
-            position: relative;
-            transform: scale(0.95);
-            transition: transform 0.3s ease;
+            background: rgba(30, 41, 59, 0.9); border: 1px solid var(--glow-color-1);
+            box-shadow: 0 0 40px rgba(100, 255, 218, 0.3); border-radius: 1rem;
+            width: 90%; max-width: 800px; max-height: 90vh;
+            overflow-y: auto; padding: 2.5rem; position: relative;
+            transform: scale(0.95); transition: transform 0.3s ease;
         }
-        .modal-overlay.visible .modal-container { 
-            transform: scale(1); 
-        }
+        .modal-overlay.visible .modal-container { transform: scale(1); }
         .modal-close-btn {
-            position: absolute; 
-            top: 1rem; 
-            right: 1rem;
-            width: 40px; 
-            height: 40px;
-            background: rgba(100, 255, 218, 0.1);
-            border: 1px solid rgba(100, 255, 218, 0.3);
-            color: var(--glow-color-1);
-            border-radius: 50%;
-            display: flex; 
-            justify-content: center; 
-            align-items: center;
-            cursor: pointer; 
-            transition: all 0.2s ease;
+            position: absolute; top: 1rem; right: 1rem;
+            width: 40px; height: 40px; background: rgba(100, 255, 218, 0.1);
+            border: 1px solid rgba(100, 255, 218, 0.3); color: var(--glow-color-1);
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            cursor: pointer; transition: all 0.2s ease;
         }
-        .modal-close-btn:hover { 
-            background: var(--glow-color-1); 
-            color: var(--bg-color); 
-            transform: rotate(90deg); 
+        .modal-close-btn:hover { background: var(--glow-color-1); color: var(--bg-color); transform: rotate(90deg); }
+
+        /* Project Card Image (For Modals/Sections) */
+        .game-card { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-radius: 1rem; position: relative; overflow: hidden; transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 1px solid rgba(100, 255, 218, 0.1); }
+        .game-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 20px var(--glow-color-1); border-color: rgba(100, 255, 218, 0.3); }
+        .project-card-image-container { position: relative; width: 100%; height: 100%; overflow: hidden; }
+        .project-card-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1); transition: transform 0.5s ease; z-index: 0; }
+        .group:hover .project-card-image { transform: scale(1.1); }
+        .project-card-image.hover-image { opacity: 0; transition: opacity 0.5s ease; }
+        .group:hover .project-card-image.default-image { opacity: 0; }
+        .group:hover .project-card-image.hover-image { opacity: 1; }
+
+        /* Glitch Effect (Kept) */
+        .glitch { position: relative; font-family: 'Press Start 2P', cursive; }
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        }
+        .glitch::before {
+            left: 2px; text-shadow: -2px 0 var(--accent-pink);
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim 3s infinite linear alternate-reverse;
+        }
+        .glitch::after {
+            left: -2px; text-shadow: -2px 0 var(--glow-color-1);
+            clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim 2s infinite linear alternate-reverse;
+        }
+        @keyframes glitch-anim {
+            10% { clip: rect(20px, 9999px, 96px, 0); } 20% { clip: rect(85px, 9999px, 78px, 0); }
+            30% { clip: rect(40px, 9999px, 16px, 0); } 40% { clip: rect(65px, 9999px, 44px, 0); }
+            50% { clip: rect(10px, 9999px, 90px, 0); }
         }
 
-        /* Main Menu Specific Styles */
-        .menu-button {
-            position: relative;
-            cursor: pointer;
-            padding: 0;
-            display: block;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border-radius: 1rem;
-            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
-            border: 3px solid transparent;
-            overflow: hidden;
-        }
-        .menu-button::before {
-            content: '';
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            right: 0; 
-            bottom: 0;
-            background: linear-gradient(135deg, var(--glow-color-1), var(--accent-purple));
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: -1;
-        }
-        .menu-button::after {
-            content: '';
-            position: absolute; 
-            top: 3px; 
-            left: 3px; 
-            right: 3px; 
-            bottom: 3px;
-            background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
-            border-radius: 0.75rem;
-            z-index: 0;
-        }
-        .menu-button:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 60px rgba(100, 255, 218, 0.3);
-        }
-        .menu-button:hover::before { 
-            opacity: 1; 
-        }
-        .menu-content {
-            position: relative; 
-            z-index: 1;
-            padding: 2rem;
+        /* -------------------------------------------
+        --- [2] NEW STYLES (Hero-centric Grid) ---
+        ------------------------------------------- */
+        
+        /* Hero Section Container */
+        .hero-section-container {
             display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-        .menu-button .icon {
-            width: 50px; 
-            height: 50px;
-            flex-shrink: 0;
-            display: flex; 
-            align-items: center; 
+            flex-direction: column;
             justify-content: center;
-            background: rgba(100, 255, 218, 0.05);
-            border-radius: 0.75rem;
-            border: 2px solid rgba(100, 255, 218, 0.2);
-            transition: all 0.3s ease;
+            align-items: center;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
         }
-        .menu-button:hover .icon {
-            background: rgba(100, 255, 218, 0.15);
-            border-color: var(--glow-color-1);
-            transform: rotate(10deg) scale(1.1);
-        }
-        .menu-button .icon svg {
-            width: 1.75rem; 
-            height: 1.75rem;
-            color: var(--glow-color-1);
-            transition: all 0.3s ease;
-        }
-        .menu-button .title {
-            font-size: 1.5rem; 
-            font-weight: 900;
-            color: #f7fafc;
-            transition: all 0.3s ease;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-        }
-        .menu-button:hover .title {
-            color: var(--glow-color-1);
-            text-shadow: 0 0 20px var(--glow-color-1);
-        }
-        .menu-button.featured {
-            background: linear-gradient(135deg, rgba(100, 255, 218, 0.05), rgba(15, 23, 42, 0.95));
-        }
-       
-        .menu-button.featured .title { 
-            font-size: 2.5rem; 
-        }
-        .menu-button.featured .icon { 
-            width: 80px; 
-            height: 80px; 
-        }
-        .menu-button.featured .icon svg { 
-            width: 3rem; 
-            height: 3rem; 
-        }
-        .menu-button.featured::before {
-            background: linear-gradient(135deg, var(--glow-color-1), var(--accent-purple), var(--accent-pink), var(--glow-color-1));
-            background-size: 200% 200%;
-            animation: gradient-shift 3s ease infinite;
-        }
-        @keyframes gradient-shift { 
-            0%, 100% { background-position: 0% 50%; } 
-            50% { background-position: 100% 50%; } 
+
+        /* Hero Profile Area (Top) */
+        .hero-content {
+            margin-bottom: 3rem; /* 3つの柱とのマージン */
+            width: 100%;
         }
         
-        /* Project Card Image Handling */
-        .project-card-image-container {
-            position: relative;
-            width: 100%;
-            height: 100%; /* Take full height of the card */
-            overflow: hidden;
-        }
-
-        .project-card-image {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
+        /* --- UPDATED Profile Image Styles --- */
+        .hero-profile-image {
+            width: 240px; /* 240px に拡大 */
+            height: 240px;
+            border-radius: 50%;
             object-fit: cover;
-            transform: scale(1);
-            transition: transform 0.5s ease;
-            z-index: 0;
+            border: 4px solid var(--glow-color-1);
+            margin: 0 auto;
+            position: relative; 
+            z-index: 1;
+            box-shadow: 
+                0 0 10px rgba(100, 255, 218, 0.6),
+                0 0 30px rgba(100, 255, 218, 0.4),
+                0 0 60px rgba(100, 255, 218, 0.2);
+            animation: pulse-shadow 3s infinite alternate;
+        }
+        
+        @keyframes pulse-shadow {
+            0% {
+                box-shadow: 
+                    0 0 10px rgba(100, 255, 218, 0.6),
+                    0 0 30px rgba(100, 255, 218, 0.4),
+                    0 0 60px rgba(100, 255, 218, 0.2);
+            }
+            100% {
+                box-shadow: 
+                    0 0 15px rgba(100, 255, 218, 0.8),
+                    0 0 40px rgba(100, 255, 218, 0.6),
+                    0 0 80px rgba(100, 255, 218, 0.3);
+            }
         }
 
-        .group:hover .project-card-image {
-            transform: scale(1.1);
+        .hero-profile-image::before {
+            content: '';
+            position: absolute;
+            top: -10px; left: -10px; right: -10px; bottom: -10px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-purple);
+            box-shadow: 0 0 20px var(--accent-purple), inset 0 0 10px var(--accent-purple);
+            opacity: 0.5;
+            animation: rotate-border 10s linear infinite;
+            z-index: -1;
+        }
+        
+        @keyframes rotate-border {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
-        .project-card-image.hover-image {
-            opacity: 0;
-            transition: opacity 0.5s ease;
+        .hero-profile-image::after {
+            content: '';
+            position: absolute;
+            top: -20px; left: -20px; right: -20px; bottom: -20px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--glow-color-1) 0%, transparent 70%);
+            opacity: 0.1;
+            filter: blur(15px);
+            animation: expand-fade 6s infinite alternate;
+            z-index: -2;
         }
 
-        .group:hover .project-card-image.default-image {
-            opacity: 0;
+        @keyframes expand-fade {
+            0% { transform: scale(0.8); opacity: 0.1; }
+            50% { transform: scale(1.1); opacity: 0.2; }
+            100% { transform: scale(0.8); opacity: 0.1; }
         }
-        .group:hover .project-card-image.hover-image {
-            opacity: 1;
+        /* --- END UPDATED Profile Image Styles --- */
+
+        .hero-glitch-name {
+            font-size: 3rem; /* 48px */
+            font-weight: 900;
+            color: var(--glow-color-2);
+        }
+        .hero-catchphrase {
+            font-size: 1.25rem; /* 20px */
+            color: var(--accent-pink);
+            font-weight: 700;
+            text-shadow: 0 0 10px var(--accent-pink);
+            line-height: 1.6; /* 行間を追加 */
+        }
+        .hero-intro-text {
+            color: #94a3b8; /* text-slate-400 */
+            font-size: 1rem; /* 16px */
+            margin-top: 1rem;
+        }
+
+        /* Hero Pillars Area (Bottom) */
+        .hero-pillars {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1.5rem; /* 24px */
+            width: 100%;
+        }
+
+        /* Pillar Card Style */
+        .pillar-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
+            border: 3px solid rgba(100, 255, 218, 0.2);
+            border-radius: 1.5rem; /* 24px */
+            padding: 1.5rem; /* 縮小 */
+            text-align: center;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .pillar-card::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, var(--glow-color-1), var(--accent-purple));
+            opacity: 0; transition: opacity 0.4s ease; z-index: 0;
+        }
+        .pillar-card:hover::before { opacity: 0.1; }
+        .pillar-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--glow-color-1);
+            box-shadow: 0 20px 60px rgba(100, 255, 218, 0.3);
+        }
+        .pillar-content { position: relative; z-index: 1; }
+
+        .pillar-icon {
+            width: 48px;
+            height: 48px;
+            color: var(--glow-color-1);
+            margin: 0 auto 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .pillar-card:hover .pillar-icon {
+            transform: scale(1.2) rotate(10deg);
+            filter: drop-shadow(0 0 15px var(--glow-color-1));
+        }
+
+        .pillar-title {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: var(--glow-color-2);
+            margin-bottom: 0.25rem;
+        }
+        .pillar-subtitle {
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--accent-purple);
+            margin-bottom: 1rem;
+        }
+
+        .pillar-tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .pillar-badge {
+            display: inline-block;
+            padding: 0.25rem 0.6rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border: 1px solid;
+        }
+
+        /* Badge Colors */
+        .badge-gold { background-color: rgba(250, 204, 21, 0.1); border-color: rgba(250, 204, 21, 0.3); color: #facc15; }
+        .badge-cyan { background-color: rgba(100, 255, 218, 0.1); border-color: rgba(100, 255, 218, 0.3); color: var(--glow-color-1); }
+        .badge-purple { background-color: rgba(167, 139, 250, 0.1); border-color: rgba(167, 139, 250, 0.3); color: var(--accent-purple); }
+        .badge-project { background-color: rgba(244, 114, 182, 0.1); border-color: rgba(244, 114, 182, 0.3); color: var(--accent-pink); }
+
+        /* Responsive for Hero-centric */
+        @media (max-width: 768px) {
+            /* ヒーローセクションのグリッドをスマホで縦積みに */
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .hero-content .md\:col-span-2 {
+                text-align: center; /* スマホでは中央揃えに戻す */
+            }
+            .hero-glitch-name {
+                font-size: 2.5rem;
+            }
+            .hero-catchphrase {
+                font-size: 1.1rem;
+            }
+            /* 3つの柱を縦積みに */
+            .hero-pillars {
+                grid-template-columns: 1fr;
+            }
+            .pillar-title {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -452,91 +383,106 @@
     <div id="particles-container"></div>
 
     <main>
-        <section class="min-h-screen flex flex-col items-center justify-center text-center p-6 relative">
-            <img src="./images/me.png" alt="Profile" onerror="this.onerror=null;this.src='https://placehold.co/320x320/0f172a/64ffda?text=AM';" class="w-64 h-64 md:w-80 md:h-80 rounded-full object-cover mb-6 border-4 border-cyan-400 shadow-lg"
-                 style="box-shadow: 0 0 50px rgba(100, 255, 218, 0.6);">
-            <h1 class="text-6xl md:text-8xl font-black mb-4 glitch" data-text="AKIHIDE MIKAMI">AKIHIDE MIKAMI</h1>
-            <div class="terminal-text text-xl mb-6">
-                > Role: <span class="text-pink-400">Game Client Engineer</span><span class="typing-cursor"></span>
-            </div>
-            <p class="max-w-3xl text-lg leading-relaxed text-slate-300 mb-8">
-                近畿大学情報学部 実世界コンピューティングコース システムデザイン論研究室<br>
-                対話と構造設計を軸に、チームのポテンシャルを最大限に引き出し、<br> ゲームのクオリティを次のレベルへと導くエンジニア<br>
-            </p>
-            <a href="#menu" class="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce">
-                <svg class="w-12 h-12 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7" />
-                </svg>
-            </a>
-        </section>
+        <section class="min-h-screen flex items-center justify-center p-6 relative">
+            
+            <div class="hero-section-container">
+                
+                <div class="hero-content grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                    
+                    <div class="md:col-span-1 flex justify-center">
+                        <img src="./images/me.png" alt="Profile" onerror="this.onerror=null;this.src='https://placehold.co/240x240/0f172a/64ffda?text=AM'" class="hero-profile-image">
+                    </div>
+                    
+                    <div class="md:col-span-2 flex flex-col justify-center text-center md:text-left">
+                        <h1 class="hero-glitch-name glitch mb-2" data-text="AKIHIDE MIKAMI">AKIHIDE MIKAMI</h1>
+                        
+                        <p class="hero-catchphrase mb-4">
+                            対話と構造設計を軸に、チームのポテンシャルを最大限に引き出し、<br>
+                            ゲームのクオリティを次のレベルへと導くエンジニア
+                        </p>
+                        
+                        <p class="hero-intro-text">
+                            27卒<br>近畿大学情報学部 実世界コンピューティングコース<br>システムデザイン論研究室
+                        </p>
+                    </div>
 
-        <div class="container mx-auto px-6">
-            <section id="menu" class="py-20 scroll-mt-20 reveal">
-                <h2 class="text-5xl md:text-6xl font-black text-center mb-16 text-cyan-300"
-                    style="text-shadow: 0 0 20px #64ffda;">
-                    メインメニュー
-                </h2>
-                <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <!-- Large Featured Button -->
-                    <a href="#projects" class="menu-button featured flex flex-col justify-center">
-                        <div class="menu-content p-8">
-                             <div class="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2 1M4 7l2-1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
-                                </svg>
+                </div>
+
+                <div class="hero-pillars">
+                    
+                    <a href="#projects" class="pillar-card">
+                        <div class="pillar-content">
+                            <svg class="pillar-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2 1M4 7l2-1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
+                            </svg>
+                            <h2 class="pillar-title">制作物</h2>
+                            <p class="pillar-subtitle">Projects</p>
+                            <div class="pillar-tags-container">
+                                <span class="pillar-badge badge-project">ライブゲーム</span>
+                                <span class="pillar-badge badge-project">シューティングゲーム</span>
+                                <span class="pillar-badge badge-project">会社独自開発エンジン</span>
+                                <span class="pillar-badge badge-project">体験型ゲーム</span>
+                                <span class="pillar-badge badge-project">オリジナルコントローラー専用ゲーム</span>
                             </div>
-                            <h3 class="title">制作物</h3>
                         </div>
                     </a>
 
-                    <!-- Column for other buttons -->
-                    <div class="grid grid-cols-1 gap-8">
-                        <a href="#activities" class="menu-button">
-                             <div class="menu-content">
-                                <div class="icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </div>
-                                <h3 class="title">活動実績</h3>
+                    <a href="#activities" class="pillar-card">
+                        <div class="pillar-content">
+                            <svg class="pillar-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <h2 class="pillar-title">実績</h2>
+                            <p class="pillar-subtitle">Achievements</p>
+                            <div class="pillar-tags-container">
+                                <span class="pillar-badge badge-gold">🏆 技育展 決勝</span>
+                                <span class="pillar-badge badge-gold">🏆 JPHacks 決勝</span>
+                                <span class="pillar-badge badge-cyan">🎖️ ハッカソン多数出場</span>
+                                <span class="pillar-badge badge-cyan">🎖️ 8賞受賞</span>
+                                <span class="pillar-badge badge-cyan">🏢 2社インターン</span>
+                                <span class="pillar-badge badge-cyan">👥 学生団体設立</span>
                             </div>
-                        </a>
-                        <a href="#about" class="menu-button">
-                            <div class="menu-content">
-                                <div class="icon">
-                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
-                                </div>
-                                <h3 class="title">すきなこと/したいこと</h3>
-                            </div>
-                        </a>
-                        <a href="#contact" class="menu-button">
-                            <div class="menu-content">
-                                <div class="icon">
-                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                                </div>
-                                <h3 class="title">連絡先</h3>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </section>
+                        </div>
+                    </a>
 
-            <!-- 制作物セクション -->
+                    <a href="#about" class="pillar-card">
+                        <div class="pillar-content">
+                            <svg class="pillar-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                            </svg>
+                            <h2 class="pillar-title">スキル</h2>
+                            <p class="pillar-subtitle">About Me</p>
+                            <div class="pillar-tags-container">
+                                <span class="pillar-badge badge-purple">🏗️ 設計</span>
+                                <span class="pillar-badge badge-purple">🤝 リーダー経験</span>
+                                <span class="pillar-badge badge-purple">🗣️ Unity</span>
+                                <span class="pillar-badge badge-purple">⚡ MVPアーキテクチャ</span>
+                                <span class="pillar-badge badge-purple">⚡ VContainer</span>
+                                <span class="pillar-badge badge-purple">⚡ UniTask / R3</span>
+                                <span class="pillar-badge badge-purple">⚡ SOLID原則</span>
+                            </div>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+
+        </section>
+
+        <div class="container mx-auto px-6">
+            
             <section id="projects" class="py-20 scroll-mt-20 reveal">
                 <h2 class="text-5xl md:text-6xl font-black text-center mb-16 text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">制作物</h2>
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-                    <!-- Project Card: Streamerio -->
                     <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-streamerio">
                         <div class="project-card-image-container">
                             <img src="./images/streamerio_title.png" alt="Streamerio" class="project-card-image default-image">
                             <img src="./images/streamerio_gameplay.png" alt="Streamerio Gameplay" class="project-card-image hover-image">
                         </div>
-                        
                         <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent z-10">
                             <h3 class="text-2xl font-bold text-white mb-1">Streamerio</h3>
                             <p class="text-cyan-300 text-sm">配信者&視聴者vs視聴者 ライブゲーム</p>
                         </div>
-
                         <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 z-20">
                             <h3 class="text-2xl font-bold text-white mb-1">Streamerio</h3>
                             <p class="text-cyan-300 text-sm mb-3">配信者&視聴者vs視聴者 ライブゲーム</p>
@@ -552,18 +498,15 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Project Card: YubiSoccer -->
                     <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-yubisoccer">
                         <div class="project-card-image-container">
                             <img src="./images/yubisoccer_title.png" alt="YubiSoccer" class="project-card-image default-image">
                             <img src="./images/yubisoccer_gameplay.png" alt="YubiSoccer Gameplay" class="project-card-image hover-image">
                         </div>
-                        
                         <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent z-10">
                             <h3 class="text-2xl font-bold text-white mb-1">YubiSoccer (ゆびサッカー)</h3>
                             <p class="text-cyan-300 text-sm">ゆびで操作するオンライン対戦サッカーゲーム</p>
                         </div>
-
                         <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 z-20">
                             <h3 class="text-2xl font-bold text-white mb-1">YubiSoccer (ゆびサッカー)</h3>
                             <p class="text-cyan-300 text-sm mb-3">ゆびで操作するオンライン対戦サッカーゲーム</p>
@@ -579,8 +522,7 @@
                             </div>
                         </div>
                     </div>
-                     <!-- Project Card: GriCon -->
-                    <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-gricon">
+                     <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-gricon">
                         <div class="project-card-image-container">
                             <img src="./images/gricon_title.png" alt="GriCon" class="project-card-image default-image">
                             <img src="https://img.youtube.com/vi/EZxbcKHtADs/maxresdefault.jpg" alt="GriCon Gameplay" class="project-card-image hover-image">
@@ -604,7 +546,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Project Card: KANSCREAM -->
                     <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-kanscream">
                         <div class="project-card-image-container">
                             <img src="./images/kanscream_title.png" alt="KANSCREAM" class="project-card-image default-image">
@@ -629,18 +570,15 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Project Card: Eiinmado -->
                     <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-eiinmado">
                         <div class="project-card-image-container">
                             <img src="./images/eiinmado_title.png" alt="詠印魔導" class="project-card-image default-image">
                             <img src="https://img.youtube.com/vi/9MgPosLRifY/maxresdefault.jpg" alt="詠印魔導 Gameplay" class="project-card-image hover-image">
                         </div>
-                        
                         <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent z-10">
                             <h3 class="text-2xl font-bold text-white mb-1">詠印魔導 (Eiinmado)</h3>
                             <p class="text-cyan-300 text-sm">声とジェスチャーで魔法を撃つ対戦アクション</p>
                         </div>
-
                         <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 z-20">
                             <h3 class="text-2xl font-bold text-white mb-1">詠印魔導 (Eiinmado)</h3>
                             <p class="text-cyan-300 text-sm mb-3">声とジェスチャーで魔法を撃つ対戦アクション</p>
@@ -656,7 +594,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Project Card: E-ma -->
                     <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-ema">
                         <div class="project-card-image-container">
                             <img src="./images/ema_title.jpg" alt="E-ma" class="project-card-image default-image">
@@ -680,7 +617,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Project Card: Kami -->
                     <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-kami">
                         <div class="project-card-image-container">
                             <img src="./images/kami_title.jpg" alt="Kami" class="project-card-image default-image">
@@ -702,8 +638,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Project Card: Capybara -->
-                    <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-capybara">
+                                        <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-capybara">
                         <div class="project-card-image-container">
                             <img src="./images/capybara_title.jpg" alt="Capybara" class="project-card-image default-image">
                             <img src="./images/capybara_gameplay.png" alt="Capybara Gameplay" class="project-card-image hover-image">
@@ -724,8 +659,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Project Card: MAGRAT -->
-                    <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-magrat">
+                                        <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-magrat">
                         <div class="project-card-image-container">
                             <img src="https://placehold.co/600x400/94a3b8/0f172a?text=MAGRAT" alt="MAGRAT" class="project-card-image default-image">
                             <img src="https://placehold.co/600x400/94a3b8/0f172a?text=NoImage" alt="MAGRAT Gameplay" class="project-card-image hover-image">
@@ -743,26 +677,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Project Card: Others -->
-                    <!-- <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-others">
-                        <div class="project-card-image-container">
-                            <img src="https://placehold.co/600x400/6366f1/f8fafc?text=Others" alt="その他" class="project-card-image default-image">
-                            <img src="https://placehold.co/600x400/8b5cf6/f8fafc?text=Mini+Games" alt="その他 Collection" class="project-card-image hover-image">
-                        </div>
-                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent z-10">
-                            <h3 class="text-2xl font-bold text-white mb-1">その他</h3>
-                            <p class="text-cyan-300 text-sm">小さな挑戦と実験の数々</p>
-                        </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 z-20">
-                            <h3 class="text-2xl font-bold text-white mb-1">その他</h3>
-                            <p class="text-cyan-300 text-sm mb-3">小さな挑戦と実験の数々</p>
-                            <p class="text-base font-bold text-slate-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse">詳細を見る</p>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="skill-tag">Unity</span><span class="skill-tag">C#</span><span class="skill-tag">Mini Games</span><span class="skill-tag">Experiments</span>
-                            </div>
-                        </div>
-                    </div> -->
-                </div>
+                    </div>
             </section>
             
             <section id="activities" class="py-20 scroll-mt-20 reveal">
@@ -800,7 +715,6 @@
                     すきなこと / したいこと
                 </h2>
                 <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Card 1: What I can do -->
                     <div class="game-card p-8">
                         <h3 class="text-3xl font-bold text-slate-100 mb-4">すきなこと</h3>
                         <div class="space-y-4">
@@ -814,7 +728,6 @@
                             </a>
                         </div>
                     </div>
-                    <!-- Card 2: What I want to do -->
                     <div class="game-card p-8">
                         <h3 class="text-3xl font-bold text-slate-100 mb-4">したいこと</h3>
                         <div class="space-y-4">
@@ -852,11 +765,6 @@
                             <svg class="w-10 h-10 text-cyan-400 group-hover:text-slate-900 transition-colors" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                         </div>
                     </a>
-                    <!-- <a href="mailto:akihidemikami.eng@gmail.com" target="_blank" class="group">
-                        <div class="w-20 h-20 rounded-full bg-cyan-400/10 flex items-center justify-center border-2 border-cyan-400/30 transition-all group-hover:bg-cyan-400 group-hover:border-cyan-400 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-cyan-400/50">
-                            <svg class="w-10 h-10 text-cyan-400 group-hover:text-slate-900 transition-colors" viewBox="0 0 24 24" fill="currentColor"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/></svg>
-                        </div>
-                    </a> -->
                 </div>
             </section>
         </div>
@@ -872,20 +780,18 @@
         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
     </a>
     
-    <!-- Modal -->
     <div id="modal-overlay" class="modal-overlay">
         <div id="modal-container" class="modal-container">
             <button id="modal-close-btn" class="modal-close-btn">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
             <div id="modal-content">
-                <!-- Content will be injected here -->
-            </div>
+                </div>
         </div>
     </div>
 
-    <!-- Modal Content Placeholders (hidden) -->
     <div class="hidden">
+
         <div id="modal-content-project-streamerio">
             <img src="./images/streamerio_title.png" alt="Streamerio" class="w-full h-64 object-cover mb-6 rounded-lg">
             <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
@@ -900,7 +806,6 @@
                 <div><p class="text-sm text-slate-400">チーム</p><p class="font-bold text-lg text-slate-200">5名</p></div>
                 <div><p class="text-sm text-slate-400">期間</p><p class="font-bold text-lg text-slate-200">1週間 (継続開発中)</p></div>
             </div>
-            
             <div class="space-y-6 text-left">
                 <div>
                     <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
@@ -909,7 +814,6 @@
                     </h4>
                     <p class="text-slate-300 leading-relaxed pl-8">2025年9月開催の「第三回 58ハッカソン」にて1週間で制作。「配信者と視聴者が一体となって熱狂できる体験」を創りたいという思いからこのプロジェクトは始まり、単なるゲームではなく、ライブ配信そのものを遊び場に変える挑戦</p>
                 </div>
-
                 <div>
                     <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
@@ -917,7 +821,6 @@
                     </h4>
                     <p class="text-slate-300 leading-relaxed pl-8">私の信念は「優れたコードは、未来のチームメイトへの最高のコミュニケーションツールになる」ということです。この考えに基づき、本作ではDIコンテナとしてVContainerを初めて導入。これは、将来の機能追加や仕様変更に柔軟に対応できる拡張性の高い構造を、チームの共通言語として実装するためでした。非同期処理にUniTaskやR3を採用したのも、複雑な処理を誰もが読みやすく、メンテナンスしやすい形で記述するためです。技術選定は、常にチームの未来を見据えた投資であると考えています。</p>
                 </div>
-
                 <div>
                     <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283-.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
@@ -926,12 +829,12 @@
                     <p class="text-slate-300 leading-relaxed pl-8">即席チームのポテンシャルを最大限引き出すため、リーダーとして「心理的安全性」の高い環境構築を主導しました。Discordに思考を垂れ流せるtimesチャンネルを設け、週2回の進捗会では課題を早期に共有。特に最終日の現地開発2日間では、4〜6時間ごとに進捗確認会を実施し、全員のタスク状況とコードフリーズまでの工数を常に共有しました。この細やかな軌道修正により、ハッカソン終盤でも焦ることなく、全員でゲームを楽しみながらデバッグするほどの余裕が生まれました。風通しの良い対話こそが、最終的なゲームのクオリティに直結すると確信しています。</p>
                 </div>
             </div>
-
              <div class="mt-8 flex gap-4">
                 <a href="https://github.com/kdix-23-240/Streamerio" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all">{ } GitHubでソースを見る</a>
                 <a href="https://topaz.dev/projects/2d89f0599342e4151ae1" target="_blank" class="px-4 py-2 border border-green-400 text-green-400 font-bold rounded-lg hover:bg-green-400 hover:text-slate-900 transition-all">Topa'z</a>
             </div>
         </div>
+        
         <div id="modal-content-project-yubisoccer">
             <img src="./images/yubisoccer_title.png" alt="YubiSoccer" class="w-full h-64 object-cover mb-6 rounded-lg">
              <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
@@ -947,7 +850,7 @@
                 <div><p class="text-sm text-slate-400">期間</p><p class="font-bold text-lg text-slate-200">2日間+ (現在継続開発中)</p></div>
             </div>
             <div class="space-y-6 text-left">
-                <div>
+                 <div>
                     <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
                         コンセプト：『スマホ一台で、指がサッカー選手になる』
@@ -974,49 +877,50 @@
                 <a href="https://github.com/naka6ryo/Yubi-Soccer-ver.2.0" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all">{ } GitHubでソースを見る</a>
             </div>
         </div>
-
-        <div id="modal-content-project-eiinmado">
-            <img src="./images/eiinmado_title.png" alt="詠印魔導" class="w-full h-64 object-cover mb-6 rounded-lg">
+        
+        <div id="modal-content-project-gricon">
+            <img src="./images/gricon_title.png" alt="GriCon" class="w-full h-64 object-cover mb-6 rounded-lg">
              <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
-                <h3 class="text-4xl font-black text-slate-100">詠印魔導</h3>
+                <h3 class="text-4xl font-black text-slate-100">GriCon</h3>
                 <div class="shrink-0 text-sm font-bold text-purple-300 bg-purple-500/20 border border-purple-400/50 rounded-full px-4 py-1">
-                    🏆 テックシーカー TEQS賞 受賞
+                    🏆 技育博2025 vol.3 株式会社WingArc1st賞 受賞
                 </div>
             </div>
-            <p class="text-lg text-cyan-400 mb-6">“詠唱して、振って、撃ち抜け。” 声の呪文と手のジェスチャーで魔法を発動する、リアル×デジタルの対戦アクション。</p>
+            <p class="text-lg text-cyan-400 mb-6">ゼロボタンコントローラー & イライラ棒ゲーム</p>
              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-8">
-                <div><p class="text-sm text-slate-400">役割</p><p class="font-bold text-lg text-slate-200">企画, 設計, マネジメント, リードUnityエンジニア</p></div>
-                <div><p class="text-sm text-slate-400">チーム</p><p class="font-bold text-lg text-slate-200">4名 (ハードウェア1名, ソフトウェア3名)</p></div>
-                <div><p class="text-sm text-slate-400">期間</p><p class="font-bold text-lg text-slate-200">2ヶ月</p></div>
+                <div><p class="text-sm text-slate-400">役割</p><p class="font-bold text-lg text-slate-200">企画, ディレクター, ソフトウェアエンジニア</p></div>
+                <div><p class="text-sm text-slate-400">チーム</p><p class="font-bold text-lg text-slate-200">2名 (ハードウェア1名, ソフトウェア1名)</p></div>
+                <div><p class="text-sm text-slate-400">期間</p><p class="font-bold text-lg text-slate-200">1ヶ月 (開発) + 1ヶ月 (ブラッシュアップ)</p></div>
             </div>
             <div class="space-y-6 text-left">
                 <div>
                     <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
-                        コンセプト：『“中二心、解放” 詠唱×ジェスチャーの魔法対戦』
+                        コンセプト：『文字をなくし、感覚で遊ぶコントローラー』
                     </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">声で詠唱し、手の一振りで“魔法”を撃つ、新感覚の対戦アクションです。右手のリング型デバイスがジェスチャーを検知し、スクリーンに魔法が走ります。「“詠唱して、振って、撃ち抜け。”」をテーマに、誰もが持つ「中二心」を解放する、リアルとデジタルが融合した魔法体験を追求しました。</p>
+                    <p class="text-slate-300 leading-relaxed pl-8">「ボタンが少ない方が初心者でも楽しめる」という仮説から、究極の「ゼロボタンコントローラー」を考案。握る、動かす、傾ける、振るという4つの直感的なアクションのみで操作できるハードウェアと、それ専用のイライラ棒ゲームを開発しました。文字を一切排除することで、言語や年齢の壁を超え、誰もが説明なしに楽しめる普遍的なゲーム体験を目指しました。</p>
                 </div>
                  <div>
                     <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                        UX設計：『五感で“撃つ”新感覚インターフェース』
+                        UX設計：『直感への徹底的なこだわり』
                     </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">魔法体験への没入感を高めるため、複数の技術を融合。「詠唱 × ジェスチャー」では、呪文の詠唱で攻撃/防御力が決まり、リングデバイスのジェスチャーで魔法を発動。さらに「アナグリフ表示」を採用し、赤・緑のフィルターメガネで同じスクリーンを見ながら互いに異なる情報を表示させます。被弾時にはコントローラが震える「ハプティクス」も実装し、ダメージを“触覚”でも実感できる設計にこだわりました。</p>
+                    <p class="text-slate-300 leading-relaxed pl-8">文字情報に頼らず、動作だけでゲームの面白さが伝わるよう、UI/UX設計には徹底的にこだわりました。ステージ選択やリザルト画面から文字をなくし、傾きと握りのアクションだけで全ての操作を完結させました。この「究極の直感性」を追求した結果、初めて触れる人でもすぐに夢中になれる、GriConの面白さを最大限に引き出すイライラ棒ゲームが誕生しました。</p>
                 </div>
                 <div>
                     <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21v-1a6 6 0 00-5.173-5.973" /></svg>
-                        チームの挑戦：『ハードとソフトを繋ぐ2ヶ月の開発』
+                        チームの挑戦：『ハードとソフトを繋ぐ開拓精神』
                     </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">企画・設計・マネジメント兼リードUnityエンジニアとして、2ヶ月でハードとソフトを連携させることが最大の挑戦でした。ハード担当1名・ソフト担当3名の構成で、リング型デバイスや足元センサー等の独自入力装置とゲームロジックを密に連携。声とジェスチャーというアナログな入力を、デジタルの魔法として破綻なく表現するために、チームで高速なイテレーションを繰り返しました。</p>
+                    <p class="text-slate-300 leading-relaxed pl-8">複数大学コラボハッカソンにおいて、ハードウェア担当との2名体制で開発。「握る・傾ける」という独自の入力デバイスに合わせてゲーム体験を設計するという、新たな挑戦でした。企画・ディレクションからソフトウェア実装、演出指示まで幅広く担当し、ハードウェアと密接に連携しながら、前例のないコントローラーとゲームの融合を実現。1ヶ月の開発期間と、技育博出展に向けた1ヶ月のブラッシュアップ期間を経て、この革新的なプロジェクトを完成させました。</p>
                 </div>
             </div>
              <div class="mt-8 flex gap-4 flex-wrap">
-                <a href="https://www.youtube.com/watch?v=9MgPosLRifY" target="_blank" class="px-4 py-2 bg-cyan-400 text-slate-900 font-bold rounded-lg hover:bg-cyan-300 transition-transform hover:scale-105">▶ 動画を視聴</a>
-                <a href="https://github.com/kdix-23-240/Eiinmado/tree/hard-controller-connection" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all">{ } GitHubでソースを見る</a>
+                <a href="https://www.youtube.com/watch?v=EZxbcKHtADs" target="_blank" class="px-4 py-2 bg-cyan-400 text-slate-900 font-bold rounded-lg hover:bg-cyan-300 transition-transform hover:scale-105">▶ 動画を視聴</a>
+                <a href="https://github.com/kdix-23-240/GriCon?tab=readme-ov-file" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all">{ } GitHubでソースを見る</a>
             </div>
         </div>
+        
         <div id="modal-content-project-kanscream">
             <img src="./images/kanscream_title.png" alt="KANSCREAM" class="w-full h-64 object-cover mb-6 rounded-lg">
              <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
@@ -1062,48 +966,160 @@
                 <a href="https://qiita.com/nut_nuts_nut/items/a7f6cf3cc2211835e938" target="_blank" class="px-4 py-2 border border-purple-400 text-purple-400 font-bold rounded-lg hover:bg-purple-400 hover:text-slate-900 transition-all">QiitaでUX設計の裏側を見る</a>
             </div>
         </div>
-        <div id="modal-content-project-gricon">
-            <img src="./images/gricon_title.png" alt="GriCon" class="w-full h-64 object-cover mb-6 rounded-lg">
+
+        <div id="modal-content-project-eiinmado">
+            <img src="./images/eiinmado_title.png" alt="詠印魔導" class="w-full h-64 object-cover mb-6 rounded-lg">
              <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
-                <h3 class="text-4xl font-black text-slate-100">GriCon</h3>
+                <h3 class="text-4xl font-black text-slate-100">詠印魔導</h3>
                 <div class="shrink-0 text-sm font-bold text-purple-300 bg-purple-500/20 border border-purple-400/50 rounded-full px-4 py-1">
-                    🏆 技育博2025 vol.3 株式会社WingArc1st賞 受賞
+                    🏆 テックシーカー TEQS賞 受賞
                 </div>
             </div>
-            <p class="text-lg text-cyan-400 mb-6">ゼロボタンコントローラー & イライラ棒ゲーム</p>
+            <p class="text-lg text-cyan-400 mb-6">“詠唱して、振って、撃ち抜け。” 声の呪文と手のジェスチャーで魔法を発動する、リアル×デジタルの対戦アクション。</p>
              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-8">
-                <div><p class="text-sm text-slate-400">役割</p><p class="font-bold text-lg text-slate-200">企画, ディレクター, ソフトウェアエンジニア</p></div>
-                <div><p class="text-sm text-slate-400">チーム</p><p class="font-bold text-lg text-slate-200">2名 (ハードウェア1名, ソフトウェア1名)</p></div>
-                <div><p class="text-sm text-slate-400">期間</p><p class="font-bold text-lg text-slate-200">1ヶ月 (開発) + 1ヶ月 (ブラッシュアップ)</p></div>
+                <div><p class="text-sm text-slate-400">役割</p><p class="font-bold text-lg text-slate-200">企画, 設計, マネジメント, リードUnityエンジニア</p></div>
+                <div><p class="text-sm text-slate-400">チーム</p><p class="font-bold text-lg text-slate-200">4名 (ハードウェア1名, ソフトウェア3名)</p></div>
+                <div><p class="text-sm text-slate-400">期間</p><p class="font-bold text-lg text-slate-200">2ヶ月</p></div>
             </div>
             <div class="space-y-6 text-left">
                 <div>
                     <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
-                        コンセプト：『文字をなくし、感覚で遊ぶコントローラー』
+                        コンセプト：『“中二心、解放” 詠唱×ジェスチャーの魔法対戦』
                     </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">「ボタンが少ない方が初心者でも楽しめる」という仮説から、究極の「ゼロボタンコントローラー」を考案。握る、動かす、傾ける、振るという4つの直感的なアクションのみで操作できるハードウェアと、それ専用のイライラ棒ゲームを開発しました。文字を一切排除することで、言語や年齢の壁を超え、誰もが説明なしに楽しめる普遍的なゲーム体験を目指しました。</p>
+                    <p class="text-slate-300 leading-relaxed pl-8">声で詠唱し、手の一振りで“魔法”を撃つ、新感覚の対戦アクションです。右手のリング型デバイスがジェスチャーを検知し、スクリーンに魔法が走ります。「“詠唱して、振って、撃ち抜け。”」をテーマに、誰もが持つ「中二心」を解放する、リアルとデジタルが融合した魔法体験を追求しました。</p>
                 </div>
                  <div>
                     <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                        UX設計：『直感への徹底的なこだわり』
+                        UX設計：『五感で“撃つ”新感覚インターフェース』
                     </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">文字情報に頼らず、動作だけでゲームの面白さが伝わるよう、UI/UX設計には徹底的にこだわりました。ステージ選択やリザルト画面から文字をなくし、傾きと握りのアクションだけで全ての操作を完結させました。この「究極の直感性」を追求した結果、初めて触れる人でもすぐに夢中になれる、GriConの面白さを最大限に引き出すイライラ棒ゲームが誕生しました。</p>
+                    <p class="text-slate-300 leading-relaxed pl-8">魔法体験への没入感を高めるため、複数の技術を融合。「詠唱 × ジェスチャー」では、呪文の詠唱で攻撃/防御力が決まり、リングデバイスのジェスチャーで魔法を発動。さらに「アナグリフ表示」を採用し、赤・緑のフィルターメガネで同じスクリーンを見ながら互いに異なる情報を表示させます。被弾時にはコントローラが震える「ハプティクス」も実装し、ダメージを“触覚”でも実感できる設計にこだわりました。</p>
                 </div>
                 <div>
                     <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21v-1a6 6 0 00-5.173-5.973" /></svg>
-                        チームの挑戦：『ハードとソフトを繋ぐ開拓精神』
+                        チームの挑戦：『ハードとソフトを繋ぐ2ヶ月の開発』
                     </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">複数大学コラボハッカソンにおいて、ハードウェア担当との2名体制で開発。「握る・傾ける」という独自の入力デバイスに合わせてゲーム体験を設計するという、新たな挑戦でした。企画・ディレクションからソフトウェア実装、演出指示まで幅広く担当し、ハードウェアと密接に連携しながら、前例のないコントローラーとゲームの融合を実現。1ヶ月の開発期間と、技育博出展に向けた1ヶ月のブラッシュアップ期間を経て、この革新的なプロジェクトを完成させました。</p>
+                    <p class="text-slate-300 leading-relaxed pl-8">企画・設計・マネジメント兼リードUnityエンジニアとして、2ヶ月でハードとソフトを連携させることが最大の挑戦でした。ハード担当1名・ソフト担当3名の構成で、リング型デバイスや足元センサー等の独自入力装置とゲームロジックを密に連携。声とジェスチャーというアナログな入力を、デジタルの魔法として破綻なく表現するために、チームで高速なイテレーションを繰り返しました。</p>
                 </div>
             </div>
              <div class="mt-8 flex gap-4 flex-wrap">
-                <a href="https://www.youtube.com/watch?v=EZxbcKHtADs" target="_blank" class="px-4 py-2 bg-cyan-400 text-slate-900 font-bold rounded-lg hover:bg-cyan-300 transition-transform hover:scale-105">▶ 動画を視聴</a>
-                <a href="https://github.com/kdix-23-240/GriCon?tab=readme-ov-file" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all">{ } GitHubでソースを見る</a>
+                <a href="https://www.youtube.com/watch?v=9MgPosLRifY" target="_blank" class="px-4 py-2 bg-cyan-400 text-slate-900 font-bold rounded-lg hover:bg-cyan-300 transition-transform hover:scale-105">▶ 動画を視聴</a>
+                <a href="https://github.com/kdix-23-240/Eiinmado/tree/hard-controller-connection" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all">{ } GitHubでソースを見る</a>
             </div>
         </div>
+
+        <div id="modal-content-project-ema">
+            <img src="./images/ema_title.jpg" alt="E-ma" class="w-full h-64 object-cover mb-6 rounded-lg">
+            <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
+                <h3 class="text-4xl font-black text-slate-100">E-ma</h3>
+                <div class="shrink-0 text-sm font-bold text-green-300 bg-green-500/20 border border-green-400/50 rounded-full px-4 py-1">
+                    🌟 初の一般公開作品
+                </div>
+            </div>
+            <p class="text-lg text-cyan-400 mb-6">お寺を彩る、インタラクティブなデジタル絵馬アトラクション</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-8">
+                <div><p class="text-sm text-slate-400">役割</p><p class="font-bold text-lg text-slate-200">企画, Unityサイド全て</p></div>
+                <div><p class="text-sm text-slate-400">チーム</p><p class="font-bold text-lg text-slate-200">3名</p></div>
+                <div><p class="text-sm text-slate-400">期間</p><p class="font-bold text-lg text-slate-200">2025/2〜2025/5</p></div>
+            </div>
+            <div class="space-y-6 text-left">
+                <div>
+                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                        コンセプト：『お寺に息づく、新しい祈りの形』
+                    </h4>
+                    <p class="text-slate-300 leading-relaxed pl-8">大阪市内の正福寺というお寺のお堂をお借りし、体験型プロジェクションマッピングを実施。参拝者が願い事を書いた絵馬をかざすと、プロジェクションマッピングと連動して華やかな演出が繰り広げられる、伝統と最新技術が融合した新しい祈りの体験を提供しました。</p>
+                </div>
+                <div>
+                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        高速開発：『短期集中での挑戦』
+                    </h4>
+                    <p class="text-slate-300 leading-relaxed pl-8">他大学の学生からの声がけで参加することになった本プロジェクト。かなり短い期間で企画から開発、実施まで行う必要があり、メンバー募集でも技術的についてこられる人が限られるという大きな壁に何度も直面しました。しかし、最終的には成功させることができ、自身初の一般公開作品となりました。</p>
+                </div>
+            </div>
+            <div class="mt-8 flex gap-4 flex-wrap">
+                <a href="https://www.youtube.com/watch?v=AXuaWGYiIFM" target="_blank" class="px-4 py-2 bg-cyan-400 text-slate-900 font-bold rounded-lg hover:bg-cyan-300 transition-transform hover:scale-105">▶ 動画を視聴</a>
+                <a href="https://github.com/momoyama-tech/e-ma-unity" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all">{ } GitHubでソースを見る</a>
+                <a href="https://pinnate-smash-23b.notion.site/E-ma-19efe465481f804e9a28cbca9379be98" target="_blank" class="px-4 py-2 border border-blue-400 text-blue-400 font-bold rounded-lg hover:bg-blue-400 hover:text-slate-900 transition-all">Notion</a>
+            </div>
+        </div>
+
+        <div id="modal-content-project-kami">
+            <img src="./images/kami_title.jpg" alt="神は人々の命を落とさない" class="w-full h-64 object-cover mb-6 rounded-lg">
+            <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
+                <h3 class="text-4xl font-black text-slate-100">神は人々の命を落とさない</h3>
+                <div class="shrink-0 text-sm font-bold text-pink-300 bg-pink-500/20 border border-pink-400/50 rounded-full px-4 py-1">
+                    🏆 株式会社GONENGO賞 受賞
+                </div>
+                <div class="shrink-0 text-sm font-bold text-purple-300 bg-purple-500/20 border border-purple-400/50 rounded-full px-4 py-1">
+                    🏆 株式会社スタディスト賞 受賞
+                </div>
+            </div>
+            <p class="text-lg text-cyan-400 mb-6">「いのち」を拾い集める24時間ソロ開発アクション</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-8">
+                <div><p class="text-sm text-slate-400">役割</p><p class="font-bold text-lg text-slate-200">ソロエンジニア</p></div>
+                <div><p class="text-sm text-slate-400">チーム</p><p class="font-bold text-lg text-slate-200">1名</p></div>
+                <div><p class="text-sm text-slate-400">期間</p><p class="font-bold text-lg text-slate-200">24時間</p></div>
+            </div>
+            <div class="space-y-6 text-left">
+                <div>
+                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                        コンセプト：『24時間でクラス設計と遊びを両立』
+                    </h4>
+                    <p class="text-slate-300 leading-relaxed pl-8">第二回58ハッカソンにて、急遽ソロ開発となった24時間で制作。限られた時間の中で、自身のこだわりである「優れたクラス設計」を最優先し、遊びやすさと技術的基盤の両立を目指しました。降ってくる「命」は、ハッカソン運営や参加者に「いのちをください」と言って描いてもらった絵を使用しています。</p>
+                </div>
+                <div>
+                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+                        設計思想：『限られた時間でも妥協しない品質』
+                    </h4>
+                    <p class="text-slate-300 leading-relaxed pl-8">24時間という制約の中でも設計思想をふんだんに盛り込みました。MVPアーキテクチャ、Observer、Strategy、ObjectPool、Singleton、SOLID原則など、将来的な拡張性と保守性を見据えた設計パターンを適用。短時間開発でも技術的妥協をしない姿勢を貫きました。</p>
+                </div>
+            </div>
+            <div class="mt-8 flex gap-4 flex-wrap">
+                <a href="https://topaz.dev/projects/7d04bf96e7ef603b1b45" target="_blank" class="px-4 py-2 border border-green-400 text-green-400 font-bold rounded-lg hover:bg-green-400 hover:text-slate-900 transition-all">Topa'z</a>
+            </div>
+        </div>
+
+        <div id="modal-content-project-capybara">
+            <img src="./images/capybara_title.jpg" alt="カピバラゲーム" class="w-full h-64 object-cover mb-6 rounded-lg">
+            <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
+                <h3 class="text-4xl font-black text-slate-100">カピバラゲーム</h3>
+                <div class="shrink-0 text-sm font-bold text-yellow-300 bg-yellow-500/20 border border-yellow-400/50 rounded-full px-4 py-1">
+                    ✨ 子どもたちの夢を実現
+                </div>
+            </div>
+            <p class="text-lg text-cyan-400 mb-6">小学生の夢を叶える、カピバラランゲーム</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-8">
+                <div><p class="text-sm text-slate-400">役割</p><p class="font-bold text-lg text-slate-200">プランナー, リーダー, リードエンジニア</p></div>
+                <div><p class="text-sm text-slate-400">チーム</p><p class="font-bold text-lg text-slate-200">3名</p></div>
+                <div><p class="text-sm text-slate-400">期間</p><p class="font-bold text-lg text-slate-200">2日間</p></div>
+            </div>
+            <div class="space-y-6 text-left">
+                <div>
+                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                        コンセプト：『子どもたちの「遊びたい」を形に』
+                    </h4>
+                    <p class="text-slate-300 leading-relaxed pl-8">小学生向けプログラミング教室で、参加してくれた子からの「カピバラのゲームを作ってほしい！」というリクエストに応えて2日間で制作したランゲーム。技術的な挑戦や工夫は特にありませんが、完成したゲームを後日その子に遊んでもらったとき、とても喜んでくれて心から嬉しく思えた作品です。</p>
+                </div>
+                <div>
+                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283-.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                        チーム体制：『小さなチームでの迅速な開発』
+                    </h4>
+                    <p class="text-slate-300 leading-relaxed pl-8">ゲームクライアントエンジニア2人、アート1人の3名体制で開発。私はプランナー、リーダー、リードゲームクライアントエンジニアを担当しました。短期間での開発でしたが、子どもたちの純粋な喜びを目の当たりにし、ゲーム制作の本質的な価値を改めて感じることができました。</p>
+                </div>
+            </div>
+            <div class="mt-8 flex gap-4 flex-wrap">
+                <a href="https://unityroom.com/games/capybaragame" target="_blank" class="px-4 py-2 border border-red-400 text-red-400 font-bold rounded-lg hover:bg-red-400 hover:text-slate-900 transition-all">unityroom でプレイ</a>
+            </div>
+        </div>
+
         <div id="modal-content-project-magrat">
             <img src="https://placehold.co/800x400/94a3b8/0f172a?text=MAGRAT" alt="MAGRAT" class="w-full h-64 object-cover mb-6 rounded-lg">
             <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
@@ -1142,197 +1158,48 @@
                 </div>
             </div>
         </div>
-        <div id="modal-content-project-ema">
-            <img src="./images/ema_title.jpg" alt="E-ma" class="w-full h-64 object-cover mb-6 rounded-lg">
-            <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
-                <h3 class="text-4xl font-black text-slate-100">E-ma</h3>
-                <div class="shrink-0 text-sm font-bold text-green-300 bg-green-500/20 border border-green-400/50 rounded-full px-4 py-1">
-                    🌟 初の一般公開作品
-                </div>
-            </div>
-            <p class="text-lg text-cyan-400 mb-6">お寺を彩る、インタラクティブなデジタル絵馬アトラクション</p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-8">
-                <div><p class="text-sm text-slate-400">役割</p><p class="font-bold text-lg text-slate-200">企画, Unityサイド全て</p></div>
-                <div><p class="text-sm text-slate-400">チーム</p><p class="font-bold text-lg text-slate-200">3名</p></div>
-                <div><p class="text-sm text-slate-400">期間</p><p class="font-bold text-lg text-slate-200">2025/2〜2025/5</p></div>
-            </div>
-            <div class="space-y-6 text-left">
-                <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
-                        コンセプト：『お寺に息づく、新しい祈りの形』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">大阪市内の正福寺というお寺のお堂をお借りし、体験型プロジェクションマッピングを実施。参拝者が願い事を書いた絵馬をかざすと、プロジェクションマッピングと連動して華やかな演出が繰り広げられる、伝統と最新技術が融合した新しい祈りの体験を提供しました。</p>
-                </div>
-                <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                        高速開発：『短期集中での挑戦』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">他大学の学生からの声がけで参加することになった本プロジェクト。かなり短い期間で企画から開発、実施まで行う必要があり、メンバー募集でも技術的についてこられる人が限られるという大きな壁に何度も直面しました。しかし、最終的には成功させることができ、自身初の一般公開作品となりました。</p>
-                </div>
-            </div>
-            <div class="mt-8 flex gap-4 flex-wrap">
-                <a href="https://www.youtube.com/watch?v=AXuaWGYiIFM" target="_blank" class="px-4 py-2 bg-cyan-400 text-slate-900 font-bold rounded-lg hover:bg-cyan-300 transition-transform hover:scale-105">▶ 動画を視聴</a>
-                <a href="https://github.com/momoyama-tech/e-ma-unity" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all">{ } GitHubでソースを見る</a>
-                <a href="https://pinnate-smash-23b.notion.site/E-ma-19efe465481f804e9a28cbca9379be98" target="_blank" class="px-4 py-2 border border-blue-400 text-blue-400 font-bold rounded-lg hover:bg-blue-400 hover:text-slate-900 transition-all">Notion</a>
-            </div>
-        </div>
-        <div id="modal-content-project-kami">
-            <img src="./images/kami_title.jpg" alt="神は人々の命を落とさない" class="w-full h-64 object-cover mb-6 rounded-lg">
-            <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
-                <h3 class="text-4xl font-black text-slate-100">神は人々の命を落とさない</h3>
-                <div class="shrink-0 text-sm font-bold text-pink-300 bg-pink-500/20 border border-pink-400/50 rounded-full px-4 py-1">
-                    🏆 株式会社GONENGO賞 受賞
-                </div>
-                <div class="shrink-0 text-sm font-bold text-purple-300 bg-purple-500/20 border border-purple-400/50 rounded-full px-4 py-1">
-                    🏆 株式会社スタディスト賞 受賞
-                </div>
-            </div>
-            <p class="text-lg text-cyan-400 mb-6">「いのち」を拾い集める24時間ソロ開発アクション</p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-8">
-                <div><p class="text-sm text-slate-400">役割</p><p class="font-bold text-lg text-slate-200">ソロエンジニア</p></div>
-                <div><p class="text-sm text-slate-400">チーム</p><p class="font-bold text-lg text-slate-200">1名</p></div>
-                <div><p class="text-sm text-slate-400">期間</p><p class="font-bold text-lg text-slate-200">24時間</p></div>
-            </div>
-            <div class="space-y-6 text-left">
-                <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                        コンセプト：『24時間でクラス設計と遊びを両立』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">第二回58ハッカソンにて、急遽ソロ開発となった24時間で制作。限られた時間の中で、自身のこだわりである「優れたクラス設計」を最優先し、遊びやすさと技術的基盤の両立を目指しました。降ってくる「命」は、ハッカソン運営や参加者に「いのちをください」と言って描いてもらった絵を使用しています。</p>
-                </div>
-                <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
-                        設計思想：『限られた時間でも妥協しない品質』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">24時間という制約の中でも設計思想をふんだんに盛り込みました。MVPアーキテクチャ、Observer、Strategy、ObjectPool、Singleton、SOLID原則など、将来的な拡張性と保守性を見据えた設計パターンを適用。短時間開発でも技術的妥協をしない姿勢を貫きました。</p>
-                </div>
-            </div>
-            <div class="mt-8 flex gap-4 flex-wrap">
-                <a href="https://topaz.dev/projects/7d04bf96e7ef603b1b45" target="_blank" class="px-4 py-2 border border-green-400 text-green-400 font-bold rounded-lg hover:bg-green-400 hover:text-slate-900 transition-all">Topa'z</a>
-            </div>
-        </div>
-        <div id="modal-content-project-capybara">
-            <img src="./images/capybara_title.jpg" alt="カピバラゲーム" class="w-full h-64 object-cover mb-6 rounded-lg">
-            <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
-                <h3 class="text-4xl font-black text-slate-100">カピバラゲーム</h3>
-                <div class="shrink-0 text-sm font-bold text-yellow-300 bg-yellow-500/20 border border-yellow-400/50 rounded-full px-4 py-1">
-                    ✨ 子どもたちの夢を実現
-                </div>
-            </div>
-            <p class="text-lg text-cyan-400 mb-6">小学生の夢を叶える、カピバラランゲーム</p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-8">
-                <div><p class="text-sm text-slate-400">役割</p><p class="font-bold text-lg text-slate-200">プランナー, リーダー, リードエンジニア</p></div>
-                <div><p class="text-sm text-slate-400">チーム</p><p class="font-bold text-lg text-slate-200">3名</p></div>
-                <div><p class="text-sm text-slate-400">期間</p><p class="font-bold text-lg text-slate-200">2日間</p></div>
-            </div>
-            <div class="space-y-6 text-left">
-                <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
-                        コンセプト：『子どもたちの「遊びたい」を形に』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">小学生向けプログラミング教室で、参加してくれた子からの「カピバラのゲームを作ってほしい！」というリクエストに応えて2日間で制作したランゲーム。技術的な挑戦や工夫は特にありませんが、完成したゲームを後日その子に遊んでもらったとき、とても喜んでくれて心から嬉しく思えた作品です。</p>
-                </div>
-                <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283-.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                        チーム体制：『小さなチームでの迅速な開発』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">ゲームクライアントエンジニア2人、アート1人の3名体制で開発。私はプランナー、リーダー、リードゲームクライアントエンジニアを担当しました。短期間での開発でしたが、子どもたちの純粋な喜びを目の当たりにし、ゲーム制作の本質的な価値を改めて感じることができました。</p>
-                </div>
-            </div>
-            <div class="mt-8 flex gap-4 flex-wrap">
-                <a href="https://unityroom.com/games/capybaragame" target="_blank" class="px-4 py-2 border border-red-400 text-red-400 font-bold rounded-lg hover:bg-red-400 hover:text-slate-900 transition-all">unityroom でプレイ</a>
-            </div>
-        </div>
-        <div id="modal-content-project-others">
-            <img src="https://placehold.co/800x400/6366f1/f8fafc?text=Others" alt="その他" class="w-full h-64 object-cover mb-6 rounded-lg">
-            <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
-                <h3 class="text-4xl font-black text-slate-100">その他</h3>
-                <div class="shrink-0 text-sm font-bold text-indigo-300 bg-indigo-500/20 border border-indigo-400/50 rounded-full px-4 py-1">
-                    🔬 実験・練習作品集
-                </div>
-            </div>
-            <p class="text-lg text-cyan-400 mb-6">小さな挑戦と実験から生まれた、技術習得とアイデア検証のためのミニゲーム集</p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-8">
-                <div><p class="text-sm text-slate-400">役割</p><p class="font-bold text-lg text-slate-200">ソロ開発・実験</p></div>
-                <div><p class="text-sm text-slate-400">作品数</p><p class="font-bold text-lg text-slate-200">複数作品</p></div>
-                <div><p class="text-sm text-slate-400">期間</p><p class="font-bold text-lg text-slate-200">継続的</p></div>
-            </div>
-            
-            <div class="space-y-8 text-left">
-                <div class="border-l-4 border-indigo-400/50 pl-6">
-                    <h4 class="text-2xl font-bold text-indigo-300 mb-3">収録予定作品</h4>
-                    <p class="text-slate-300 mb-4">技術習得、アイデア検証、短時間開発の練習として制作した小規模なゲームたちです。</p>
-                    
-                    <!-- ここに個別のゲーム情報を追加できます -->
-                    <div class="grid gap-4 mt-6">
-                        <div class="bg-slate-800/30 rounded-lg p-4 border border-slate-700/50">
-                            <div class="flex items-start justify-between mb-2">
-                                <h5 class="text-lg font-bold text-slate-100">ゲームタイトル例</h5>
-                                <span class="text-xs text-indigo-300 bg-indigo-500/20 px-2 py-1 rounded-full">Unity</span>
-                            </div>
-                            <p class="text-sm text-cyan-400 mb-2">キャッチコピー例</p>
-                            <p class="text-sm text-slate-400">ゲームの簡単な説明がここに入ります。技術的な実験内容や制作背景などを記載。</p>
-                        </div>
-                        
-                        <!-- 追加のゲームカード用テンプレート -->
-                        <div class="bg-slate-800/30 rounded-lg p-4 border border-slate-700/50 opacity-50">
-                            <div class="flex items-start justify-between mb-2">
-                                <h5 class="text-lg font-bold text-slate-100">準備中...</h5>
-                                <span class="text-xs text-gray-400 bg-gray-500/20 px-2 py-1 rounded-full">Coming Soon</span>
-                            </div>
-                            <p class="text-sm text-slate-400">他の小作品も順次追加予定です</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         <div id="modal-content-activity-hackathons">
-            <h3 class="text-4xl font-black text-slate-100 mb-2">ハッカソン実績</h3>
-            <p class="text-lg text-cyan-400 mb-6">短期間でのチーム開発とアウトプットに挑戦し、数々の賞をいただきました。</p>
-            <div class="mt-6">
-                <h4 class="text-2xl font-bold text-cyan-300 mb-4 border-b-2 border-cyan-400/50 pb-2">受賞実績</h4>
-                <div class="space-y-4">
-                    <div><p class="font-bold text-slate-100 text-lg">JPHacks2025</p><p class="text-sm text-pink-300 font-semibold">Hack Day Audience Award 受賞</p></div>
-                    <div><p class="font-bold text-slate-100 text-lg">技育博2025 vol.1</p><p class="text-sm text-pink-300 font-semibold">株式会社ゆめみ賞 受賞</p></div>
-                    <div><p class="font-bold text-slate-100 text-lg">技育博2025 vol.3</p><p class="text-sm text-pink-300 font-semibold">株式会社WingArc1st賞 受賞</p></div>
-                    <div><p class="font-bold text-slate-100 text-lg">第二回 58ハッカソン</p><p class="text-sm text-purple-300 font-semibold">株式会社GONENGO賞・株式会社スタディスト賞 W受賞</p></div>
-                    <div><p class="font-bold text-slate-100 text-lg">第三回 58ハッカソン</p><p class="text-sm text-purple-300 font-semibold">株式会社スーパーハムスター！賞 受賞</p></div>
-                    <div><p class="font-bold text-slate-100 text-lg">テックシーカー</p><p class="text-sm text-purple-300 font-semibold">TEQS(会場)賞 受賞</p></div>
-                    <div><p class="font-bold text-slate-100 text-lg">KC3Hack2025</p><p class="text-sm text-purple-300 font-semibold">デザイン賞 受賞</p></div>
-                </div>
-            </div>
-            <div class="mt-8">
-                <h4 class="text-2xl font-bold text-cyan-300 mb-4 border-b-2 border-cyan-400/50 pb-2">参加実績</h4>
-                <ul class="list-disc list-inside text-slate-300 space-y-2">
-                    <li>SPAJAM</li><li>JPHacks2024</li><li>第一回 58ハッカソン</li><li>XRHackathon</li><li>複数大学コラボハッカソン</li>
-                </ul>
-            </div>
+             <h3 class="text-4xl font-black text-slate-100 mb-2">ハッカソン実績</h3>
+             <p class="text-lg text-cyan-400 mb-6">短期間でのチーム開発とアウトプットに挑戦し、数々の賞をいただきました。</p>
+             <div class="mt-6">
+                 <h4 class="text-2xl font-bold text-cyan-300 mb-4 border-b-2 border-cyan-400/50 pb-2">受賞実績</h4>
+                 <div class="space-y-4">
+                     <div><p class="font-bold text-slate-100 text-lg">JPHacks2025</p><p class="text-sm text-pink-300 font-semibold">Hack Day Audience Award 受賞</p></div>
+                     <div><p class="font-bold text-slate-100 text-lg">技育博2025 vol.1</p><p class="text-sm text-pink-300 font-semibold">株式会社ゆめみ賞 受賞</p></div>
+                     <div><p class="font-bold text-slate-100 text-lg">技育博2025 vol.3</p><p class="text-sm text-pink-300 font-semibold">株式会社WingArc1st賞 受賞</p></div>
+                     <div><p class="font-bold text-slate-100 text-lg">第二回 58ハッカソン</p><p class="text-sm text-purple-300 font-semibold">株式会社GONENGO賞・株式会社スタディスト賞 W受賞</p></div>
+                     <div><p class="font-bold text-slate-100 text-lg">第三回 58ハッカソン</p><p class="text-sm text-purple-300 font-semibold">株式会社スーパーハムスター！賞 受賞</p></div>
+                     <div><p class="font-bold text-slate-100 text-lg">テックシーカー</p><p class="text-sm text-purple-300 font-semibold">TEQS(会場)賞 受賞</p></div>
+                     <div><p class="font-bold text-slate-100 text-lg">KC3Hack2025</p><p class="text-sm text-purple-300 font-semibold">デザイン賞 受賞</p></div>
+                 </div>
+             </div>
+             <div class="mt-8">
+                 <h4 class="text-2xl font-bold text-cyan-300 mb-4 border-b-2 border-cyan-400/50 pb-2">参加実績</h4>
+                 <ul class="list-disc list-inside text-slate-300 space-y-2">
+                     <li>SPAJAM</li><li>JPHacks2024</li><li>第一回 58ハッカソン</li><li>XRHackathon</li><li>複数大学コラボハッカソン</li>
+                 </ul>
+             </div>
         </div>
         <div id="modal-content-activity-interns">
-            <h3 class="text-4xl font-black text-slate-100 mb-2">インターンシップ</h3>
-            <p class="text-lg text-cyan-400 mb-6">プロの現場で開発スキルとチームワークを学びました。</p>
-            <div class="space-y-6">
-                <div><h4 class="text-xl font-bold text-pink-300 mb-2">株式会社ミラティブ (1ヶ月)</h4><p>ライブ配信アプリ「Mirrativ」のギフト制作に関わる就業型インターンシップに参加。Unityエンジニアとして、既存の複雑なコードベースを理解し、新機能の実装と改修を行いました。コードレビューやチームでの議論を通じて、大規模サービスにおける品質担保の重要性と、他者と協力して開発を進める実践的なスキルを習得しました。</p></div>
-                <div><h4 class="text-xl font-bold text-pink-300 mb-2">株式会社サイバーエージェント (2日間)</h4><p>ゲーム開発に特化した短期集中型のハッカソンに参加。社員メンターの指導のもと、チームで企画から実装までを行い、高速なプロトタイピング能力とチームでの課題解決能力を磨きました。短期間だからこそ見えたチームマネジメントの重要性についても学びました。</p></div>
-            </div>
+             <h3 class="text-4xl font-black text-slate-100 mb-2">インターンシップ</h3>
+             <p class="text-lg text-cyan-400 mb-6">プロの現場で開発スキルとチームワークを学びました。</p>
+             <div class="space-y-6">
+                 <div><h4 class="text-xl font-bold text-pink-300 mb-2">株式会社ミラティブ (1ヶ月)</h4><p>ライブ配信アプリ「Mirrativ」のギフト制作に関わる就業型インターンシップに参加。Unityエンジニアとして、既存の複雑なコードベースを理解し、新機能の実装と改修を行いました。コードレビューやチームでの議論を通じて、大規模サービスにおける品質担保の重要性と、他者と協力して開発を進める実践的なスキルを習得しました。</p></div>
+                 <div><h4 class="text-xl font-bold text-pink-300 mb-2">株式会社サイバーエージェント (2日間)</h4><p>ゲーム開発に特化した短期集中型のハッカソンに参加。社員メンターの指導のもと、チームで企画から実装までを行い、高速なプロトタイピング能力とチームでの課題解決能力を磨きました。短期間だからこそ見えたチームマネジメントの重要性についても学びました。</p></div>
+             </div>
         </div>
         <div id="modal-content-activity-events">
-          <h3 class="text-4xl font-black text-slate-100 mb-2">イベント主催・運営</h3>
-          <p class="text-lg text-cyan-400 mb-6">コミュニティへの貢献と、技術を広める活動に力を入れています。</p>
-           <ul class="list-disc list-inside text-slate-300 space-y-2">
-                <li>部内ハッカソンのメンター</li><li>デジタル絵馬アトラクションの一般公開</li><li>小学生向けプログラミング教室のサポート</li><li>小学生向けアイデアソンの企画・運営</li><li>複数大学コラボイベントの企画・運営 (複数回)</li><li>所属団体内でのLT会、勉強会、ディスカッションイベントの主催 (複数回)</li>
-            </ul>
+             <h3 class="text-4xl font-black text-slate-100 mb-2">イベント主催・運営</h3>
+             <p class="text-lg text-cyan-400 mb-6">コミュニティへの貢献と、技術を広める活動に力を入れています。</p>
+             <ul class="list-disc list-inside text-slate-300 space-y-2">
+                 <li>部内ハッカソンのメンター</li><li>デジタル絵馬アトラクションの一般公開</li><li>小学生向けプログラミング教室のサポート</li><li>小学生向けアイデアソンの企画・運営</li><li>複数大学コラボイベントの企画・運営 (複数回)</li><li>所属団体内でのLT会、勉強会、ディスカッションイベントの主催 (複数回)</li>
+             </ul>
         </div>
         <div id="modal-content-activity-community">
-            <h3 class="text-4xl font-black text-slate-100 mb-2">団体運営</h3>
-            <p class="text-lg text-cyan-400 mb-6">リーダーシップと組織運営の経験を積みました</p>
-            <div><h4 class="text-xl font-bold text-pink-300 mb-2">kitbucket (ゲーム制作団体)</h4><p>学内でゲーム制作団体を設立。制作したゲームをオープンキャンパスやイベントに出展。さらに、学外のイベントへの参加や、他大学のIT団体との交流を通じて、メンバーのスキル向上やネットワークの拡大に貢献しました。</p></div>
+             <h3 class="text-4xl font-black text-slate-100 mb-2">団体運営</h3>
+             <p class="text-lg text-cyan-400 mb-6">リーダーシップと組織運営の経験を積みました</p>
+             <div><h4 class="text-xl font-bold text-pink-300 mb-2">kitbucket (ゲーム制作団体)</h4><p>学内でゲーム制作団体を設立。制作したゲームをオープンキャンパスやイベントに出展。さらに、学外のイベントへの参加や、他大学のIT団体との交流を通じて、メンバーのスキル向上やネットワークの拡大に貢献しました。</p></div>
         </div>
     </div>
 
@@ -1347,17 +1214,14 @@
                 const messages = ['Loading game assets...', 'Initializing renderer...', 'Loading player data...', 'Ready!'];
                 let progress = 0;
                 let messageIndex = 0;
-
                 const interval = setInterval(() => {
                     progress += Math.random() * 15;
                     if (progress > 100) progress = 100;
                     loadingBar.style.width = progress + '%';
-                    
                     if (progress > 25 * (messageIndex + 1) && messageIndex < messages.length - 1) {
                         messageIndex++;
                         loadingText.textContent = messages[messageIndex];
                     }
-                    
                     if (progress >= 100) {
                         clearInterval(interval);
                         setTimeout(() => {
@@ -1372,27 +1236,20 @@
                 const scrollProgress = document.getElementById('scroll-progress');
                 const backToTopBtn = document.getElementById('back-to-top-btn');
                 const revealElements = document.querySelectorAll('.reveal');
-
                 const handleScroll = () => {
-                    // Scroll progress bar
                     const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
                     const scrollPosition = window.scrollY;
                     const progress = (scrollPosition / scrollTotal) * 100;
-                    scrollProgress.style.width = progress + '%';
-
-                    // Back to top button visibility
-                    backToTopBtn.classList.toggle('visible', scrollPosition > 400);
-
-                    // Reveal elements on scroll
+                    if (scrollProgress) scrollProgress.style.width = progress + '%';
+                    if (backToTopBtn) backToTopBtn.classList.toggle('visible', scrollPosition > 400);
                     revealElements.forEach(element => {
                         if (element.getBoundingClientRect().top < window.innerHeight - 100) {
                             element.classList.add('active');
                         }
                     });
                 };
-
                 window.addEventListener('scroll', handleScroll);
-                handleScroll(); // Initial check
+                handleScroll();
             };
 
             // Function to initialize particle background
@@ -1415,7 +1272,12 @@
             // Function to set up smooth scrolling for anchor links
             const setupSmoothScroll = () => {
                 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                    anchor.addEventListener('click', (e) => {
+                    anchor.addEventListener('click', function (e) {
+                        // モーダル内の外部リンクや、stopPropagationが設定されたリンクは除外
+                        if (anchor.getAttribute('onclick') || anchor.getAttribute('target') === '_blank') {
+                            return;
+                        }
+
                         const targetId = anchor.getAttribute('href');
                         if (!targetId || targetId === '#') {
                             e.preventDefault();
@@ -1431,19 +1293,24 @@
                 });
             };
 
-            // Function to set up modal windows
+            // Function to set up modal windows (BUG FIXED)
             const setupModals = () => {
                 const modalOverlay = document.getElementById('modal-overlay');
                 if (!modalOverlay) return;
                 const modalContent = document.getElementById('modal-content');
                 const closeModalBtn = document.getElementById('modal-close-btn');
+                const modalContainer = document.getElementById('modal-container'); // スクロールリセット対象
 
                 const openModal = (targetId) => {
                     const contentTemplate = document.getElementById(`modal-content-${targetId}`);
-                    if (contentTemplate) {
+                    
+                    if (contentTemplate && modalContainer) { 
                         modalContent.innerHTML = contentTemplate.innerHTML;
                         modalOverlay.classList.add('visible');
                         document.body.style.overflow = 'hidden';
+                        
+                        // 🐞 バグ修正: モーダルを開くたびにスクロール位置を一番上に戻す
+                        modalContainer.scrollTop = 0; 
                     }
                 };
 
@@ -1452,36 +1319,18 @@
                     document.body.style.overflow = '';
                 };
 
+                //
+                // ↓↓↓【重要】削除されていたイベントリスナーを復元しました ↓↓↓
+                //
                 document.querySelectorAll('[data-modal-target]').forEach(trigger => {
-    // デバッグ：見つかった要素をログ出力
-    console.log('Modal trigger found:', trigger, 'target:', trigger.dataset.modalTarget);
-    
-    trigger.addEventListener('click', () => {
-        const targetId = trigger.dataset.modalTarget;
-        
-        // デバッグ：クリックイベントの詳細をログ出力
-        console.log('=== Modal Click Debug ===');
-        console.log('Clicked element:', trigger);
-        console.log('Target ID:', targetId);
-        console.log('Expected modal content ID:', `modal-content-${targetId}`);
-        
-        // デバッグ：対応するモーダルコンテンツが存在するかチェック
-        const contentTemplate = document.getElementById(`modal-content-${targetId}`);
-        if (contentTemplate) {
-            console.log('✅ Modal content found:', contentTemplate);
-        } else {
-            console.error('❌ Modal content NOT found for ID:', `modal-content-${targetId}`);
-            console.log('Available modal contents:', 
-                Array.from(document.querySelectorAll('[id^="modal-content-"]'))
-                    .map(el => el.id)
-            );
-        }
-        
-        console.log('========================');
-        
-        openModal(targetId);
-    });
-});
+                    trigger.addEventListener('click', () => {
+                        const targetId = trigger.dataset.modalTarget;
+                        openModal(targetId);
+                    });
+                });
+                //
+                // ↑↑↑【重要】ここまでが復元されたコードです ↑↑↑
+                //
 
                 closeModalBtn.addEventListener('click', closeModal);
                 modalOverlay.addEventListener('click', (e) => {
@@ -1496,7 +1345,7 @@
                 });
             };
 
-            // Initialize all functionalities
+            // --- Initialize all functionalities ---
             initLoadingScreen();
             setupScrollEffects();
             initParticles();
@@ -1506,4 +1355,3 @@
     </script>
 </body>
 </html>
-
