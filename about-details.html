@@ -3,19 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Me | Akihide Mikami's Portfolio</title>
+    <title>私のつよみ | Akihide Mikami's Portfolio</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
+        /* CSS Variables (from main page) */
         :root {
-            --glow-color-1: #64ffda;
+            --glow-color-1: #64ffda;  /* Cyan */
             --glow-color-2: #f7fafc;
-            --accent-pink: #f472b6;
-            --accent-purple: #a78bfa;
+            --accent-pink: #f472b6;   /* Pink */
+            --accent-purple: #a78bfa; /* Purple */
             --bg-color: #0f172a;
         }
+
+        /* Base Styles (from main page) */
         body {
             font-family: 'Inter', 'Noto Sans JP', sans-serif;
             color: #cbd5e1;
@@ -35,16 +40,16 @@
             z-index: 9998;
             opacity: 0.1;
         }
-        .game-card {
-            background: rgba(30, 41, 59, 0.8);
+        
+        /* Card Style (for large content blocks) */
+        .pillar-card-lg {
+             background: rgba(30, 41, 59, 0.8);
             backdrop-filter: blur(10px);
             border-radius: 1rem;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             border: 1px solid rgba(100, 255, 218, 0.1);
         }
+
+        /* Reveal on Scroll (from main page) */
         .reveal { 
             opacity: 0; 
             transform: translateY(50px); 
@@ -54,14 +59,280 @@
             opacity: 1; 
             transform: translateY(0); 
         }
+
+        /* ===========================================
+        !!! UPDATED STYLES FOR TRIANGLE LAYOUT !!!
+        ===========================================
+        */
+
+        /* Container for the triangle layout */
+        .cycle-layout-container {
+            position: relative;
+            width: 100%;
+            /* 変更点: 全体の幅を小さくして、要素を中央に寄せる */
+            max-width: 650px; /* 900px から 500px に縮小 */
+            height: 500px; /* 必要に応じて調整 (max-widthとの比率を維持) */
+            margin-top: 2rem; 
+            margin-left: auto; /* 中央寄せを維持 */
+            margin-right: auto; /* 中央寄せを維持 */
+        }
+
+        /* Base style for the pillar cards */
+        .pillar-card-node {
+            position: absolute;
+            /* 変更点: カードのサイズを縮小 */
+            width: 250px; /* 360px から 250px に縮小 */
+            height: 160px; /* 200px から 160px に縮小 */
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid #334155;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        .pillar-card-node:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        .pillar-icon-node {
+            width: 2.5rem; /* 40px */
+            height: 2.5rem; /* 40px */
+            margin-bottom: 0.75rem;
+        }
+
+        /* Positioning the nodes */
+        #thought-card {
+            top: 0; 
+            left: 50%;
+            transform: translateX(-50%);
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 30px rgba(167, 139, 250, 0.2);
+        }
+        #skill-card {
+            bottom: 0; 
+            left: 0; 
+            border-color: var(--glow-color-1);
+            box-shadow: 0 0 30px rgba(100, 255, 218, 0.2);
+        }
+        #execution-card {
+            bottom: 0; 
+            right: 0; 
+            border-color: var(--accent-pink);
+            box-shadow: 0 0 30px rgba(244, 114, 182, 0.2);
+        }
+
+        /* Central Fusion Core */
+        .fusion-core {
+            position: absolute;
+            top: 52%; /* 微調整の可能性あり */
+            left: 50%;
+            /* 変更点: コアのサイズを縮小 */
+            width: 140px; /* 192px から 140px に縮小 */
+            height: 140px; /* 192px から 140px に縮小 */
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 20;
+            background: radial-gradient(circle, 
+                rgba(30, 41, 59, 0.9) 0%, 
+                rgba(30, 41, 59, 0.7) 60%
+            );
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            animation: pulse-core 4s infinite ease-in-out;
+        }
+        .fusion-core-text {
+            font-weight: 900;
+            font-size: 1.125rem; /* 18px */
+            color: var(--glow-color-2);
+            text-shadow: 0 0 10px var(--glow-color-1), 0 0 10px var(--accent-pink), 0 0 10px var(--accent-purple);
+        }
+        .fusion-core-icon {
+            width: 2.25rem; /* 36px */
+            height: 2.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--glow-color-1);
+            animation: rotate-core 10s infinite linear;
+        }
+
+        /* Energy Waves (replacing arrows) */
+        .energy-wave {
+            position: absolute;
+            top: 52%; /* 微調整の可能性あり */
+            left: 50%;
+            /* 変更点: 波のサイズを縮小 */
+            width: 140px; /* 192px から 140px に縮小 */
+            height: 140px; /* 192px から 140px に縮小 */
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 1;
+            opacity: 0;
+            animation: spread-wave 4s infinite ease-out;
+            background: radial-gradient(circle,
+                rgba(167, 139, 250, 0.3) 0%, /* Purple */
+                rgba(100, 255, 218, 0.2) 50%, /* Cyan */
+                rgba(244, 114, 182, 0.1) 70%, /* Pink */
+                transparent 80%
+            );
+        }
+        /* Staggered animations for waves */
+        .wave-1 { animation-delay: 0s; }
+        .wave-2 { animation-delay: 1.33s; }
+        .wave-3 { animation-delay: 2.66s; }
+
+
+        /* Responsive Fallback for Triangle Layout */
+        @media (max-width: 1023px) { /* lg breakpoint (1024px) */
+             /* On smaller screens, stack them vertically */
+            .cycle-layout-container {
+                position: static;
+                height: auto;
+                margin-top: 4rem;
+                margin-bottom: 2rem;
+                display: flex;
+                flex-direction: column;
+                gap: 2rem;
+                max-width: 100%;
+            }
+            .pillar-card-node {
+                position: static;
+                width: 100%; /* モバイルでは幅を100%に */
+                height: 170px; /* 高さを揃える */
+                transform: none !important;
+                margin: 0 auto;
+                padding: 2rem;
+            }
+            #thought-card, #skill-card, #execution-card {
+                left: auto;
+                right: auto;
+                top: auto;
+                bottom: auto;
+                transform: none;
+            }
+            /* Hide core and waves on mobile, they only make sense with the triangle layout */
+            .fusion-core, .energy-wave {
+                display: none;
+            }
+        }
+        
+        /* 1画面の高さを確保するコンテナ */
+        .first-view-container {
+            min-height: calc(100vh - 80px); /* ヘッダーの高さを約 80px と仮定 */
+            display: flex;
+            flex-direction: column; /* モバイルでは縦積み */
+            position: relative; /* z-indexの基準にする */
+        }
+        
+        /* PC(lg)での2カラムレイアウト設定 */
+        @media (min-width: 1024px) {
+            .first-view-container {
+                /* flex-direction: row; は削除されたまま */
+                align-items: flex-start; 
+                /* 変更点: 左右の要素を少し内側に寄せるために、
+                   コンテナ自体の max-width を設定し、中央寄せにする */
+                max-width: 1200px; /* 画面幅に応じて調整 */
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .left-column {
+                width: 60%; /* 変更点: 左カラムの幅を調整 */
+                position: relative;
+                z-index: 10;
+                right: -10%;
+                padding-right: 0; /* 右カラムとの余白をなくすか、微調整 */
+                padding-top: 4rem;
+            }
+            .right-column {
+                position: absolute;
+                z-index: 1;
+                top: -10%;
+                /* 変更点: 右カラムの開始位置を調整。
+                   left の値を小さくすると左に寄り、重なりが深くなります。
+                   今回は left: 20% で試します。*/
+                left: 25%; 
+                width: 65%; /* 変更点: 右カラムの幅を調整。左カラムと重なる部分を作る */
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                padding-top: 4rem;
+            }
+        }
+
+
+        /* Keyframes for animations */
+        @keyframes pulse-core {
+            0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 20px rgba(100, 255, 218, 0.3); }
+            50% { transform: translate(-50%, -50%) scale(1.05); box-shadow: 0 0 40px rgba(167, 139, 250, 0.5), 0 0 60px rgba(244, 114, 182, 0.3); }
+            100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 20px rgba(100, 255, 218, 0.3); }
+        }
+        @keyframes rotate-core {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes spread-wave {
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.7; }
+            100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
+        }
+
+        /* --- Timeline / Stepper Styles (from previous version) --- */
+        .timeline-step {
+            position: relative;
+            padding-left: 3rem; /* 48px */
+            padding-bottom: 2rem; /* 32px */
+            border-left: 2px solid #334155; /* border-slate-700 */
+        }
+        .timeline-step:last-child {
+            border-left-color: transparent;
+            padding-bottom: 0;
+        }
+        .timeline-icon {
+            position: absolute;
+            left: -1.25rem; /* -20px */
+            top: 0;
+            width: 2.5rem; /* 40px */
+            height: 2.5rem; /* 40px */
+            border-radius: 9999px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.125rem; /* text-lg */
+            color: #0f172a; /* bg-slate-900 */
+            box-shadow: 0 0 20px 0px;
+        }
+
+        /* Scrollbar styling (Subtle) */
+        ::-webkit-scrollbar {
+            width: 8px;
+            background-color: var(--bg-color);
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: var(--glow-color-1);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background-color: rgba(30, 41, 59, 0.5);
+        }
     </style>
 </head>
-<body>
+<body class="bg-slate-900">
     <div class="scanlines"></div>
 
+    <!-- Sticky Header -->
     <header class="sticky top-0 z-50 bg-slate-900/50 backdrop-blur-md border-b border-cyan-400/20">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-black text-white">Akihide Mikami</h1>
+            <h1 class="text-2xl font-black text-white">
+                <span class="text-cyan-300">#</span> 私のつよみ
+            </h1>
             <a href="index.html" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all">
                 ← ホームに戻る
             </a>
@@ -69,134 +340,316 @@
     </header>
 
     <main class="container mx-auto px-6 py-16 md:py-24">
-        <section class="text-center mb-24">
-            <h2 class="text-5xl md:text-6xl font-black text-cyan-300 mb-6" style="text-shadow: 0 0 20px #64ffda;">
-                すきなこと / したいこと
+
+        <!-- 
+        ===========================================
+        SECTION 1: THE HOOK (NEW 2-COLUMN LAYOUT)
+        ===========================================
+        -->
+        <!-- 変更点: first-view-container で1画面の高さを確保し、2カラムレイアウトを適用 -->
+        <section class="reveal active first-view-container">
+
+            <!-- Left Column: Text Content -->
+            <!-- 変更点: pt-8(モバイル) lg:pt-16(PC) で上部余白を調整 -->
+            <div class="left-column text-center lg:text-left pt-8 lg:pt-16">
+                <!-- 1a. Main Title -->
+                <h2 class="text-4xl md:text-5xl font-black text-slate-100 mb-6">
+                    <span class="text-cyan-300" style="text-shadow: 0 0 15px #64ffda;">3つの柱が駆動する<br>「成長サイクル」</span>
+                </h2>
+                
+                <!-- 1b. Lead Text -->
+                <p class="max-w-xl mx-auto lg:mx-0 text-lg leading-relaxed text-slate-300 mb-8">
+                    私のエンジニアとしての真価は、
+                    単一のスキルに留まりません。
+                    <br>
+                    <strong class="text-purple-300">「思考」</strong>、<strong class="text-cyan-300">「技術」</strong>、<strong class="text-pink-300">「実行力」</strong>という3つの柱が相互に作用し、<br>高速な成長サイクルを生み出しています。
+                </p>
+
+                <!-- 1c. Scroll Indicator -->
+                <div class="flex items-center justify-center lg:justify-start gap-3 text-cyan-300 animate-pulse mt-12">
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                    <span class="font-bold">私の「成長サイクル」の物語を見る</span>
+                </div>
+            </div>
+
+            <!-- Right Column: Visual Graphic -->
+            <!-- 変更点: pt-16(PC) で上部余白を調整 -->
+            <div class="right-column w-full lg:pt-16">
+                <!-- 
+                ===========================================
+                !!! TRIANGLE LAYOUT SECTION !!!
+                ===========================================
+                -->
+                <!-- 変更点: モバイル(lg未満)では非表示にし、専用のスタックレイアウトを使用 -->
+                <div class="hidden lg:block cycle-layout-container">
+                    
+                    <!-- Central Fusion Core -->
+                    <div class="fusion-core">
+                        <svg class="fusion-core-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.092 1.21-.138 2.43-.138 3.662s.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.092-1.21.138-2.43.138-3.662Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9c.371 0 .723.037 1.06.109m-9.62 0A48.556 48.556 0 0 1 12 9c1.274 0 2.52.04 3.73.109m-9.62 0A48.556 48.556 0 0 1 12 9" /></svg>
+                        <span class="fusion-core-text">私の<br>成長サイクル</span>
+                    </div>
+
+                    <!-- Energy Waves -->
+                    <div class="energy-wave wave-1"></div>
+                    <div class="energy-wave wave-2"></div>
+                    <div class="energy-wave wave-3"></div>
+
+                    <!-- Node A: 思考 (THOUGHT) -->
+                    <div id="thought-card" class="pillar-card-node">
+                        <svg class="pillar-icon-node text-purple-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-3.86 8.25-8.625 8.25S3.75 16.556 3.75 12 .375 3.75 12 3.75s8.625 3.444 8.625 8.25Z" /></svg>
+                        <h3 class="text-2xl font-bold text-purple-300 mb-2">思考 (THOUGHT)</h3>
+                        <p class="text-slate-300 text-sm">チームの「摩擦」を<br>最小化する哲学</p>
+                    </div>
+
+                    <!-- Node B: 技術 (SKILL) -->
+                    <div id="skill-card" class="pillar-card-node">
+                        <svg class="pillar-icon-node text-cyan-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+                        <h3 class="text-2xl font-bold text-cyan-300 mb-2">技術 (SKILL)</h3>
+                        <p class="text-slate-300 text-sm">課題を解決する<br>「武器」</p>
+                    </div>
+                    
+                    <!-- Node C: 実行力 (EXECUTION) -->
+                    <div id="execution-card" class="pillar-card-node">
+                        <svg class="pillar-icon-node text-pink-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" /></svg>
+                        <h3 class="text-2xl font-bold text-pink-300 mb-2">実行力 (EXECUTION)</h3>
+                        <p class="text-slate-300 text-sm">「思考」を「現実」に<br>変える力</p>
+                    </div>
+                </div>
+
+                <!-- Mobile Fallback (Simple Stacked Cards) -->
+                <!-- 変更点: lg:hidden でPCでは非表示に -->
+                <div class="block lg:hidden space-y-6 mt-16">
+                    <!-- A: 思考 (THOUGHT) -->
+                    <div class="pillar-card-node">
+                        <svg class="pillar-icon-node text-purple-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-3.86 8.25-8.625 8.25S3.75 16.556 3.75 12 .375 3.75 12 3.75s8.625 3.444 8.625 8.25Z" /></svg>
+                        <h3 class="text-2xl font-bold text-purple-300 mb-2">思考 (THOUGHT)</h3>
+                        <p class="text-slate-300 text-sm">チームの「摩擦」を<br>最小化する哲学</p>
+                    </div>
+                    <!-- B: 技術 (SKILL) -->
+                    <div class="pillar-card-node">
+                        <svg class="pillar-icon-node text-cyan-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+                        <h3 class="text-2xl font-bold text-cyan-300 mb-2">技術 (SKILL)</h3>
+                        <p class="text-slate-300 text-sm">課題を解決する<br>「武器」</p>
+                    </div>
+                    <!-- C: 実行力 (EXECUTION) -->
+                    <div class="pillar-card-node">
+                        <svg class="pillar-icon-node text-pink-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" /></svg>
+                        <h3 class="text-2xl font-bold text-pink-300 mb-2">実行力 (EXECUTION)</h3>
+                        <p class="text-slate-300 text-sm">「思考」を「現実」に<br>変える力</p>
+                    </div>
+                </div>
+            </div>
+            <!-- 
+            ===========================================
+            !!! END OF NEW LAYOUT SECTION !!!
+            ===========================================
+            -->
+
+        </section>
+
+        <!-- 
+        ===========================================
+        SECTION 2: DEFINITION OF PILLARS (Part 1)
+        ===========================================
+        -->
+        <section class="mt-24 md:mt-32 max-w-5xl mx-auto reveal">
+            <h2 class="text-4xl md:text-5xl font-black text-slate-100 mb-16 text-center">
+                <span class="text-cyan-300">#</span> 強みを定義する3つの柱
             </h2>
-            <p class="max-w-3xl mx-auto text-lg leading-relaxed text-slate-300">
-                私の得意分野やスキル、その背景にある経験、そしてこれから挑戦したいことについてご紹介します。
+
+            <div class="space-y-12">
+                <!-- 1. 思考 (THOUGHT) -->
+                <div class="pillar-card-lg p-8 md:p-12">
+                    <h3 class="text-4xl font-black text-purple-300 mb-4">1. 思考 (THOUGHT)</h3>
+                    <p class="text-xl font-bold text-slate-100 mb-6">すべての核。チームの「摩擦」を最小化する哲学</p>
+                    
+                    <div class="space-y-6 text-slate-300 leading-relaxed">
+                        <p>
+                            私の強みの「核」となるのが、この「思考」です。
+                            私は、コードの表面（WHAT）ではなく、その裏にある設計思想（WHY）を、実務レベルの視座で分析することを最も重視しています。
+                        </p>
+                        <div>
+                            <h4 class="font-bold text-purple-200 text-lg mb-2">「運用視点」への覚醒</h4>
+                            <p>
+                                この「思考」は、ミラティブのインターンで「1年以上運用されるコード」を読み解いた経験で確立されました。そこで私は、「ハッカソンで完成させる設計」と「実務で運用し続ける設計」の思想が根本的に異なることを痛感しました。
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-purple-200 text-lg mb-2">「チームの都合」を最優先する</h4>
+                            <p>
+                                実務の設計思想とは、「テスト容易性」「並行開発（モジュール性）」「非エンジニアとの協調性」を担保し、チーム開発全体の「摩擦」を最小化することでした。この経験から、私は「コード」そのものではなく、その先の「チーム」と「開発プロセス」まで見据えて「思考」する力を養いました。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. 技術 (SKILL) -->
+                <div class="pillar-card-lg p-8 md:p-12">
+                    <h3 class="text-4xl font-black text-cyan-300 mb-4">2. 技術 (SKILL)</h3>
+                    <p class="text-xl font-bold text-slate-100 mb-6">「思考」を実現するための「武器」</p>
+                    
+                    <div class="space-y-6 text-slate-300 leading-relaxed">
+                        <p>
+                            私の「技術」は、「思考」を実現するための「武器」として存在します。
+                            Unity/C#を使いこなすのは大前提です。その上で、私は常に「なぜ」を問い続けます。
+                        </p>
+                        <div>
+                            <h4 class="font-bold text-cyan-200 text-lg mb-2">目的志向の技術選定</h4>
+                            <p>
+                                `Streamerio`で<strong>VContainer (DI)</strong>や<strong>UniTask (非同期)</strong>を導入したのは、インターンで学んだ「テスト容易性」や「モジュール性」という「思考」を実現する最適な「武器」だったからです。
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-cyan-200 text-lg mb-2">貪欲な技術習得</h4>
+                            <p>
+                                `MAGRAT`で<strong>RE-Engine</strong>に挑戦したのも、`ゆびサッカー`で<strong>モーション認識</strong>を扱ったのも、全ては「最高のゲーム体験」や「課題解決」という目的を達成するために、必要な「武器」を選択し、貪欲に習得してきた結果です。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. 実行力 (EXECUTION) -->
+                <div class="pillar-card-lg p-8 md:p-12">
+                    <h3 class="text-4xl font-black text-pink-300 mb-4">3. 実行力 (EXECUTION)</h3>
+                    <p class="text-xl font-bold text-slate-100 mb-6">「思考」と「技術」が本物である「証明」</p>
+                    
+                    <div class="space-y-6 text-slate-300 leading-relaxed">
+                        <p>
+                           私の「思考」や「技術」は、机上の空論ではありません。
+                           それらを「現実のプロダクト」として完成させる執念と速度こそが、私の「実行力」です。
+                        </p>
+                        <div>
+                            <h4 class="font-bold text-pink-200 text-lg mb-2">「物的証拠」としての実績</h4>
+                            <p>
+                                ポートフォリオにある<strong>9つのプロジェクト</strong>と<strong>8つの受賞歴</strong>は、その何より強力な「物的証拠」です。
+                            </p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-pink-200 text-lg mb-2">速度と品質の両立</h4>
+                            <p>
+                                `神は人々の命を落とさない`では、MVPアーキテクチャという「設計（思考）」を、24時間という短時間で妥協せず実装しきりました。この「完遂力（やりきる力）」と「実装速度」が、私の哲学を支える土台となっています。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 
+        ===========================================
+        SECTION 3: THE GROWTH CYCLE (THE STORY - Part 2)
+        ===========================================
+        -->
+        <section class="mt-24 md:mt-32 max-w-4xl mx-auto reveal">
+            <!-- 見出しとリード文を、セクションの「結論」が先に伝わるように強化 -->
+            <h2 class="text-4xl md:text-5xl font-black text-slate-100 mb-16 text-center">
+                <span class="text-cyan-300">#</span> 3つの柱の実践： 私の「成長サイクル」
+            </h2>
+            <p class="text-center text-lg text-slate-300 mb-12">
+                「思考」「技術」「実行力」は、単独では機能しません。<br>
+                それらが「サイクル」として融合し、私を成長させた原体験が、
+                <br class="md:hidden"><strong>リーダーとしての「失敗」</strong>と<strong>実務での「覚醒」</strong>という2つの物語です。
             </p>
-        </section>
 
-        <!-- CAN DO -->
-        <section id="cando" class="mb-24 reveal">
-            <h3 class="text-4xl md:text-5xl font-black text-slate-100 mb-12 flex items-center gap-4">
-                <span class="text-cyan-300">#</span> すきなこと
-            </h3>
-            <div class="space-y-12">
-                <!-- Game Dev & Design -->
-                <div id="gamedev" class="game-card p-8 md:p-12">
-                    <div class="flex items-start gap-6">
-                        <div class="flex-shrink-0 w-16 h-16 bg-cyan-400/10 rounded-lg flex items-center justify-center border border-cyan-400/30">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-cyan-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
-                        </div>
-                        <div>
-                            <h4 class="text-3xl font-bold text-slate-100 mb-3">ゲーム開発 & 設計</h4>
-                            <p class="text-slate-400 leading-relaxed mb-6">
-                                Unity/C#を中心に、拡張性や保守性を意識したクラス設計を得意としています。DIコンテナ（VContainer）や非同期処理（UniTask / R3）を活用し、「未来の自分やチームが扱いやすいコード」を書くことを心がけています。
-                            </p>
-                            <h5 class="font-bold text-cyan-300 text-lg mb-2">実例:</h5>
-                            <p class="text-slate-300 leading-relaxed border-l-4 border-cyan-400/50 pl-4">
-                                「Streamerio」開発では、敵の追加や新機能実装を見据え、VContainerを導入して設計を行いました。結果として、各クラスを疎結合に保ち、チーム全体がスムーズに開発を進められる仕組みを構築できました。私にとってコードは、チーム間の意思疎通を助ける“コミュニケーションツール”でもあります。
-                            </p>
-                        </div>
-                    </div>
+            <div class="pillar-card-lg p-8 md:p-12">
+                
+                <!-- Step 1: 課題 -->
+                <div class="timeline-step" style="border-color: var(--accent-pink);">
+                    <div class="timeline-icon bg-pink-400" style="box-shadow: 0 0 20px 0px var(--accent-pink);">1</div>
+                    <h3 class="text-2xl font-bold text-pink-300 mb-3">STEP 1：課題（失敗） — 開発プロセスの「摩擦」</h3>
+                    <p class="text-slate-300 leading-relaxed">
+                        リーダーとしてオンラインゲームを開発（<strong>実行力</strong>）した際、私のサーバー知識不足（<strong>技術</strong>の欠如）が原因でAPI設計が混乱。
+                        <br><br>
+                        結果、クライアント側とサーバー側で「仕様の共通言語」が持てず、**お互いの実装を待つ「手待ち時間」が頻発**しました。これがチーム全体の開発速度を著しく低下させる「摩擦」となり、リーダーとして痛恨の失敗を経験しました。
+                    </p>
+                </div>
+                
+                <!-- Step 2: 転機 -->
+                <div class="timeline-step" style="border-color: var(--accent-purple);">
+                    <div class="timeline-icon bg-purple-400" style="box-shadow: 0 0 20px 0px var(--accent-purple);">2</div>
+                    <h3 class="text-2xl font-bold text-purple-300 mb-3">STEP 2：転機（覚醒） — 「設計」こそが解決策だと気づく</h3>
+                    <p class="text-slate-300 leading-relaxed mb-4">
+                        直後、インターンで「運用設計」を学び、**「あの時の失敗の本質は、個人の知識不足であると同時に、責務が分離されていない『設計』の問題だった」**と（<strong>思考</strong>によって）分析しました。
+                    </p>
+                    <p class="text-slate-300 leading-relaxed">
+                        実務コードが持つ「テスト容易性」や「モジュール性」こそが、あの時チームが陥った「摩擦」や「手待ち」を防ぐための、技術的な回答だったのです。
+                    </p>
                 </div>
 
-                <!-- Leadership & Management -->
-                <div id="leadership" class="game-card p-8 md:p-12">
-                    <div class="flex items-start gap-6">
-                        <div class="flex-shrink-0 w-16 h-16 bg-cyan-400/10 rounded-lg flex items-center justify-center border border-cyan-400/30">
-                           <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-cyan-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283-.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                        </div>
-                        <div>
-                            <h4 class="text-3xl font-bold text-slate-100 mb-3">リーダーシップ & プロジェクト管理</h4>
-                            <p class="text-slate-400 leading-relaxed mb-6">
-                                チームの力を最大限に引き出す環境づくりが得意です。Discordでの情報整理、定期的な進捗共有、メンバーのサポートを通じて、安心して開発に集中できるチーム運営を意識しています。
-                            </p>
-                            <h5 class="font-bold text-cyan-300 text-lg mb-2">実例:</h5>
-                            <p class="text-slate-300 leading-relaxed border-l-4 border-cyan-400/50 pl-4">
-                                「Streamerio」開発の終盤では、集中作業による情報の分断を防ぐため、4〜6時間ごとに進捗確認会を行いました。これにより、技術的な課題を早期に共有でき、全員で優先度を見直しながら開発を進められました。結果として、最後まで落ち着いたチーム運営を実現できました。
-                            </p>
-                        </div>
-                    </div>
+                <!-- Step 3: 解決 -->
+                <div class="timeline-step" style="border-color: var(--glow-color-1);">
+                    <div class="timeline-icon bg-cyan-400" style="box-shadow: 0 0 20px 0px var(--glow-color-1);">3</div>
+                    <h3 class="text-2xl font-bold text-cyan-300 mb-3">STEP 3：実践（サイクル） — 思考・技術・実行の融合</h3>
+                    <p class="text-slate-300 leading-relaxed">
+                        私は、学んだことをレポートにまとめて終わりませんでした。`Streamerio`の継続開発において、この「失敗」と「学び」を即座に融合させました。
+                    </p>
+                    <ul class="list-disc list-inside space-y-3 mt-4 text-slate-300">
+                        <li>
+                            <strong>(思考)</strong>：「あの時の失敗」を繰り返さぬよう、サーバー連携部を「責務分離」する設計を決定。
+                        </li>
+                        <li>
+                            <strong>(技術)</strong>：その「思考」を実現する最適な「武器」として、VContainer（DI）とScriptableObjectを学習・選定。
+                        </li>
+                        <li>
+                            <strong>(実行力)</strong>：学んだ「技術」を使い、問題の連携部をリファクタリングするコードを**即座に実装・断行**しました。
+                        </li>
+                    </ul>
                 </div>
-            </div>
-        </section>
-
-        <!-- WANT TO DO -->
-        <section id="wanttodo" class="mb-24 reveal">
-            <h3 class="text-4xl md:text-5xl font-black text-slate-100 mb-12 flex items-center gap-4">
-                <span class="text-pink-300">#</span> したいこと
-            </h3>
-            <div class="space-y-12">
-                <!-- Philosophy -->
-                <div id="philosophy" class="game-card p-8 md:p-12">
-                    <div class="flex items-start gap-6">
-                        <div class="flex-shrink-0 w-16 h-16 bg-pink-400/10 rounded-lg flex items-center justify-center border border-pink-400/30">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-pink-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>
-                        </div>
-                        <div>
-                            <h4 class="text-3xl font-bold text-slate-100 mb-3">制作哲学の体現</h4>
-                            <p class="text-slate-300 leading-relaxed">
-                                「優れたコードは最高のコミュニケーションツールである」という信念を、より大規模で長期的なプロジェクトで実践したいと考えています。  
-                                ハッカソンで培った柔軟な設計力を活かし、変化に強く、読みやすく、チーム全員が安心して開発を進められるコードベースを構築したいです。
-                            </p>
-                        </div>
-                    </div>
+                
+                <!-- Step 4: 結果 -->
+                <div class="timeline-step">
+                     <div class="timeline-icon bg-slate-100" style="box-shadow: 0 0 20px 0px #fff;">4</div>
+                    <h3 class="text-2xl font-bold text-slate-100 mb-3">結果：再現性のある「成長の"型"」</h3>
+                    <p class="text-slate-200 leading-relaxed text-lg">
+                        結果、モジュールが独立し、円滑な接続が実現しました。
+                        <br><br>
+                        この経験を通じて、私は**「失敗（実行） → 分析（思考） → 学習（技術） → 解決（実行力）」**という、再現性のある「成長の"型"」を手に入れました。
+                        <br><br>
+                        これこそが、私の最大の強みです。
+                    </p>
                 </div>
             </div>
         </section>
 
-        <!-- VISION -->
-        <section id="vision" class="reveal mb-16">
-            <h3 class="text-4xl md:text-5xl font-black text-slate-100 mb-12 flex items-center gap-4">
-                <span class="text-purple-300">#</span> 将来像
-            </h3>
-            <div class="space-y-12">
-                <div class="game-card p-8 md:p-12">
-                    <div class="flex items-start gap-6">
-                        <div class="flex-shrink-0 w-16 h-16 bg-purple-400/10 rounded-lg flex items-center justify-center border border-purple-400/30">
-                           <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                        </div>
-                        <div>
-                            <h4 class="text-3xl font-bold text-slate-100 mb-3">リードエンジニアへの挑戦</h4>
-                            <p class="text-slate-300 leading-relaxed">
-                                将来的には、技術面とチーム運営の両方からプロジェクトを支えるリードエンジニアを目指しています。  
-                                プランナーの「面白い」というアイデアを、エンジニアが最高の形で実現できるよう、アーキテクチャ設計や技術選定を行いたいと考えています。  
-                                メンバーが楽しみながら開発に集中できる環境を整え、チーム全体で「面白さ」をつくり上げるリーダーになりたいです。
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Back to Home Button -->
-            <div class="text-center mt-16">
-                <a href="index.html" class="px-8 py-3 border-2 border-cyan-400 text-cyan-400 font-bold rounded-full hover:bg-cyan-400 hover:text-slate-900 transition-all text-lg inline-block">
-                    ← ホームに戻る
-                </a>
-            </div>
-        </section>
+        <!-- Back to Home Button -->
+        <div class="text-center mt-24 reveal">
+            <a href="index.html" class="px-8 py-3 border-2 border-cyan-400 text-cyan-400 font-bold rounded-full hover:bg-cyan-400 hover:text-slate-900 transition-all text-lg inline-block">
+                ← ホームに戻る
+            </a>
+        </div>
     </main>
 
     <footer class="bg-black/50 py-12 mt-24 border-t border-cyan-400/20">
         <div class="container mx-auto px-6 text-center">
-            <p class="terminal-text text-lg">© 2025 AKIHIDE MIKAMI</p>
+            <p style="font-family: 'Inter', 'Noto Sans JP', sans-serif; color: #cbd5e1; font-size: 0.875rem;">
+                © 2025 AKIHIDE MIKAMI
+            </p>
         </div>
     </footer>
 
+    <!-- Simple Scroll Reveal JS -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const revealElements = document.querySelectorAll('.reveal');
+            
             const revealOnScroll = () => {
+                const windowHeight = window.innerHeight;
                 revealElements.forEach(element => {
-                    if (element.getBoundingClientRect().top < window.innerHeight - 100) {
+                    // Check if element is null or undefined
+                    if (!element) return;
+                    
+                    const elementTop = element.getBoundingClientRect().top;
+                    // Trigger reveal when element is 100px from the bottom of the viewport
+                    if (elementTop < windowHeight - 100) {
                         element.classList.add('active');
                     }
                 });
             };
+            
             window.addEventListener('scroll', revealOnScroll);
+            // Run on load to reveal elements already in view
             revealOnScroll();
         });
     </script>
