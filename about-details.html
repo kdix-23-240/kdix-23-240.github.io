@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,33 +8,35 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Noto+Sans+JP:wght@400;700;900&display=swap"
+        rel="stylesheet">
     <style>
-        /* CSS Variables (from main page) */
         :root {
-            --glow-color-1: #64ffda;  /* Cyan */
+            --glow-color-1: #64ffda;
             --glow-color-2: #f7fafc;
-            --accent-pink: #f472b6;   /* Pink */
-            --accent-purple: #a78bfa; /* Purple */
+            --accent-pink: #f472b6;
+            --accent-purple: #a78bfa;
             --bg-color: #0f172a;
         }
 
-        /* Base Styles (from main page) */
         body {
             font-family: 'Inter', 'Noto Sans JP', sans-serif;
             color: #cbd5e1;
             overflow-x: hidden;
             background-color: var(--bg-color);
-            /* ▼▼▼ [修正] 背景グリッドを追加 ▼▼▼ */
             background-image:
                 linear-gradient(rgba(100, 255, 218, 0.03) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(100, 255, 218, 0.03) 1px, transparent 1px);
             background-size: 40px 40px;
-            /* ▲▲▲ 背景グリッドここまで ▲▲▲ */
         }
+
         .scanlines {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: linear-gradient(transparent 50%, rgba(0, 0, 0, 0.1) 50%);
             background-size: 100% 4px;
             pointer-events: none;
@@ -41,131 +44,138 @@
             opacity: 0.1;
         }
 
-        /* パーティクルCSSをメインページから移植 */
         #particles-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 1; /* コンテンツより後ろ、背景より手前 */
+            z-index: 1;
             pointer-events: none;
         }
-        .particle { 
-            position: absolute; 
-            color: rgba(100, 255, 218, 0.5); /* var(--glow-color-1) with alpha */
-            animation: float-particle linear infinite; 
-            font-size: 20px; 
+
+        .particle {
+            position: absolute;
+            color: rgba(100, 255, 218, 0.5);
+            animation: float-particle linear infinite;
+            font-size: 20px;
         }
+
         @keyframes float-particle {
-            from { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; } 
-            90% { opacity: 0.5; }
-            to { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
-        }
-        
-        /* Card Style (for large content blocks) */
-        .pillar-card-lg {
-             background: rgba(30, 41, 59, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 1rem;
-            border: 1px solid rgba(100, 255, 218, 0.1);
+            from {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 0.5;
+            }
+
+            to {
+                transform: translateY(-10vh) rotate(360deg);
+                opacity: 0;
+            }
         }
 
-        /* Reveal on Scroll (from main page) */
-        .reveal { 
-            opacity: 0; 
-            transform: translateY(50px); 
-            transition: all 0.8s ease-out; 
-        }
-        .reveal.active { 
-            opacity: 1; 
-            transform: translateY(0); 
-        }
-
-        /* ===========================================
-        !!! UPDATED STYLES FOR TRIANGLE LAYOUT !!!
-        ===========================================
-        */
-
-        /* Container for the triangle layout */
+        /* 三角形レイアウト - 縮小調整 */
         .cycle-layout-container {
             position: relative;
             width: 100%;
-            max-width: 650px;
-            height: 500px;
-            margin-top: 2rem; 
-            margin-left: auto;
-            margin-right: auto;
+            max-width: 800px;
+            height: 560px;
+            /* 修正前: 600px */
+            margin: 3rem auto;
         }
 
-        /* Base style for the pillar cards (<a>タグに変更) */
         .pillar-card-node {
             position: absolute;
-            width: 250px;
-            height: 160px;
-            background: rgba(30, 41, 59, 0.8);
-            border: 1px solid #334155;
-            border-radius: 1rem;
+            width: 260px;
+            /* 修正前: 280px */
+            height: 180px;
+            /* 修正前: 200px */
+            background: rgba(30, 41, 59, 0.95);
+            border: 3px solid;
+            border-radius: 1.5rem;
             padding: 1.5rem;
+            /* 修正前: 2rem */
             text-align: center;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 10;
-        }
-        
-        /* ホバーエフェクトを個別指定 */
-        #thought-card:hover {
-            transform: translateX(-50%) translateY(-10px) scale(1.05);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(167, 139, 250, 0.4);
-        }
-        #skill-card:hover {
-            transform: translateY(-10px) scale(1.05);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(100, 255, 218, 0.4);
-        }
-        #execution-card:hover {
-            transform: translateY(-10px) scale(1.05);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(244, 114, 182, 0.4);
+            cursor: pointer;
+            text-decoration: none;
         }
 
-        .pillar-icon-node {
-            width: 2.5rem; /* 40px */
-            height: 2.5rem; /* 40px */
-            margin-bottom: 0.75rem;
-        }
-
-        /* Positioning the nodes */
         #thought-card {
-            top: 0; 
+            top: 0;
             left: 50%;
             transform: translateX(-50%);
             border-color: var(--accent-purple);
-            box-shadow: 0 0 30px rgba(167, 139, 250, 0.2);
-        }
-        #skill-card {
-            bottom: 0; 
-            left: 0; 
-            border-color: var(--glow-color-1);
-            box-shadow: 0 0 30px rgba(100, 255, 218, 0.2);
-        }
-        #execution-card {
-            bottom: 0; 
-            right: 0; 
-            border-color: var(--accent-pink);
-            box-shadow: 0 0 30px rgba(244, 114, 182, 0.2);
+            box-shadow: 0 10px 40px rgba(167, 139, 250, 0.4);
         }
 
-        /* Central Fusion Core */
+        #thought-card:hover {
+            transform: translateX(-50%) translateY(-10px) scale(1.05);
+            /* 修正 */
+            box-shadow: 0 20px 60px rgba(167, 139, 250, 0.6);
+            border-color: #c4b5fd;
+        }
+
+        #skill-card {
+            bottom: 0;
+            left: 0;
+            border-color: var(--glow-color-1);
+            box-shadow: 0 10px 40px rgba(100, 255, 218, 0.4);
+        }
+
+        #skill-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            /* 修正 */
+            box-shadow: 0 20px 60px rgba(100, 255, 218, 0.6);
+            border-color: #5eead4;
+        }
+
+        #execution-card {
+            bottom: 0;
+            right: 0;
+            border-color: var(--accent-pink);
+            box-shadow: 0 10px 40px rgba(244, 114, 182, 0.4);
+        }
+
+        #execution-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            /* 修正 */
+            box-shadow: 0 20px 60px rgba(244, 114, 182, 0.6);
+            border-color: #f9a8d4;
+        }
+
+        .pillar-icon-node {
+            width: 3rem;
+            /* 修正前: 4rem */
+            height: 3rem;
+            /* 修正前: 4rem */
+            margin-bottom: 0.75rem;
+            /* 修正前: 1rem */
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+
+        /* 中央コア - 縮小調整 */
         .fusion-core {
             position: absolute;
-            top: 52%;
+            top: 50%;
             left: 50%;
-            width: 140px;
-            height: 140px;
+            width: 160px;
+            /* 修正前: 180px */
+            height: 160px;
+            /* 修正前: 180px */
             transform: translate(-50%, -50%);
             border-radius: 50%;
             display: flex;
@@ -174,431 +184,618 @@
             align-items: center;
             text-align: center;
             z-index: 20;
-            background: radial-gradient(circle, 
-                rgba(30, 41, 59, 0.9) 0%, 
-                rgba(30, 41, 59, 0.7) 60%
-            );
-            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: radial-gradient(circle,
+                    rgba(30, 41, 59, 0.95) 0%,
+                    rgba(15, 23, 42, 0.9) 100%);
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            box-shadow:
+                0 0 40px rgba(100, 255, 218, 0.3),
+                0 0 80px rgba(167, 139, 250, 0.2),
+                inset 0 0 40px rgba(100, 255, 218, 0.1);
             animation: pulse-core 4s infinite ease-in-out;
         }
+
         .fusion-core-text {
             font-weight: 900;
-            font-size: 1.125rem; /* 18px */
+            font-size: 1rem;
+            /* 修正前: 1.25rem */
             color: var(--glow-color-2);
-            text-shadow: 0 0 10px var(--glow-color-1), 0 0 10px var(--accent-pink), 0 0 10px var(--accent-purple);
-        }
-        .fusion-core-icon {
-            width: 2.25rem; /* 36px */
-            height: 2.25rem;
-            margin-bottom: 0.5rem;
-            color: var(--glow-color-1);
-            animation: rotate-core 10s infinite linear;
+            text-shadow: 0 0 15px var(--glow-color-1);
         }
 
-        /* Energy Waves (replacing arrows) */
+        .fusion-core-icon {
+            width: 2.5rem;
+            /* 修正前: 3rem */
+            height: 2.5rem;
+            /* 修正前: 3rem */
+            margin-bottom: 0.5rem;
+            /* 修正前: 0.75rem */
+            color: var(--glow-color-1);
+            animation: rotate-core 10s infinite linear;
+            filter: drop-shadow(0 0 15px var(--glow-color-1));
+        }
+
+        /* エネルギーウェーブ - 調整 */
         .energy-wave {
             position: absolute;
-            top: 52%;
+            top: 50%;
             left: 50%;
-            width: 140px;
-            height: 140px;
+            width: 160px;
+            /* 修正前: 180px */
+            height: 160px;
+            /* 修正前: 180px */
             transform: translate(-50%, -50%);
             border-radius: 50%;
             z-index: 3;
             opacity: 0;
             animation: spread-wave 4s infinite ease-out;
             background: radial-gradient(circle,
-                rgba(167, 139, 250, 0.3) 0%, /* Purple */
-                rgba(100, 255, 218, 0.2) 50%, /* Cyan */
-                rgba(244, 114, 182, 0.1) 70%, /* Pink */
-                transparent 80%
-            );
+                    rgba(167, 139, 250, 0.4) 0%,
+                    rgba(100, 255, 218, 0.3) 50%,
+                    rgba(244, 114, 182, 0.2) 70%,
+                    transparent 80%);
         }
-        /* Staggered animations for waves */
-        .wave-1 { animation-delay: 0s; }
-        .wave-2 { animation-delay: 1.33s; }
-        .wave-3 { animation-delay: 2.66s; }
 
+        .wave-1 {
+            animation-delay: 0s;
+        }
 
-        /* Responsive Fallback for Triangle Layout */
-        @media (max-width: 1023px) { /* lg breakpoint (1024px) */
-             /* On smaller screens, stack them vertically */
+        .wave-2 {
+            animation-delay: 1.33s;
+        }
+
+        .wave-3 {
+            animation-delay: 2.66s;
+        }
+
+        @keyframes pulse-core {
+
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.05);
+            }
+
+            /* 修正 */
+        }
+
+        @keyframes rotate-core {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spread-wave {
+            0% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(3.5);
+                opacity: 0;
+            }
+        }
+
+        /* 定義カード - 縮小調整 */
+        .definition-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
+            border-radius: 1.5rem;
+            border: 2px solid;
+            padding: 2rem;
+            /* 修正前: 3rem */
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .definition-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            /* 修正前: 6px */
+        }
+
+        .definition-card:hover {
+            transform: translateY(-5px);
+        }
+
+        #definition-thought {
+            border-color: rgba(167, 139, 250, 0.3);
+            box-shadow: 0 10px 40px rgba(167, 139, 250, 0.2);
+        }
+
+        #definition-thought::before {
+            background: linear-gradient(90deg, var(--accent-purple), #c4b5fd);
+        }
+
+        #definition-thought:hover {
+            box-shadow: 0 20px 60px rgba(167, 139, 250, 0.3);
+        }
+
+        #definition-skill {
+            border-color: rgba(100, 255, 218, 0.3);
+            box-shadow: 0 10px 40px rgba(100, 255, 218, 0.2);
+        }
+
+        #definition-skill::before {
+            background: linear-gradient(90deg, var(--glow-color-1), #5eead4);
+        }
+
+        #definition-skill:hover {
+            box-shadow: 0 20px 60px rgba(100, 255, 218, 0.3);
+        }
+
+        #definition-execution {
+            border-color: rgba(244, 114, 182, 0.3);
+            box-shadow: 0 10px 40px rgba(244, 114, 182, 0.2);
+        }
+
+        #definition-execution::before {
+            background: linear-gradient(90deg, var(--accent-pink), #f9a8d4);
+        }
+
+        #definition-execution:hover {
+            box-shadow: 0 20px 60px rgba(244, 114, 182, 0.3);
+        }
+
+        .definition-icon {
+            width: 3.5rem;
+            /* 修正前: 5rem */
+            height: 3.5rem;
+            /* 修正前: 5rem */
+            margin-bottom: 1rem;
+            /* 修正前: 1.5rem */
+            filter: drop-shadow(0 0 20px currentColor);
+        }
+
+        /* タイムラインステップ - 縮小調整 */
+        .timeline-step {
+            position: relative;
+            padding-left: 3rem;
+            /* 修正前: 4rem */
+            padding-bottom: 2rem;
+            /* 修正前: 3rem */
+            border-left: 3px solid;
+        }
+
+        .timeline-step:last-child {
+            border-left-color: transparent;
+            padding-bottom: 0;
+        }
+
+        .timeline-icon {
+            position: absolute;
+            left: -1.6rem;
+            /* 修正 */
+            top: 0;
+            width: 3rem;
+            /* 修正前: 3.5rem */
+            height: 3rem;
+            /* 修正前: 3.5rem */
+            border-radius: 50%;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            /* 修正前: 1.5rem */
+            color: #0f172a;
+            box-shadow: 0 0 30px 5px;
+            border: 3px solid rgba(15, 23, 42, 0.8);
+        }
+
+        .step-content {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            /* 修正前: 2rem */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* レスポンシブ */
+        @media (max-width: 1023px) {
             .cycle-layout-container {
                 position: static;
                 height: auto;
-                margin-top: 4rem;
-                margin-bottom: 2rem;
                 display: flex;
                 flex-direction: column;
-                gap: 2rem;
-                max-width: 100%;
+                gap: 1.5rem;
+                /* 修正前: 2rem */
             }
+
             .pillar-card-node {
                 position: static;
                 width: 100%;
-                height: 170px;
+                height: 180px;
+                /* 修正前: 200px */
                 transform: none !important;
                 margin: 0 auto;
-                padding: 2rem;
             }
-            #thought-card, #skill-card, #execution-card {
+
+            #thought-card,
+            #skill-card,
+            #execution-card {
                 left: auto;
                 right: auto;
                 top: auto;
                 bottom: auto;
                 transform: none !important;
             }
-            .fusion-core, .energy-wave {
+
+            .fusion-core,
+            .energy-wave {
                 display: none;
             }
         }
-        
-        /* 1画面の高さを確保するコンテナ */
-        .first-view-container {
-            min-height: calc(100vh - 80px);
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-        
-        /* PC(lg)での2カラムレイアウト設定 */
-        @media (min-width: 1024px) {
-            .first-view-container {
-                align-items: flex-start; 
-                max-width: 1200px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-            .left-column {
-                width: 60%;
-                position: relative;
-                z-index: 10;
-                right: -10%;
-                padding-right: 0;
-                padding-top: 4rem;
-            }
-            .right-column {
-                position: absolute;
-                z-index: 2;
-                top: -10%;
-                left: 25%; 
-                width: 65%;
-                display: flex;
-                justify-content: center;
-                align-items: flex-start;
-                padding-top: 4rem;
-            }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
         }
 
-
-        /* Keyframes for animations */
-        @keyframes pulse-core {
-            0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 20px rgba(100, 255, 218, 0.3); }
-            50% { transform: translate(-50%, -50%) scale(1.05); box-shadow: 0 0 40px rgba(167, 139, 250, 0.5), 0 0 60px rgba(244, 114, 182, 0.3); }
-            100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 20px rgba(100, 255, 218, 0.3); }
-        }
-        @keyframes rotate-core {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        @keyframes spread-wave {
-            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.7; }
-            100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
-        }
-
-        /* --- Timeline / Stepper Styles (from previous version) --- */
-        .timeline-step {
-            position: relative;
-            padding-left: 3rem;
-            padding-bottom: 2rem;
-            border-left: 2px solid #334155;
-        }
-        .timeline-step:last-child {
-            border-left-color: transparent;
-            padding-bottom: 0;
-        }
-        .timeline-icon {
-            position: absolute;
-            left: -1.25rem;
-            top: 0;
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: 9999px;
-            font-weight: 900;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.125rem;
-            color: #0f172a;
-            box-shadow: 0 0 20px 0px;
-        }
-
-        /* Scrollbar styling (Subtle) */
-        ::-webkit-scrollbar {
-            width: 8px;
-            background-color: var(--bg-color);
-        }
-        ::-webkit-scrollbar-thumb {
-            background-color: var(--glow-color-1);
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-track {
-            background-color: rgba(30, 41, 59, 0.5);
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
-</head>
+
 <body class="bg-slate-900">
     <div class="scanlines"></div>
     <div id="particles-container"></div>
 
     <header class="sticky top-0 z-50 bg-slate-900/50 backdrop-blur-md border-b border-cyan-400/20">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-black text-white">
-                <span class="text-cyan-300">#</span> 私のつよみ
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <h1 class="text-xl font-black text-white"> <span class="text-cyan-300">#</span> 私のつよみ
             </h1>
-            <a href="index.html" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all">
+            <a href="index.html"
+                class="px-3 py-1 text-sm border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all">
                 ← ホームに戻る
             </a>
         </div>
     </header>
 
-    <main class="container mx-auto px-6 py-16 md:py-24">
+    <main class="container mx-auto px-6 py-12 md:py-20">
+        <section class="reveal active text-center mb-12">
+            <h2 class="text-4xl md:text-5xl font-black text-slate-100 mb-6"> <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-cyan-400 to-pink-400">
+                    3つの柱が駆動する<br>「成長サイクル」
+                </span>
+            </h2>
 
-        <section class="reveal active first-view-container">
+            <p class="max-w-3xl mx-auto text-lg leading-relaxed text-slate-300 mb-12"> 私のエンジニアとしての真価は、単一のスキルに留まりません。
+                <br>
+                <strong class="text-purple-300">「思考」</strong>、<strong class="text-cyan-300">「技術」</strong>、<strong
+                    class="text-pink-300">「実行」</strong>という3つの柱が相互に作用し、
+                高速な成長サイクルを生み出しています。
+            </p>
+        </section>
 
-            <div class="left-column text-center lg:text-left pt-8 lg:pt-16">
-                <h2 class="text-4xl md:text-5xl font-black text-slate-100 mb-6">
-                    <span class="text-cyan-300" style="text-shadow: 0 0 15px #64ffda;">3つの柱が駆動する<br>「成長サイクル」</span>
-                </h2>
-                
-                <p class="max-w-xl mx-auto lg:mx-0 text-lg leading-relaxed text-slate-300 mb-8">
-                    私のエンジニアとしての真価は、
-                    単一のスキルに留まりません。
-                    <br>
-                    <strong class="text-purple-300">「思考」</strong>、<strong class="text-cyan-300">「技術」</strong>、<strong class="text-pink-300">「実行」</strong>という3つの柱が相互に作用し、
-                    <br>高速な成長サイクルを生み出しています。
-                </p>
+        <section class="reveal active">
+            <div class="cycle-layout-container">
 
-                <a href="#definition-thought" class="flex items-center justify-center lg:justify-start gap-3 text-cyan-300 animate-pulse mt-12">
-                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                <div class="fusion-core">
+                    <svg class="fusion-core-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="2.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
                     </svg>
-                    <span class="font-bold">私の「成長サイクル」の物語を見る</span>
+                    <span class="fusion-core-text">私の<br>成長サイクル</span>
+                </div>
+
+                <div class="energy-wave wave-1"></div>
+                <div class="energy-wave wave-2"></div>
+                <div class="energy-wave wave-3"></div>
+
+                <a href="#definition-thought" id="thought-card" class="pillar-card-node">
+                    <svg class="pillar-icon-node text-purple-400" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
+                    </svg>
+                    <h3 class="text-2xl font-black text-purple-300 mb-2">思考</h3>
+                    <p class="text-slate-300 text-xs font-semibold">チームを勝利に導く<br>「対話」と「設計」</p>
+                </a>
+
+                <a href="#definition-skill" id="skill-card" class="pillar-card-node">
+                    <svg class="pillar-icon-node text-cyan-300" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" />
+                    </svg>
+                    <h3 class="text-2xl font-black text-cyan-300 mb-2">技術</h3>
+                    <p class="text-slate-300 text-xs font-semibold">「思考」をコードに翻訳する<br>「武器」</p>
+                </a>
+
+                <a href="#definition-execution" id="execution-card" class="pillar-card-node">
+                    <svg class="pillar-icon-node text-pink-300" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" />
+                    </svg>
+                    <h3 class="text-2xl font-black text-pink-300 mb-2">実行</h3>
+                    <p class="text-slate-300 text-xs font-semibold">アイデアを「実績」に<br>変える「完遂力」</p>
                 </a>
             </div>
 
-            <div class="right-column w-full lg:pt-16">
-                <div class="hidden lg:block cycle-layout-container">
-                    
-                    <div class="fusion-core">
-                        <svg class="fusion-core-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.092 1.21-.138 2.43-.138 3.662s.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.092-1.21.138-2.43.138-3.662Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9c.371 0 .723.037 1.06.109m-9.62 0A48.556 48.556 0 0 1 12 9c1.274 0 2.52.04 3.73.109m-9.62 0A48.556 48.556 0 0 1 12 9" /></svg>
-                        <span class="fusion-core-text">私の<br>成長サイクル</span>
-                    </div>
-
-                    <div class="energy-wave wave-1"></div>
-                    <div class="energy-wave wave-2"></div>
-                    <div class="energy-wave wave-3"></div>
-
-                    <a href="#definition-thought" id="thought-card" class="pillar-card-node">
-                        <svg class="pillar-icon-node text-purple-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-3.86 8.25-8.625 8.25S3.75 16.556 3.75 12 .375 3.75 12 3.75s8.625 3.444 8.625 8.25Z" /></svg>
-                        <h3 class="text-2xl font-bold text-purple-300 mb-2">思考 (THOUGHT)</h3>
-                        <p class="text-slate-300 text-sm">チームを勝利に導く<br>「対話」と「設計」</p>
-                    </a>
-
-                    <a href="#definition-skill" id="skill-card" class="pillar-card-node">
-                        <svg class="pillar-icon-node text-cyan-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
-                        <h3 class="text-2xl font-bold text-cyan-300 mb-2">技術 (SKILL)</h3>
-                        <p class="text-slate-300 text-sm">「思考」をコードに翻訳する<br>「武器」</p>
-                    </a>
-                    
-                    <a href="#definition-execution" id="execution-card" class="pillar-card-node">
-                        <svg class="pillar-icon-node text-pink-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" /></svg>
-                        <h3 class="text-2xl font-bold text-pink-300 mb-2">実行 (EXECUTION)</h3>
-                        <p class="text-slate-300 text-sm">アイデアを「実績」に<br>変える「完遂力」</p>
-                    </a>
-                </div>
-
-                <div class="block lg:hidden space-y-6 mt-16">
-                    <a href="#definition-thought" class="pillar-card-node">
-                        <svg class="pillar-icon-node text-purple-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-3.86 8.25-8.625 8.25S3.75 16.556 3.75 12 .375 3.75 12 3.75s8.625 3.444 8.625 8.25Z" /></svg>
-                        <h3 class="text-2xl font-bold text-purple-300 mb-2">思考 (THOUGHT)</h3>
-                        <p class="text-slate-300 text-sm">チームを勝利に導く<br>「対話」と「設計」</p>
-                    </a>
-                    <a href="#definition-skill" class="pillar-card-node">
-                        <svg class="pillar-icon-node text-cyan-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
-                        <h3 class="text-2xl font-bold text-cyan-300 mb-2">技術 (SKILL)</h3>
-                        <p class="text-slate-300 text-sm">「思考」をコードに翻訳する<br>「武器」</p>
-                    </a>
-                    <a href="#definition-execution" class="pillar-card-node">
-                        <svg class="pillar-icon-node text-pink-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" /></svg>
-                        <h3 class="text-2xl font-bold text-pink-300 mb-2">実行 (EXECUTION)</h3>
-                        <p class="text-slate-300 text-sm">アイデアを「実績」に<br>変える「完遂力」</p>
-                    </a>
-                </div>
+            <div class="text-center mt-12">
+                <a href="#definition-thought"
+                    class="inline-flex items-center gap-3 text-cyan-300 animate-pulse text-base font-bold"> <svg
+                        class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                    <span>3つの柱を詳しく見る</span>
+                </a>
             </div>
-
         </section>
 
-        <section class="mt-24 md:mt-32 max-w-5xl mx-auto reveal">
-            <h2 class="text-4xl md:text-5xl font-black text-slate-100 mb-16 text-center">
-                <span class="text-cyan-300">#</span> 強みを定義する3つの柱
+        <section class="mt-24 max-w-6xl mx-auto reveal">
+            <h2 class="text-4xl md:text-5xl font-black text-slate-100 mb-16 text-center"> <span
+                    class="text-cyan-300">#</span> 強みを定義する3つの柱
             </h2>
 
             <div class="space-y-12">
-                
-                <div id="definition-thought" class="pillar-card-lg p-8 md:p-12">
-                    <h3 class="text-4xl font-black text-purple-300 mb-4">1. 思考 (THOUGHT)</h3>
-                    <p class="text-xl font-bold text-slate-100 mb-6">「対話」と「適応型・構造設計」でチームを勝利に導く</p>
-                    
-                    <div class="space-y-6 text-slate-300 leading-relaxed">
-                        <p>
-                           私の強みの核は、「対話」を通じてチームを分析し、「構造設計」に落とし込むことで、チームのポテンシャルを最大限に引き出す「思考」にあります。
-                        </p>
+                <div id="definition-thought" class="definition-card">
+                    <div class="flex items-center gap-4 mb-4"> <svg class="definition-icon text-purple-400"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
+                        </svg>
                         <div>
-                            <h4 class="font-bold text-purple-200 text-lg mb-2">守りの設計（摩擦の最小化）</h4>
+                            <h3 class="text-4xl font-black text-purple-300">思考</h3>
+                            <p class="text-lg font-bold text-purple-200 mt-1">「対話」と「適応型・構造設計」でチームを勝利に導く</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 text-slate-300 leading-relaxed text-base md:text-lg">
+                        <p>
+                            私の強みの核は、「対話」を通じてチームを分析し、「構造設計」に落とし込むことで、チームのポテンシャルを最大限に引き出す「思考」にあります。
+                        </p>
+                        <div class="bg-purple-500/10 p-4 rounded-xl border border-purple-400/30">
+                            <h4 class="font-black text-purple-200 text-xl mb-2 flex items-center gap-2">
+                                <span>🛡️</span> 守りの設計（摩擦の最小化）
+                            </h4>
                             <p>
                                 ミラティブのインターンで学んだ「運用視点」（テスト容易性、モジュール性）は、開発の「摩擦」を最小化する「守り」の思考です。
                             </p>
                         </div>
-                        <div>
-                            <h4 class="font-bold text-purple-200 text-lg mb-2">攻めの設計（ポテンシャルの最大化）</h4>
+                        <div class="bg-purple-500/10 p-4 rounded-xl border border-purple-400/30">
+                            <h4 class="font-black text-purple-200 text-xl mb-2 flex items-center gap-2"> <span>⚔️</span>
+                                攻めの設計（ポテンシャルの最大化）
+                            </h4>
                             <p>
                                 しかし、私の真価は「攻め」の思考にあります。即席のチームでは、まず「対話」を通じてメンバーの性格、感性、そして「やりたいこと」を深くヒアリングします。
                                 <br><br>
-                                その分析結果に基づき、「適応型の構造設計」を行います。例えば、技術力のあるメンバーには自由度を奪わぬよう<strong>インタフェース（繋ぎ込み）だけを設計</strong>し、経験の浅いメンバーには<strong>モジュールをカプセル化（API化）</strong>して迷わず実装できるようにします。開発中も「対話」を続け、「隠れたボトルネック」を発見・即時解消することで、チームの最大効率化を常に狙います。
+                                その分析結果に基づき、「適応型の構造設計」を行います。例えば、技術力のあるメンバーには自由度を奪わぬよう<strong
+                                    class="text-purple-200">インタフェース（繋ぎ込み）だけを設計</strong>し、経験の浅いメンバーには<strong
+                                    class="text-purple-200">モジュールをカプセル化（API化）</strong>して迷わず実装できるようにします。
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <div id="definition-skill" class="pillar-card-lg p-8 md:p-12">
-                    <h3 class="text-4xl font-black text-cyan-300 mb-4">2. 技術 (SKILL)</h3>
-                    <p class="text-xl font-bold text-slate-100 mb-6">「思考（適応型・構造設計）」をコードに翻訳する武器</p>
-                    
-                    <div class="space-y-6 text-slate-300 leading-relaxed">
+                <div id="definition-skill" class="definition-card">
+                    <div class="flex items-center gap-4 mb-4"> <svg class="definition-icon text-cyan-300"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" />
+                        </svg>
+                        <div>
+                            <h3 class="text-4xl font-black text-cyan-300">技術</h3>
+                            <p class="text-lg font-bold text-cyan-200 mt-1">「思考（適応型・構造設計）」をコードに翻訳する武器</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 text-slate-300 leading-relaxed text-base md:text-lg">
                         <p>
                             私の「技術」は、上記の「思考」を実現するための「武器」です。私は「適応型・構造設計」という戦略を、具体的なコードに翻訳する最適な技術を選択し、習得します。
                         </p>
-                        <div>
-                            <h4 class="font-bold text-cyan-200 text-lg mb-2">「クライアント内部」を支える技術</h4>
+                        <div class="bg-cyan-500/10 p-4 rounded-xl border border-cyan-400/30">
+                            <h4 class="font-black text-cyan-200 text-xl mb-2 flex items-center gap-2"> <span>🎮</span>
+                                クライアント内部を支える技術
+                            </h4>
                             <p>
-                                `Streamerio`で<strong>VContainer (DI)</strong>を導入して「カプセル化」を実現したり、逆に<strong>C#のinterface</strong>や<strong>ScriptableObject</strong>で「繋ぎ込み」だけを定義するなど、思考をコードに落とし込みます。
+                                `Streamerio`で<strong class="text-cyan-200">VContainer
+                                    (DI)</strong>を導入して「カプセル化」を実現したり、逆に<strong
+                                    class="text-cyan-200">C#のinterface</strong>や<strong
+                                    class="text-cyan-200">ScriptableObject</strong>で「繋ぎ込み」だけを定義するなど、思考をコードに落とし込みます。
                             </p>
                         </div>
-                        <div>
-                            <h4 class="font-bold text-cyan-200 text-lg mb-2">「異種技術スタック」を統合する技術</h4>
+                        <div class="bg-cyan-500/10 p-4 rounded-xl border border-cyan-400/30">
+                            <h4 class="font-black text-cyan-200 text-xl mb-2 flex items-center gap-2"> <span>🔗</span>
+                                異種技術スタックを統合する技術
+                            </h4>
                             <p>
-                                さらに、私の「構造設計」はクライアント内部に留まりません。<strong>ハードウェア</strong>（例: `ゆびサッカー`のモーション認識）、<strong>Webフロント、サーバー、インフラ</strong>など、多種多様なエンジニアと協業してきました。それぞれの技術的制約を「対話」で理解し、Unity側で吸収しやすい最適な<strong>API（接続点）を設計・実装</strong>することで、異種技術スタックを円滑に統合してきた経験こそが、私の「武器」です。
+                                さらに、私の「構造設計」はクライアント内部に留まりません。<strong class="text-cyan-200">ハードウェア</strong>（例:
+                                `ゆびサッカー`のモーション認識）、<strong
+                                    class="text-cyan-200">Webフロント、サーバー、インフラ</strong>など、多種多様なエンジニアと協業してきました。それぞれの技術的制約を「対話」で理解し、Unity側で吸収しやすい最適な<strong
+                                    class="text-cyan-200">API（接続点）を設計・実装</strong>することで、異種技術スタックを円滑に統合してきた経験こそが、私の「武器」です。
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <div id="definition-execution" class="pillar-card-lg p-8 md:p-12">
-                    <h3 class="text-4xl font-black text-pink-300 mb-4">3. 実行 (EXECUTION)</h3>
-                    <p class="text-xl font-bold text-slate-100 mb-6">アイデアを「客観的に評価される実績」に変える完遂力</p>
-                    
-                    <div class="space-y-6 text-slate-300 leading-relaxed">
+                <div id="definition-execution" class="definition-card">
+                    <div class="flex items-center gap-4 mb-4"> <svg class="definition-icon text-pink-300"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" />
+                        </svg>
+                        <div>
+                            <h3 class="text-4xl font-black text-pink-300">実行</h3>
+                            <p class="text-lg font-bold text-pink-200 mt-1">アイデアを「客観的に評価される実績」に変える完遂力</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 text-slate-300 leading-relaxed text-base md:text-lg">
                         <p>
                             私の「思考」や「技術」は、机上の空論ではありません。それらを「現実のプロダクト」として完成させ、さらに「第三者からの客観的な評価」を獲得するまでやり切る力が私の「実行」です。
                         </p>
-                        <p>
-                            その強力な証拠が、<strong>「技育展 決勝大会進出」</strong>や<strong>「JPHACKS Award Day進出」</strong>といった客観的な実績です。これらは、単にゲームを完成させただけでなく、数多くの競合の中で「技術的な挑戦」「独創性」「完成度」が公に評価されたことを意味します。
+                        <div class="bg-pink-500/10 p-4 rounded-xl border border-pink-400/30">
+                            <h4 class="font-black text-pink-200 text-xl mb-2 flex items-center gap-2"> <span>🏆</span>
+                                客観的な実績
+                            </h4>
+                            <p>
+                                その強力な証拠が、<strong class="text-pink-200">「技育展 決勝大会進出」</strong>や<strong
+                                    class="text-pink-200">「JPHACKS Award
+                                    Day進出」</strong>といった客観的な実績です。これらは、単にゲームを完成させただけでなく、数多くの競合の中で「技術的な挑戦」「独創性」「完成度」が公に評価されたことを意味します。
+                            </p>
+                        </div>
+                        <div class="bg-pink-500/10 p-4 rounded-xl border border-pink-400/30">
+                            <h4 class="font-black text-pink-200 text-xl mb-2 flex items-center gap-2"> <span>⚡</span>
+                                勝てるプロダクトを作る執念
+                            </h4>
+                            <p>
+                                これらの成果は、前述の「思考」によってチームの効率を最大化し、それによって生み出された時間でコアな体験を磨ききる「勝てるプロダクト」を作るための執念と実行力です。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mt-24 max-w-5xl mx-auto reveal">
+            <h2 class="text-4xl md:text-5xl font-black text-slate-100 mb-8 text-center"> <span
+                    class="text-cyan-300">#</span> 私の「成長サイクル」
+            </h2>
+            <p class="text-center text-lg text-slate-300 mb-12 max-w-3xl mx-auto"> 「思考」「技術」「実行」は、単独では機能しません。<br>
+                `Streamerio`の開発プロセスは、これら3つの柱が「サイクル」として融合し、<br class="hidden md:block">
+                チームを勝利に導いた実践例です。
+            </p>
+
+            <div
+                class="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl rounded-2xl border-2 border-cyan-400/30 p-6 md:p-10 shadow-2xl shadow-cyan-400/10">
+                <div class="timeline-step" style="border-color: var(--accent-purple);">
+                    <div class="timeline-icon bg-purple-400" style="box-shadow: 0 0 30px 5px var(--accent-purple);">1
+                    </div>
+                    <div class="step-content">
+                        <h3 class="text-2xl font-black text-purple-300 mb-3 flex items-center gap-3"> <svg
+                                class="w-7 h-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
+                            </svg>
+                            思考（課題）— チームの「ポテンシャル」をどう引き出すか
+                        </h3>
+                        <p class="text-slate-300 leading-relaxed text-base md:text-lg">
+                            `Streamerio`は、Unity、サーバー、インフラ、Webフロントなど、多様な技術スタックを持つ即席チームでした。
+                            <br><br>
+                            課題は、どうすればこのチームの<strong class="text-purple-200">「摩擦」を最小化し、「ポテンシャル」を最大化できるか</strong>、という点でした。
                         </p>
-                         <p>
-                            これらの成果は、前述の「思考」によってチームの効率を最大化し、それによって生み出された時間でコアな体験を磨ききる「勝てるプロダクト」を作るための執念と実行力です。
+                    </div>
+                </div>
+
+                <div class="timeline-step" style="border-color: var(--glow-color-1);">
+                    <div class="timeline-icon bg-cyan-400" style="box-shadow: 0 0 30px 5px var(--glow-color-1);">2</div>
+                    <div class="step-content">
+                        <h3 class="text-2xl font-black text-cyan-300 mb-3 flex items-center gap-3"> <svg class="w-7 h-7"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" />
+                            </svg>
+                            技術（戦略）— 「対話」と「適応型設計」
+                        </h3>
+                        <p class="text-slate-300 leading-relaxed text-base md:text-lg mb-4">
+                            私はまず「対話」を行い、各メンバーのスキルと「やりたいこと」を分析しました。その上で「適応型の構造設計」を行いました。
+                        </p>
+                        <ul class="space-y-3 mt-4 text-slate-300 text-base md:text-lg">
+                            <li class="bg-cyan-500/10 p-3 rounded-lg border border-cyan-400/30"> <strong
+                                    class="text-cyan-200">（思考→技術）:</strong> クライアントとサーバーの接続点は、`interface`とDI (VContainer)
+                                で<strong class="text-cyan-200">疎結合に「設計」</strong>し、両者が独立して開発・テストできる「技術」基盤を整備しました。
+                            </li>
+                            <li class="bg-cyan-500/10 p-3 rounded-lg border border-cyan-400/30"> <strong
+                                    class="text-cyan-200">（思考→技術）:</strong>
+                                経験の浅いメンバーが担当する部分は、`ScriptableObject`を活用して<strong
+                                    class="text-cyan-200">カプセル化</strong>し、迷わず実装に集中できる「設計」を行いました。
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-step" style="border-color: var(--accent-pink);">
+                    <div class="timeline-icon bg-pink-400" style="box-shadow: 0 0 30px 5px var(--accent-pink);">3</div>
+                    <div class="step-content">
+                        <h3 class="text-2xl font-black text-pink-300 mb-3 flex items-center gap-3"> <svg class="w-7 h-7"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" />
+                            </svg>
+                            実行（実践）— 継続的な軌道修正
+                        </h3>
+                        <p class="text-slate-300 leading-relaxed text-base md:text-lg">
+                            開発中も「対話」を続け、「実はサーバーとの接続テストで詰まっている」という<strong class="text-pink-200">隠れたボトルネック</strong>を発見。
+                            <br><br>
+                            即座にAPI仕様の認識合わせを行い、タスクを再配分（実行）することで、チームの失速を防ぎました。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="timeline-step">
+                    <div class="timeline-icon bg-gradient-to-br from-yellow-400 to-yellow-500"
+                        style="box-shadow: 0 0 30px 5px #facc15;">
+                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                        </svg>
+                    </div>
+                    <div
+                        class="bg-gradient-to-br from-yellow-500/20 to-orange-500/20 p-6 rounded-xl border-2 border-yellow-400/60">
+                        <h3 class="text-2xl font-black text-yellow-200 mb-3">結果：再現性のある「成長の"型"」</h3>
+                        <p class="text-slate-200 leading-relaxed text-lg">
+                            結果、チームは最後まで高いモチベーションと開発速度を維持し、プロダクトを完成させることができました。
+                            <br><br>
+                            この経験を通じ、私は<strong class="text-yellow-300">「分析（思考） → 設計（技術） → 実装（実行） →
+                                問題発見（対話・思考）...」</strong>という、チームのポテンシャルを引き出す再現性のある「成長の"型"」を手に入れました。
+                            <br><br>
+                            <span class="text-xl font-black text-yellow-100">これこそが、私の最大の強みです。</span>
                         </p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="mt-24 md:mt-32 max-w-4xl mx-auto reveal">
-            <h2 class="text-4xl md:text-5xl font-black text-slate-100 mb-16 text-center">
-                <span class="text-cyan-300">#</span> 私の「成長サイクル」
-            </h2>
-            <p class="text-center text-lg text-slate-300 mb-12">
-                「思考」「技術」「実行」は、単独では機能しません。<br>
-                `Streamerio`の開発プロセスは、これら3つの柱が「サイクル」として融合し、<br>
-                <br class="md:hidden">チームを勝利に導いた実践例です。
-            </p>
-
-            <div class="pillar-card-lg p-8 md:p-12">
-                
-                <div class="timeline-step" style="border-color: var(--accent-purple);">
-                    <div class="timeline-icon bg-purple-400" style="box-shadow: 0 0 20px 0px var(--accent-purple);">1</div>
-                    <h3 class="text-2xl font-bold text-purple-300 mb-3">STEP 1：思考（課題） — チームの「ポテンシャル」をどう引き出すか</h3>
-                    <p class="text-slate-300 leading-relaxed">
-                        `Streamerio`は、Unity、サーバー、インフラ、Webフロントなど、多様な技術スタックを持つ即席チームでした。
-                        <br><br>
-                        課題は、どうすればこのチームの<strong>「摩擦」を最小化し、「ポテンシャル」を最大化できるか</strong>、という点でした。
-                    </p>
-                </div>
-                
-                <div class="timeline-step" style="border-color: var(--glow-color-1);">
-                    <div class="timeline-icon bg-cyan-400" style="box-shadow: 0 0 20px 0px var(--glow-color-1);">2</div>
-                    <h3 class="text-2xl font-bold text-cyan-300 mb-3">STEP 2：技術（戦略） — 「対話」と「適応型設計」</h3>
-                    <p class="text-slate-300 leading-relaxed mb-4">
-                        私はまず「対話」を行い、各メンバーのスキルと「やりたいこと」を分析しました。その上で「適応型の構造設計」を行いました。
-                    </p>
-                    <ul class="list-disc list-inside space-y-3 mt-4 text-slate-300">
-                        <li>
-                            <strong>（思考→技術）:</strong> クライアントとサーバーの接続点は、`interface`とDI (VContainer) で<strong>疎結合に「設計」</strong>し、両者が独立して開発・テストできる「技術」基盤を整備しました。
-                        </li>
-                        <li>
-                            <strong>（思考→技術）:</strong> 経験の浅いメンバーが担当する部分は、`ScriptableObject`を活用して<strong>カプセル化</strong>し、迷わず実装に集中できる「設計」を行いました。
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="timeline-step" style="border-color: var(--accent-pink);">
-                     <div class="timeline-icon bg-pink-400" style="box-shadow: 0 0 20px 0px var(--accent-pink);">3</div>
-                    <h3 class="text-2xl font-bold text-pink-300 mb-3">STEP 3：実行（実践） — 継続的な軌道修正</h3>
-                    <p class="text-slate-300 leading-relaxed">
-                        開発中も「対話」を続け、「実はサーバーとの接続テストで詰まっている」という<strong>隠れたボトルネック</strong>を発見。
-                        <br><br>
-                        即座にAPI仕様の認識合わせを行い、タスクを再配分（実行）することで、チームの失速を防ぎました。
-                    </p>
-                </div>
-                
-                <div class="timeline-step">
-                     <div class="timeline-icon bg-slate-100" style="box-shadow: 0 0 20px 0px #fff;">4</div>
-                    <h3 class="text-2xl font-bold text-slate-100 mb-3">結果：再現性のある「成長の"型"」</h3>
-                    <p class="text-slate-200 leading-relaxed text-lg">
-                        結果、チームは最後まで高いモチベーションと開発速度を維持し、プロダクトを完成させることができました。
-                        <br><br>
-                        この経験を通じ、私は<strong>「分析（思考） → 設計（技術） → 実装（実行） → 問題発見（対話・思考）...」</strong>という、チームのポテンシャルを引き出す再現性のある「成長の"型"」を手に入れました。
-                        <br><br>
-                        これこそが、私の最大の強みです。
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <div class="text-center mt-24 reveal">
-            <a href="index.html" class="px-8 py-3 border-2 border-cyan-400 text-cyan-400 font-bold rounded-full hover:bg-cyan-400 hover:text-slate-900 transition-all text-lg inline-block">
-                ← ホームに戻る
+        <div class="text-center mt-20 reveal"> <a href="index.html"
+                class="inline-flex items-center gap-3 px-6 py-3 border-2 border-cyan-400 text-cyan-400 font-bold rounded-full hover:bg-cyan-400 hover:text-slate-900 transition-all text-base shadow-lg shadow-cyan-400/30 hover:shadow-cyan-400/50">
+                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                </svg>
+                ホームに戻る
             </a>
         </div>
     </main>
 
-    <footer class="bg-black/50 py-12 mt-24 border-t border-cyan-400/20">
+    <footer class="bg-black/50 py-12 mt-20 border-t border-cyan-400/20">
         <div class="container mx-auto px-6 text-center">
-            <p style="font-family: 'Inter', 'Noto Sans JP', sans-serif; color: #cbd5e1; font-size: 0.875rem;">
-                © 2025 AKIHIDE MIKAMI
-            </p>
+            <p class="text-slate-400">© 2025 AKIHIDE MIKAMI</p>
         </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-
-            // メインページから移植したパーティクル初期化関数
             const initParticles = () => {
                 const particlesContainer = document.getElementById('particles-container');
                 if (!particlesContainer) return;
                 const particleShapes = ['▲', '■', '●', '◆', '★', '+', 'x'];
-                for (let i = 0; i < 30; i++) { // 30個のパーティクルを生成
+                for (let i = 0; i < 30; i++) {
                     const particle = document.createElement('div');
                     particle.classList.add('particle');
                     particle.textContent = particleShapes[Math.floor(Math.random() * particleShapes.length)];
@@ -610,25 +807,23 @@
                 }
             };
 
-            // 既存のスクロールリビール関数
             const revealElements = document.querySelectorAll('.reveal');
             const revealOnScroll = () => {
                 const windowHeight = window.innerHeight;
                 revealElements.forEach(element => {
                     if (!element) return;
-                    
                     const elementTop = element.getBoundingClientRect().top;
                     if (elementTop < windowHeight - 100) {
                         element.classList.add('active');
                     }
                 });
             };
-            
-            // --- すべての関数を実行 ---
+
             window.addEventListener('scroll', revealOnScroll);
-            revealOnScroll(); // ページ読み込み時にも実行
-            initParticles(); // パーティクルを初期化
+            revealOnScroll();
+            initParticles();
         });
     </script>
 </body>
+
 </html>
