@@ -1,1541 +1,393 @@
 <!DOCTYPE html>
-<html lang="ja" class="scroll-smooth">
+<html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akihide Mikami | Game Creator Portfolio</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;700;900&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>
-        /* CSS Variables */
-        :root {
-            --glow-color-1: #64ffda;
-            --glow-color-2: #f7fafc;
-            --accent-pink: #f472b6;
-            --accent-purple: #a78bfa;
-            --bg-color: #0f172a;
-        }
-
-        /* Base Styles */
-        body {
-            font-family: 'Inter', 'Noto Sans JP', sans-serif;
-            color: #cbd5e1;
-            overflow-x: hidden;
-            background-color: var(--bg-color);
-            background-image:
-                linear-gradient(rgba(100, 255, 218, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(100, 255, 218, 0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
-        }
-        
-        /* -------------------------------------------
-        --- [1] ORIGINAL STYLES (Kept) ---
-        ------------------------------------------- */
-
-        /* Loading Screen */
-        #loading-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-color);
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 9999; opacity: 1;
-            transition: opacity 0.5s ease-out;
-        }
-        #loading-screen.hidden { opacity: 0; pointer-events: none; }
-        .loading-bar-container { width: 300px; height: 30px; border: 3px solid var(--glow-color-1); box-shadow: 0 0 20px var(--glow-color-1); }
-        .loading-bar { height: 100%; background: linear-gradient(90deg, var(--glow-color-1), var(--accent-purple)); width: 0%; transition: width 0.1s linear; }
-        .terminal-text { font-family: 'Courier New', monospace; color: var(--glow-color-1); text-shadow: 0 0 5px var(--glow-color-1); }
-
-        /* Scroll Progress Bar */
-        #scroll-progress {
-            position: fixed; top: 0; left: 0; height: 4px;
-            background: linear-gradient(90deg, var(--glow-color-1), var(--accent-purple), var(--accent-pink));
-            width: 0%; z-index: 1000; box-shadow: 0 0 10px var(--glow-color-1);
-        }
-
-        /* Scanlines Overlay */
-        .scanlines {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(transparent 50%, rgba(0, 0, 0, 0.1) 50%);
-            background-size: 100% 4px;
-            pointer-events: none; z-index: 9998; opacity: 0.1;
-        }
-
-        /* Skill Tags (For Modals/Sections) */
-        .skill-tag {
-            display: inline-block; background-color: rgba(100, 255, 218, 0.1);
-            color: var(--glow-color-1); padding: 0.25rem 0.75rem;
-            border-radius: 9999px; font-size: 0.75rem; font-weight: 700;
-            border: 1px solid rgba(100, 255, 218, 0.2);
-        }
-        
-        /* Particles Background */
-        #particles-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-        .particle { position: absolute; color: rgba(100, 255, 218, 0.5); animation: float-particle linear infinite; font-size: 20px; }
-        @keyframes float-particle {
-            from { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; } 90% { opacity: 0.5; }
-            to { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
-        }
-
-        /* Reveal on Scroll */
-        .reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s ease-out; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-
-        /* Back to Top Button */
-        .back-to-top-btn {
-            position: fixed; bottom: 2rem; right: 2rem;
-            width: 50px; height: 50px; background: rgba(100, 255, 218, 0.2);
-            border: 2px solid var(--glow-color-1); border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            color: var(--glow-color-1); z-index: 1000; opacity: 0; pointer-events: none;
-            transition: all 0.3s ease;
-        }
-        .back-to-top-btn.visible { opacity: 1; pointer-events: auto; }
-        .back-to-top-btn:hover {
-            background: var(--glow-color-1); color: var(--bg-color); 
-            transform: scale(1.1); box-shadow: 0 0 20px var(--glow-color-1);
-        }
-
-        /* Modal Styles */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(8px);
-            display: flex; justify-content: center; align-items: center;
-            z-index: 10000; opacity: 0; pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-        .modal-overlay.visible { opacity: 1; pointer-events: auto; }
-        .modal-container {
-            background: rgba(30, 41, 59, 0.9); border: 1px solid var(--glow-color-1);
-            box-shadow: 0 0 40px rgba(100, 255, 218, 0.3); border-radius: 1rem;
-            width: 90%; max-width: 800px; max-height: 90vh;
-            overflow-y: auto; padding: 2.5rem; position: relative;
-            transform: scale(0.95); transition: transform 0.3s ease;
-        }
-        .modal-overlay.visible .modal-container { transform: scale(1); }
-        .modal-close-btn {
-            position: absolute; top: 1rem; right: 1rem;
-            width: 40px; height: 40px; background: rgba(100, 255, 218, 0.1);
-            border: 1px solid rgba(100, 255, 218, 0.3); color: var(--glow-color-1);
-            border-radius: 50%; display: flex; justify-content: center; align-items: center;
-            cursor: pointer; transition: all 0.2s ease;
-        }
-        .modal-close-btn:hover { background: var(--glow-color-1); color: var(--bg-color); transform: rotate(90deg); }
-
-        /* Project Card Image (For Modals/Sections) */
-        .game-card { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); border-radius: 1rem; position: relative; overflow: hidden; transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 1px solid rgba(100, 255, 218, 0.1); }
-        .game-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 20px var(--glow-color-1); border-color: rgba(100, 255, 218, 0.3); }
-        .project-card-image-container { position: relative; width: 100%; height: 100%; overflow: hidden; }
-        .project-card-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1); transition: transform 0.5s ease; z-index: 0; }
-        .project-card-image.kanscream-image { object-position: center 20%; }
-        .project-card-image.yubisoccer-image { object-position: 70% center; }
-        .group:hover .project-card-image { transform: scale(1.1); }
-        .project-card-image.hover-image { opacity: 0; transition: opacity 0.5s ease; }
-        .group:hover .project-card-image.default-image { opacity: 0; }
-        .group:hover .project-card-image.hover-image { opacity: 1; }
-
-        /* Glitch Effect (Kept) */
-        .glitch { position: relative; font-family: 'Press Start 2P', cursive; }
-        .glitch::before, .glitch::after {
-            content: attr(data-text);
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        }
-        .glitch::before {
-            left: 2px; text-shadow: -2px 0 var(--accent-pink);
-            clip: rect(24px, 550px, 90px, 0);
-            animation: glitch-anim 3s infinite linear alternate-reverse;
-        }
-        .glitch::after {
-            left: -2px; text-shadow: -2px 0 var(--glow-color-1);
-            clip: rect(85px, 550px, 140px, 0);
-            animation: glitch-anim 2s infinite linear alternate-reverse;
-        }
-        @keyframes glitch-anim {
-            10% { clip: rect(20px, 9999px, 96px, 0); } 20% { clip: rect(85px, 9999px, 78px, 0); }
-            30% { clip: rect(40px, 9999px, 16px, 0); } 40% { clip: rect(65px, 9999px, 44px, 0); }
-            50% { clip: rect(10px, 9999px, 90px, 0); }
-        }
-
-        /* -------------------------------------------
-        --- [2] NEW STYLES (Hero-centric Grid) ---
-        ------------------------------------------- */
-        
-        /* Hero Section Container */
-        .hero-section-container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        /* Hero Profile Area (Top) */
-        .hero-content {
-            margin-bottom: 3rem; /* 3つの柱とのマージン */
-            width: 100%;
-        }
-        
-        /* --- UPDATED Profile Image Styles --- */
-        .hero-profile-image {
-            width: 240px; /* 240px に拡大 */
-            height: 240px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid var(--glow-color-1);
-            margin: 0 auto;
-            position: relative; 
-            z-index: 1;
-            box-shadow: 
-                0 0 10px rgba(100, 255, 218, 0.6),
-                0 0 30px rgba(100, 255, 218, 0.4),
-                0 0 60px rgba(100, 255, 218, 0.2);
-            animation: pulse-shadow 3s infinite alternate;
-        }
-        
-        @keyframes pulse-shadow {
-            0% {
-                box-shadow: 
-                    0 0 10px rgba(100, 255, 218, 0.6),
-                    0 0 30px rgba(100, 255, 218, 0.4),
-                    0 0 60px rgba(100, 255, 218, 0.2);
-            }
-            100% {
-                box-shadow: 
-                    0 0 15px rgba(100, 255, 218, 0.8),
-                    0 0 40px rgba(100, 255, 218, 0.6),
-                    0 0 80px rgba(100, 255, 218, 0.3);
-            }
-        }
-
-        .hero-profile-image::before {
-            content: '';
-            position: absolute;
-            top: -10px; left: -10px; right: -10px; bottom: -10px;
-            border-radius: 50%;
-            border: 2px solid var(--accent-purple);
-            box-shadow: 0 0 20px var(--accent-purple), inset 0 0 10px var(--accent-purple);
-            opacity: 0.5;
-            animation: rotate-border 10s linear infinite;
-            z-index: -1;
-        }
-        
-        @keyframes rotate-border {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .hero-profile-image::after {
-            content: '';
-            position: absolute;
-            top: -20px; left: -20px; right: -20px; bottom: -20px;
-            border-radius: 50%;
-            background: radial-gradient(circle, var(--glow-color-1) 0%, transparent 70%);
-            opacity: 0.1;
-            filter: blur(15px);
-            animation: expand-fade 6s infinite alternate;
-            z-index: -2;
-        }
-
-        @keyframes expand-fade {
-            0% { transform: scale(0.8); opacity: 0.1; }
-            50% { transform: scale(1.1); opacity: 0.2; }
-            100% { transform: scale(0.8); opacity: 0.1; }
-        }
-        /* --- END UPDATED Profile Image Styles --- */
-
-        .hero-glitch-name {
-            font-size: 3rem; /* 48px */
-            font-weight: 900;
-            color: var(--glow-color-2);
-        }
-        .hero-catchphrase {
-            font-size: 1.25rem; /* 20px */
-            color: var(--accent-pink);
-            font-weight: 700;
-            text-shadow: 0 0 10px var(--accent-pink);
-            line-height: 1.6; /* 行間を追加 */
-        }
-        .hero-intro-text {
-            color: #94a3b8; /* text-slate-400 */
-            font-size: 1rem; /* 16px */
-            margin-top: 1rem;
-        }
-
-        /* Hero Pillars Area (Bottom) */
-        .hero-pillars {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 1.5rem; /* 24px */
-            width: 100%;
-        }
-
-        /* Pillar Card Style */
-        .pillar-card {
-            background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
-            border: 3px solid rgba(100, 255, 218, 0.2);
-            border-radius: 1.5rem; /* 24px */
-            padding: 1.5rem; /* 縮小 */
-            text-align: center;
-            text-decoration: none;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .pillar-card::before {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(135deg, var(--glow-color-1), var(--accent-purple));
-            opacity: 0; transition: opacity 0.4s ease; z-index: 0;
-        }
-        .pillar-card:hover::before { opacity: 0.1; }
-        .pillar-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--glow-color-1);
-            box-shadow: 0 20px 60px rgba(100, 255, 218, 0.3);
-        }
-        .pillar-content { position: relative; z-index: 1; }
-
-        .pillar-icon {
-            width: 48px;
-            height: 48px;
-            color: var(--glow-color-1);
-            margin: 0 auto 0.5rem;
-            transition: all 0.3s ease;
-        }
-        .pillar-card:hover .pillar-icon {
-            transform: scale(1.2) rotate(10deg);
-            filter: drop-shadow(0 0 15px var(--glow-color-1));
-        }
-
-        .pillar-title {
-            font-size: 1.25rem;
-            font-weight: 900;
-            color: var(--glow-color-2);
-            margin-bottom: 0.25rem;
-        }
-        .pillar-subtitle {
-            font-size: 0.875rem;
-            font-weight: 700;
-            color: var(--accent-purple);
-            margin-bottom: 1rem;
-        }
-
-        .pillar-tags-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            justify-content: center;
-        }
-
-        .pillar-badge {
-            display: inline-block;
-            padding: 0.25rem 0.6rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            border: 1px solid;
-        }
-
-        /* Badge Colors */
-        .badge-gold { background-color: rgba(250, 204, 21, 0.1); border-color: rgba(250, 204, 21, 0.3); color: #facc15; }
-        .badge-cyan { background-color: rgba(100, 255, 218, 0.1); border-color: rgba(100, 255, 218, 0.3); color: var(--glow-color-1); }
-        .badge-purple { background-color: rgba(167, 139, 250, 0.1); border-color: rgba(167, 139, 250, 0.3); color: var(--accent-purple); }
-        .badge-project { background-color: rgba(244, 114, 182, 0.1); border-color: rgba(244, 114, 182, 0.3); color: var(--accent-pink); }
-
-        /* Responsive for Hero-centric */
-        @media (max-width: 768px) {
-            /* ヒーローセクションのグリッドをスマホで縦積みに */
-            .hero-content {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-            .hero-content .md\:col-span-2 {
-                text-align: center; /* スマホでは中央揃えに戻す */
-            }
-            .hero-glitch-name {
-                font-size: 2.5rem;
-            }
-            .hero-catchphrase {
-                font-size: 1.1rem;
-            }
-            /* 3つの柱を縦積みに */
-            .hero-pillars {
-                grid-template-columns: 1fr;
-            }
-            .pillar-title {
-                font-size: 1.5rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Akihide Mikami | Game Client Engineer</title>
+  <meta name="description" content="三上晃英（カシュー）のポートフォリオ。設計でチームの出力を最大化するゲームクライアントエンジニア。Unity / C#。ハッカソン/展示イベント20回・受賞15件。">
+  <meta property="og:title" content="Akihide Mikami | Game Client Engineer">
+  <meta property="og:description" content="メンバーの強みを最大化する設計をする。企画・設計・実装・チームのディレクションまでを横断するプレイングディレクター型エンジニア。">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="./images/Cashew3.png" type="image/png">
+  <link rel="apple-touch-icon" href="./images/Cashew3.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;700&family=IBM+Plex+Mono:wght@400;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <div id="loading-screen">
-        <h2 class="font-bold text-2xl mb-8 text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">LOADING...</h2>
-        <div class="loading-bar-container">
-            <div class="loading-bar" id="loading-bar"></div>
+
+<div id="atmosphere" class="atmosphere" aria-hidden="true">
+  <div class="atmo-theme-wash"></div>
+  <span class="atmo-blob atmo-blob--1"></span>
+  <span class="atmo-blob atmo-blob--2"></span>
+  <span class="atmo-blob atmo-blob--3"></span>
+  <span class="atmo-blob atmo-blob--theme"></span>
+  <span class="atmo-blob atmo-blob--4"></span>
+  <span class="atmo-blob atmo-blob--5"></span>
+  <div class="atmo-floats">
+    <span class="atmo-deco atmo-deco--x atmo-deco--1">×</span>
+    <span class="atmo-deco atmo-deco--x atmo-deco--2">×</span>
+    <span class="atmo-deco atmo-deco--ring atmo-deco--3"></span>
+    <span class="atmo-deco atmo-deco--ring atmo-deco--4"></span>
+    <span class="atmo-deco atmo-deco--tri atmo-deco--5"></span>
+    <span class="atmo-deco atmo-deco--square atmo-deco--6"></span>
+    <span class="atmo-deco atmo-deco--label atmo-deco--7">// PLAYING_DIRECTOR</span>
+    <span class="atmo-deco atmo-deco--label atmo-deco--8">QUEST LOG</span>
+    <span class="atmo-deco atmo-deco--label atmo-deco--9">Unity / C#</span>
+    <span class="atmo-deco atmo-deco--dots atmo-deco--10">● ● ●</span>
+    <span class="atmo-deco atmo-deco--crosshair atmo-deco--11"></span>
+    <span class="atmo-deco atmo-deco--bar atmo-deco--12"></span>
+  </div>
+  <div class="atmo-grain"></div>
+</div>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="#top" class="logo">AKIHIDE MIKAMI<span class="cursor">_</span></a>
+    <button class="nav-toggle" aria-label="メニューを開く" aria-expanded="false">MENU</button>
+    <nav class="site-nav" aria-label="メインナビゲーション">
+      <a href="#philosophy">哲学</a>
+      <a href="#projects">制作物</a>
+      <a href="#skills">スキル</a>
+      <a href="#awards">実績</a>
+      <a href="#experience">経歴</a>
+      <a href="#contact">CONTACT</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero" aria-label="イントロダクション">
+    <div class="hero-watermark" aria-hidden="true">×</div>
+    <span class="hero-float hero-float--1" aria-hidden="true">// PLAYING_DIRECTOR</span>
+    <span class="hero-float hero-float--2" aria-hidden="true">×20 EVENTS</span>
+    <span class="hero-float hero-float--3" aria-hidden="true">Unity / C#</span>
+    <div class="wrap hero-layout">
+      <div class="hero-copy reveal">
+        <p class="eyebrow"><span class="eyebrow-line"></span>PLAYER FILE ── GAME CLIENT ENGINEER</p>
+        <h1>
+          <span class="h1-pre">設計で、</span>
+          <span class="h1-main">チームを<span class="accent accent-mark">勝たせる</span>。</span>
+        </h1>
+        <p class="hero-lede">
+          三上晃英（カシュー）。Unity / C# を主軸とするゲームクライアントエンジニア。
+          企画・設計・実装・チームのディレクションまでを横断する<strong>プレイングディレクター</strong>として、
+          20回のハッカソン/展示イベントを競技のように戦い、15の賞を重ねてきました。
+        </p>
+        <p class="hero-sub">
+          自分より速く書ける人はいる。だからこそ私は、<strong>メンバーの強みを最大化する設計</strong>で戦います。一人の速さではなく、チーム全体の出力で勝ちにいく。
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#projects">制作物を見る →</a>
+          <a class="btn btn-ghost" href="https://github.com/kdix-23-240" target="_blank" rel="noopener">GitHub</a>
         </div>
-        <p class="terminal-text mt-4" id="loading-text">Initializing portfolio systems...</p>
+      </div>
+
+      <aside class="player-file reveal" aria-label="ステータス">
+        <div class="player-file-float">
+          <div class="player-file-stripe" aria-hidden="true"></div>
+          <div class="player-file-card">
+            <span class="corner tl"></span><span class="corner tr"></span>
+            <span class="corner bl"></span><span class="corner br"></span>
+            <div class="player-file-head">
+              <span class="player-file-label">PLAYER FILE</span>
+              <span class="player-file-no"><span class="player-file-dot"></span>NO.001</span>
+            </div>
+            <div class="player-file-portrait">
+              <div class="player-photo-ph" aria-hidden="true">
+                <span class="pph-grid"></span>
+                <span class="pph-mug">M</span>
+                <span class="pph-hint">PHOTO&nbsp;SLOT</span>
+              </div>
+              <img src="./images/me.png" alt="三上晃英のプロフィール画像" width="400" height="330" onerror="this.style.display='none'">
+              <span class="player-badge">PLAYER&nbsp;1</span>
+              <div class="player-file-overlay">
+                <p class="player-name">三上 晃英</p>
+                <p class="player-alias">KASHU ── PLAYING DIRECTOR</p>
+              </div>
+            </div>
+            <ul class="player-stats" id="status-rows"></ul>
+            <p class="player-file-foot">FOUNDER OF KITBUCKET</p>
+          </div>
+        </div>
+        <div class="hero-stat-deco" aria-hidden="true">
+          <span class="deco-num">×</span>
+          <span class="deco-label">MAXIMIZE</span>
+        </div>
+      </aside>
     </div>
+  </section>
 
-    <div class="scanlines"></div>
-    <div id="scroll-progress"></div>
-    <div id="particles-container"></div>
-
-    <main>
-        <section class="min-h-screen flex items-center justify-center p-6 relative">
-            
-            <div class="hero-section-container">
-                
-                <div class="hero-content grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-                    
-                    <div class="md:col-span-1 flex justify-center">
-                        <img src="./images/me.png" alt="Profile" onerror="this.onerror=null;this.src='https://placehold.co/240x240/0f172a/64ffda?text=AM'" class="hero-profile-image">
-                    </div>
-                    
-                    <div class="md:col-span-2 flex flex-col justify-center text-center md:text-left">
-                        <h1 class="hero-glitch-name glitch mb-2" data-text="AKIHIDE MIKAMI">AKIHIDE MIKAMI</h1>
-
-                        <p class="hero-catchphrase mb-4 text-xl md:text-2xl font-bold text-cyan-400" style="line-height: 1.6;">
-                            チームの“開発体験”をデザインし、<br class="block sm:hidden">職種の壁を越えて開発を牽引するエンジニア
-                        </p>
-
-                        <p class="hero-intro-text text-slate-300 leading-relaxed">
-                            対話と構造設計を軸に、開発者が最高のパフォーマンスを発揮できる環境をつくり、<br class="hidden md:block">
-                            良いチームから最高のゲームが生まれる循環を目指しています。
-                        </p>
-
-                        <!-- <div class="mt-4 flex flex-wrap gap-2 md:justify-start justify-center">
-                            <span class="skill-tag">Unity / C#</span>
-                            <span class="skill-tag">MVP / SOLID</span>
-                            <span class="skill-tag">VContainer / UniTask</span>
-                            <span class="skill-tag" style="background-color: rgba(244, 114, 182, 0.1); color: #f472b6; border-color: rgba(244, 114, 182, 0.2);">開発UX設計</span>
-                            <span class="skill-tag" style="background-color: rgba(244, 114, 182, 0.1); color: #f472b6; border-color: rgba(244, 114, 182, 0.2);">Team Architecture</span>
-                        </div> -->
-                    </div>
-                </div>
-
-                <div class="hero-pillars">
-                    
-                    <a href="#projects" class="pillar-card">
-                        <div class="pillar-content">
-                            <svg class="pillar-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2 1M4 7l2-1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
-                            </svg>
-                            <h2 class="pillar-title">制作物</h2>
-                            <p class="pillar-subtitle">Projects</p>
-                            <div class="pillar-tags-container">
-                                <span class="pillar-badge badge-project">ライブゲーム</span>
-                                <span class="pillar-badge badge-project">シューティングゲーム</span>
-                                <span class="pillar-badge badge-project">会社独自開発エンジン</span>
-                                <span class="pillar-badge badge-project">体験型ゲーム</span>
-                                <span class="pillar-badge badge-project">オリジナルコントローラー専用ゲーム</span>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="#activities" class="pillar-card">
-                        <div class="pillar-content">
-                            <svg class="pillar-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <h2 class="pillar-title">実績</h2>
-                            <p class="pillar-subtitle">Achievements</p>
-                            <div class="pillar-tags-container">
-                                <span class="pillar-badge badge-gold">🏆 技育展 決勝</span>
-                                <span class="pillar-badge badge-gold">🏆 JPHACKS 決勝</span>
-                                <span class="pillar-badge badge-cyan">🎖️ ハッカソン多数出場</span>
-                                <span class="pillar-badge badge-cyan">🎖️ 12賞受賞</span>
-                                <span class="pillar-badge badge-cyan">🏢 2社インターン</span>
-                                <span class="pillar-badge badge-cyan">👥 学生団体設立</span>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="#about" class="pillar-card">
-                        <div class="pillar-content">
-                            <svg class="pillar-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                            </svg>
-                            <h2 class="pillar-title">つよみ</h2>
-                            <p class="pillar-subtitle">Strengths</p>
-                            <div class="pillar-tags-container">
-                                <span class="pillar-badge badge-purple">💡 アイデア</span>
-                                <span class="pillar-badge badge-purple">🏗️ 設計</span>
-                                <span class="pillar-badge badge-purple">🎮 開発実績</span>
-                                <span class="pillar-badge badge-purple">🤝 リーダー</span>
-                                <span class="pillar-badge badge-purple">👥 マネジメント</span>
-                                <span class="pillar-badge badge-purple">🗣️ コミュニケーション</span>
-                            </div>
-                        </div>
-                    </a>
-
-                </div>
-            </div>
-
-        </section>
-
-        <div class="container mx-auto px-6">
-            
-            <section id="projects" class="py-20 scroll-mt-20 reveal">
-                <h2 class="text-5xl md:text-6xl font-black text-center mb-16 text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">制作物</h2>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-                    <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-streamerio">
-                        <div class="project-card-image-container">
-                            <img src="./images/streamerio_title.png" alt="Streamerio" class="project-card-image default-image">
-                            <img src="./images/streamerio_gameplay.png" alt="Streamerio Gameplay" class="project-card-image hover-image">
-                        </div>
-                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent z-10">
-                            <h3 class="text-2xl font-bold text-white mb-1">Streamerio</h3>
-                            <p class="text-cyan-300 text-sm">配信者&視聴者vs視聴者 ライブゲーム</p>
-                        </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 z-20">
-                            <h3 class="text-2xl font-bold text-white mb-1">Streamerio</h3>
-                            <p class="text-cyan-300 text-sm mb-3">配信者&視聴者vs視聴者 ライブゲーム</p>
-                            <div class="pt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <p class="text-base font-bold text-slate-200 mb-4 animate-pulse">詳細を見る</p>
-                                <div class="flex flex-wrap gap-2 mb-4">
-                                    <span class="skill-tag">Unity</span><span class="skill-tag">C#</span><span class="skill-tag">VContainer</span><span class="skill-tag">UniTask</span><span class="skill-tag">R3</span>
-                                </div>
-                                <div class="flex gap-4">
-                                    <a href="https://youtu.be/aWU_fEskVf4" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 bg-cyan-400 text-slate-900 font-bold rounded-lg hover:bg-cyan-300 transition-transform hover:scale-105">▶ 動画</a>
-                                    <a href="https://github.com/kdix-23-240/Streamerio" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all hover:scale-105">{ } ソース</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-yubisoccer">
-                        <div class="project-card-image-container">
-                            <img src="./images/yubisoccer_title.png" alt="YubiSoccer" class="project-card-image default-image yubisoccer-image">
-                            <img src="https://img.youtube.com/vi/S0n7tT2ixuc/maxresdefault.jpg" alt="YubiSoccer Gameplay" class="project-card-image hover-image yubisoccer-image">
-                        </div>
-                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent z-10">
-                            <h3 class="text-2xl font-bold text-white mb-1">ゆびサッカー</h3>
-                            <p class="text-cyan-300 text-sm">ゆびで操作するオンライン対戦サッカーゲーム</p>
-                        </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 z-20">
-                            <h3 class="text-2xl font-bold text-white mb-1">ゆびサッカー</h3>
-                            <p class="text-cyan-300 text-sm mb-3">ゆびで操作するオンライン対戦サッカーゲーム</p>
-                            <div class="pt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <p class="text-base font-bold text-slate-200 mb-4 animate-pulse">詳細を見る</p>
-                                <div class="flex flex-wrap gap-2 mb-4">
-                                    <span class="skill-tag">Unity</span><span class="skill-tag">C#</span><span class="skill-tag">Motion Tracking</span><span class="skill-tag">UX Design</span>
-                                </div>
-                                <div class="flex gap-4">
-                                    <a href="https://yubi-soccer.notion.site/2a546d565ab680118f8cfa41bd1269d7?source=copy_link" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 border border-purple-400 text-purple-400 font-bold rounded-lg hover:bg-purple-400 hover:text-slate-900 transition-all hover:scale-105">Notion</a>
-                                    <a href="https://github.com/naka6ryo/Yubi-Soccer-ver.2.0" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all hover:scale-105">{ } ソース</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                     <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-gricon">
-                        <div class="project-card-image-container">
-                            <img src="./images/gricon_title.png" alt="GriCon" class="project-card-image default-image">
-                            <img src="https://img.youtube.com/vi/EZxbcKHtADs/maxresdefault.jpg" alt="GriCon Gameplay" class="project-card-image hover-image">
-                        </div>
-                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent z-10">
-                            <h3 class="text-2xl font-bold text-white mb-1">GriCon</h3>
-                            <p class="text-cyan-300 text-sm">超直感コントローラー & イライラ棒</p>
-                        </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 z-20">
-                            <h3 class="text-2xl font-bold text-white mb-1">GriCon</h3>
-                            <p class="text-cyan-300 text-sm mb-3">超直感コントローラー & イライラ棒</p>
-                            <div class="pt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <p class="text-base font-bold text-slate-200 mb-4 animate-pulse">詳細を見る</p>
-                                <div class="flex flex-wrap gap-2 mb-4">
-                                    <span class="skill-tag">Unity</span><span class="skill-tag">C#</span><span class="skill-tag">UX Design</span><span class="skill-tag">UniRx</span>
-                                </div>
-                                <div class="flex gap-4">
-                                    <a href="https://www.youtube.com/watch?v=EZxbcKHtADs" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 bg-cyan-400 text-slate-900 font-bold rounded-lg hover:bg-cyan-300 transition-transform hover:scale-105">▶ 動画</a>
-                                    <a href="https://github.com/kdix-23-240/GriCon?tab=readme-ov-file" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all hover:scale-105">{ } ソース</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-kanscream">
-                        <div class="project-card-image-container">
-                            <img src="./images/kanscream_title.png" alt="KANSCREAM" class="project-card-image default-image kanscream-image">
-                            <img src="./images/kanscream_gameplay.png" alt="KANSCREAM Gameplay" class="project-card-image hover-image kanscream-image">
-                        </div>
-                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent z-10">
-                            <h3 class="text-2xl font-bold text-white mb-1">KANSCREAM</h3>
-                            <p class="text-cyan-300 text-sm">改造オセロ</p>
-                        </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 z-20">
-                            <h3 class="text-2xl font-bold text-white mb-1">KANSCREAM</h3>
-                            <p class="text-cyan-300 text-sm mb-3">改造オセロ</p>
-                             <div class="pt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <p class="text-base font-bold text-slate-200 mb-4 animate-pulse">詳細を見る</p>
-                                <div class="flex flex-wrap gap-2 mb-4">
-                                    <span class="skill-tag">Unity</span><span class="skill-tag">C#</span><span class="skill-tag">UX Design</span>
-                                </div>
-                                <div class="flex gap-4">
-                                    <a href="https://github.com/kc3hack/2025_8" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all hover:scale-105">{ } ソース</a>
-                                    <a href="https://qiita.com/nut_nuts_nut/items/a7f6cf3cc2211835e938" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 border border-purple-400 text-purple-400 font-bold rounded-lg hover:bg-purple-400 hover:text-slate-900 transition-all hover:scale-105">Qiita</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-eiinmado">
-                        <div class="project-card-image-container">
-                            <img src="./images/eiinmado_title.png" alt="詠印魔道" class="project-card-image default-image">
-                            <img src="https://img.youtube.com/vi/9MgPosLRifY/maxresdefault.jpg" alt="詠印魔道 Gameplay" class="project-card-image hover-image">
-                        </div>
-                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent z-10">
-                            <h3 class="text-2xl font-bold text-white mb-1">詠印魔道</h3>
-                            <p class="text-cyan-300 text-sm">声とジェスチャーで魔法を撃つ対戦アクション</p>
-                        </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 z-20">
-                            <h3 class="text-2xl font-bold text-white mb-1">詠印魔道</h3>
-                            <p class="text-cyan-300 text-sm mb-3">声とジェスチャーで魔法を撃つ対戦アクション</p>
-                            <div class="pt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <p class="text-base font-bold text-slate-200 mb-4 animate-pulse">詳細を見る</p>
-                                <div class="flex flex-wrap gap-2 mb-4">
-                                    <span class="skill-tag">Unity</span><span class="skill-tag">C#</span><span class="skill-tag">Hardware</span><span class="skill-tag">UX Design</span>
-                                </div>
-                                <div class="flex gap-4">
-                                    <a href="https://www.youtube.com/watch?v=9MgPosLRifY" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 bg-cyan-400 text-slate-900 font-bold rounded-lg hover:bg-cyan-300 transition-transform hover:scale-105">▶ 動画</a>
-                                    <a href="https://github.com/kdix-23-240/Eiinmado/tree/hard-controller-connection" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all hover:scale-105">{ } ソース</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-ema">
-                        <div class="project-card-image-container">
-                            <img src="./images/ema_title.jpg" alt="E-ma" class="project-card-image default-image">
-                            <img src="https://img.youtube.com/vi/AXuaWGYiIFM/maxresdefault.jpg" alt="E-ma Gameplay" class="project-card-image hover-image">
-                        </div>
-                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent z-10">
-                            <h3 class="text-2xl font-bold text-white mb-1">E-ma</h3>
-                            <p class="text-cyan-300 text-sm">デジタル絵馬アトラクション</p>
-                        </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 z-20">
-                           <h3 class="text-2xl font-bold text-white mb-1">E-ma</h3>
-                            <p class="text-cyan-300 text-sm mb-3">デジタル絵馬アトラクション</p>
-                            <p class="text-base font-bold text-slate-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse">詳細を見る</p>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="skill-tag">Unity</span><span class="skill-tag">C#</span><span class="skill-tag">Projection Mapping</span><span class="skill-tag">DOTween</span><span class="skill-tag">UniTask</span>
-                            </div>
-                            <div class="flex gap-4">
-                                <a href="https://www.youtube.com/watch?v=AXuaWGYiIFM" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 bg-cyan-400 text-slate-900 font-bold rounded-lg hover:bg-cyan-300 transition-transform hover:scale-105">▶ 動画</a>
-                                <a href="https://github.com/momoyama-tech/e-ma-unity" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all hover:scale-105">{ } ソース</a>
-                                <a href="https://pinnate-smash-23b.notion.site/E-ma-19efe465481f804e9a28cbca9379be98" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 border border-blue-400 text-blue-400 font-bold rounded-lg hover:bg-blue-400 hover:text-slate-900 transition-all">Notion</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-kami">
-                        <div class="project-card-image-container">
-                            <img src="./images/kami_title.jpg" alt="Kami" class="project-card-image default-image">
-                            <img src="./images/kami_gameplay.jpg" alt="Kami Gameplay" class="project-card-image hover-image">
-                        </div>
-                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent z-10">
-                            <h3 class="text-2xl font-bold text-white mb-1">神は人々の命を落とさない</h3>
-                            <p class="text-cyan-300 text-sm">命拾い反射アクション</p>
-                        </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 z-20">
-                            <h3 class="text-2xl font-bold text-white mb-1">神は人々の命を落とさない</h3>
-                            <p class="text-cyan-300 text-sm mb-3">命拾い反射アクション</p>
-                            <p class="text-base font-bold text-slate-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse">詳細を見る</p>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="skill-tag">Unity</span><span class="skill-tag">C#</span><span class="skill-tag">MVP</span><span class="skill-tag">SOLID</span>
-                            </div>
-                            <div class="flex gap-4">
-                                <a href="https://topaz.dev/projects/7d04bf96e7ef603b1b45" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 border border-green-400 text-green-400 font-bold rounded-lg hover:bg-green-400 hover:text-slate-900 transition-all">Topa'z</a>
-                            </div>
-                        </div>
-                    </div>
-                                        <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-capybara">
-                        <div class="project-card-image-container">
-                            <img src="./images/capybara_title.jpg" alt="Capybara" class="project-card-image default-image">
-                            <img src="./images/capybara_gameplay.png" alt="Capybara Gameplay" class="project-card-image hover-image">
-                        </div>
-                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent z-10">
-                            <h3 class="text-2xl font-bold text-white mb-1">カピバラゲーム</h3>
-                            <p class="text-cyan-300 text-sm">ランゲーム</p>
-                        </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 z-20">
-                            <h3 class="text-2xl font-bold text-white mb-1">カピバラゲーム</h3>
-                            <p class="text-cyan-300 text-sm mb-3">ランゲーム</p>
-                            <p class="text-base font-bold text-slate-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse">詳細を見る</p>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="skill-tag">Unity</span><span class="skill-tag">C#</span><span class="skill-tag">Kid-Friendly Design</span>
-                            </div>
-                            <div class="flex gap-4">
-                                <a href="https://unityroom.com/games/capybaragame" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 border border-red-400 text-red-400 font-bold rounded-lg hover:bg-red-400 hover:text-slate-900 transition-all">unityroom</a>
-                            </div>
-                        </div>
-                    </div>
-                                        <div class="relative group rounded-2xl overflow-hidden shadow-lg shadow-black/50 cursor-pointer game-card h-64" data-modal-target="project-magrat">
-                        <div class="project-card-image-container">
-                            <img src="https://placehold.co/600x400/94a3b8/0f172a?text=MAGRAT" alt="MAGRAT" class="project-card-image default-image">
-                            <img src="https://placehold.co/600x400/94a3b8/0f172a?text=NoImage" alt="MAGRAT Gameplay" class="project-card-image hover-image">
-                        </div>
-                        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent z-10">
-                            <h3 class="text-2xl font-bold text-white mb-1">MAGRAT</h3>
-                            <p class="text-cyan-300 text-sm">磁石切り替えアクション</p>
-                        </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col justify-end p-6 z-20">
-                            <h3 class="text-2xl font-bold text-white mb-1">MAGRAT</h3>
-                            <p class="text-cyan-300 text-sm mb-3">磁石切り替えアクション</p>
-                            <p class="text-base font-bold text-slate-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse">詳細を見る</p>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="skill-tag">RE-Engine</span><span class="skill-tag">C#</span><span class="skill-tag">Team Building</span>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-            </section>
-
-            <section id="activities" class="py-20 scroll-mt-20 reveal">
-                <h2 class="text-5xl md:text-6xl font-black text-center mb-4 text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">実績</h2>
-                <p class="text-center text-xl text-slate-400 mb-12">短期集中開発とプロダクト志向で積み上げた成果</p>
-                
-                <div class="max-w-7xl mx-auto">
-                    
-                    <!-- メイン2カラムグリッド -->
-                    <div class="grid md:grid-cols-2 gap-6 mb-6">
-                        
-                        <!-- ハッカソン実績 -->
-                        <div class="game-card p-6 cursor-pointer border-4 border-yellow-400/60 hover:border-yellow-400 hover:shadow-2xl hover:shadow-yellow-400/40 transition-all duration-500 relative overflow-hidden" data-modal-target="activity-hackathons">
-                            <!-- 背景グラデーション -->
-                            <div class="absolute inset-0 bg-gradient-to-br from-yellow-400/5 via-transparent to-purple-400/5 pointer-events-none"></div>
-                            
-                            <!-- トロフィーアイコン背景 -->
-                            <div class="absolute top-2 right-2 opacity-5">
-                                <svg class="w-32 h-32 text-yellow-400" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                                </svg>
-                            </div>
-                            
-                            <div class="relative z-10">
-                                <div class="flex items-start gap-4 mb-4">
-                                    <!-- 数値バッジ（強調版） -->
-                                    <div class="flex-shrink-0">
-                                        <div class="relative w-28 h-28 rounded-full bg-gradient-to-br from-yellow-400/30 to-yellow-600/30 border-4 border-yellow-400 flex flex-col items-center justify-center shadow-xl shadow-yellow-400/60 animate-pulse">
-                                            <div class="absolute inset-0 rounded-full border-2 border-yellow-300 animate-ping opacity-20"></div>
-                                            <div class="text-5xl font-black text-yellow-300 drop-shadow-lg">8</div>
-                                            <div class="text-xs font-bold text-yellow-200 tracking-wide">AWARDS</div>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- タイトルと説明 -->
-                                    <div class="flex-1">
-                                        <div class="flex items-center gap-2 mb-2">
-                                            <svg class="w-8 h-8 text-yellow-400 drop-shadow-lg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                                            </svg>
-                                            <h3 class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500">ハッカソン実績</h3>
-                                        </div>
-                                        <p class="text-xs text-slate-400 mb-3">短期集中開発で結果を出す実行力</p>
-                                        <div class="flex gap-4 mb-3">
-                                            <div class="text-center bg-cyan-500/10 px-3 py-1.5 rounded-lg border border-cyan-400/30">
-                                                <div class="text-2xl font-black text-cyan-300">2</div>
-                                                <div class="text-xs text-cyan-400 font-bold">決勝進出</div>
-                                            </div>
-                                            <div class="text-center bg-purple-500/10 px-3 py-1.5 rounded-lg border border-purple-400/30">
-                                                <div class="text-2xl font-black text-purple-300">12+</div>
-                                                <div class="text-xs text-purple-400 font-bold">参加</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <!-- 主要実績カード -->
-                                <div class="space-y-2 mb-4">
-                                    <!-- 技育展 -->
-                                    <div class="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 p-3 rounded-lg border-2 border-yellow-400/60 relative overflow-hidden">
-                                        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-yellow-400/10 to-transparent animate-pulse"></div>
-                                        <div class="relative flex items-center gap-2">
-                                            <div class="flex-shrink-0 text-2xl">🏆</div>
-                                            <div class="flex-1">
-                                                <div class="font-black text-yellow-200 text-sm">技育展 2025 決勝大会 進出</div>
-                                                <div class="text-xs text-yellow-300/80">2025/11/30 開催</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- JPHACKS -->
-                                    <div class="bg-gradient-to-r from-pink-500/20 to-purple-500/20 p-3 rounded-lg border-2 border-pink-400/60 relative overflow-hidden">
-                                        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-pink-400/10 to-transparent animate-pulse"></div>
-                                        <div class="relative flex items-center gap-2">
-                                            <div class="flex-shrink-0 text-2xl">🏆</div>
-                                            <div class="flex-1">
-                                                <div class="font-black text-pink-200 text-sm">JPHACKS 2025 Award Day</div>
-                                                <div class="text-xs text-pink-300/80">審査員特別賞 受賞</div>
-                                                <div class="text-xs text-pink-300/80">Innovator認定</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- 企業賞まとめ -->
-                                    <div class="bg-slate-800/60 p-3 rounded-lg border border-cyan-400/30">
-                                        <div class="flex items-start gap-2">
-                                            <div class="flex-shrink-0 text-lg">🎖️</div>
-                                            <div class="flex-1">
-                                                <div class="text-cyan-300 font-bold text-xs mb-1">企業賞 7件受賞</div>
-                                                <div class="text-slate-300 text-xs leading-relaxed">
-                                                    ゆめみ / WingArc1st / サイバーエージェント / GONENGO / スタディスト / スーパーハムスター！/ TEQS
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <!-- タグ -->
-                                <div class="flex flex-wrap gap-1.5 mb-3">
-                                    <span class="text-xs bg-yellow-400/20 text-yellow-300 px-2.5 py-1 rounded-full border border-yellow-400/50 font-bold">技育展</span>
-                                    <span class="text-xs bg-yellow-400/20 text-yellow-300 px-2.5 py-1 rounded-full border border-yellow-400/50 font-bold">JPHACKS</span>
-                                    <span class="text-xs bg-cyan-400/10 text-cyan-400 px-2 py-1 rounded-full border border-cyan-400/30">技育博</span>
-                                    <span class="text-xs bg-cyan-400/10 text-cyan-400 px-2 py-1 rounded-full border border-cyan-400/30">SPAJAM</span>
-                                    <span class="text-xs bg-cyan-400/10 text-cyan-400 px-2 py-1 rounded-full border border-cyan-400/30">KC3Hack</span>
-                                </div>
-                                
-                                <p class="text-sm font-bold text-yellow-300 animate-pulse flex items-center gap-1">
-                                    全実績を見る 
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- インターンシップ -->
-                        <div class="game-card p-6 cursor-pointer border-3 border-purple-400/50 hover:border-purple-400 hover:shadow-2xl hover:shadow-purple-400/30 transition-all duration-500" data-modal-target="activity-interns">
-                            <div class="flex items-center gap-2 mb-4">
-                                <svg class="w-7 h-7 text-purple-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                                </svg>
-                                <h3 class="text-2xl font-black text-slate-100">インターンシップ</h3>
-                            </div>
-                            <p class="text-sm text-slate-300 mb-4">大手IT企業での実務経験</p>
-                            
-                            <div class="space-y-3">
-                                <!-- ミラティブ -->
-                                <div class="relative bg-gradient-to-br from-pink-500/10 to-purple-500/10 p-4 rounded-xl border-2 border-pink-400/50 hover:border-pink-400 transition-all duration-300">
-                                    <div class="absolute top-2 right-2">
-                                        <div class="bg-pink-500/20 border border-pink-400 rounded-full px-2 py-0.5 text-xs font-bold text-pink-300">1ヶ月</div>
-                                    </div>
-                                    <div class="mb-2">
-                                        <div class="text-lg font-black text-slate-100 mb-1">株式会社ミラティブ</div>
-                                        <div class="text-xs text-purple-300 font-semibold">Unityエンジニア（就業型）</div>
-                                    </div>
-                                    <div class="space-y-1 text-xs text-slate-300">
-                                        <p>✓ ライブ配信アプリのギフト機能開発</p>
-                                        <p>✓ 大規模コードベースの理解と改修</p>
-                                    </div>
-                                </div>
-                                
-                                <!-- サイバーエージェント -->
-                                <div class="relative bg-gradient-to-br from-cyan-500/10 to-blue-500/10 p-4 rounded-xl border-2 border-cyan-400/50 hover:border-cyan-400 transition-all duration-300">
-                                    <div class="absolute top-2 right-2">
-                                        <div class="bg-cyan-500/20 border border-cyan-400 rounded-full px-2 py-0.5 text-xs font-bold text-cyan-300">2日間</div>
-                                    </div>
-                                    <div class="mb-2">
-                                        <div class="text-lg font-black text-slate-100 mb-1">株式会社サイバーエージェント</div>
-                                        <div class="text-xs text-cyan-300 font-semibold">ゲーム開発ハッカソン</div>
-                                    </div>
-                                    <div class="space-y-1 text-xs text-slate-300">
-                                        <p>✓ メンター指導下でのチーム開発</p>
-                                        <p>✓ 高速プロトタイピング</p>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <p class="text-sm font-bold text-purple-300 mt-4 animate-pulse flex items-center gap-1">
-                                詳細を見る 
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- その他の活動（下部2カラム） -->
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div class="game-card p-5 cursor-pointer border-2 border-cyan-400/30 hover:border-cyan-400 hover:scale-105 transition-all duration-300" data-modal-target="activity-events">
-                            <div class="flex items-center gap-2 mb-3">
-                                <svg class="w-6 h-6 text-cyan-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283-.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                                </svg>
-                                <h3 class="text-lg font-bold text-slate-100">イベント主催・運営</h3>
-                            </div>
-                            <p class="text-xs text-slate-300 mb-3">コミュニティへの技術還元</p>
-                            <div class="flex flex-wrap gap-1.5 mb-3">
-                                <span class="text-xs bg-cyan-400/10 text-cyan-400 px-2 py-1 rounded-full border border-cyan-400/30">メンター</span>
-                                <span class="text-xs bg-cyan-400/10 text-cyan-400 px-2 py-1 rounded-full border border-cyan-400/30">勉強会</span>
-                                <span class="text-xs bg-cyan-400/10 text-cyan-400 px-2 py-1 rounded-full border border-cyan-400/30">教室サポート</span>
-                            </div>
-                            <p class="text-xs font-bold text-cyan-300 animate-pulse">詳細を見る →</p>
-                        </div>
-
-                        <div class="game-card p-5 cursor-pointer border-2 border-purple-400/30 hover:border-purple-400 hover:scale-105 transition-all duration-300" data-modal-target="activity-community">
-                            <div class="flex items-center gap-2 mb-3">
-                                <svg class="w-6 h-6 text-purple-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                                </svg>
-                                <h3 class="text-lg font-bold text-slate-100">団体運営</h3>
-                            </div>
-                            <p class="text-xs text-slate-300 mb-3">ゲーム制作団体の設立</p>
-                            <div class="flex flex-wrap gap-1.5 mb-3">
-                                <span class="text-xs bg-purple-400/10 text-purple-400 px-2 py-1 rounded-full border border-purple-400/30">kitbucket</span>
-                                <span class="text-xs bg-purple-400/10 text-purple-400 px-2 py-1 rounded-full border border-purple-400/30">リーダー</span>
-                                <span class="text-xs bg-purple-400/10 text-purple-400 px-2 py-1 rounded-full border border-purple-400/30">イベント出展</span>
-                            </div>
-                            <p class="text-xs font-bold text-purple-300 animate-pulse">詳細を見る →</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="about" class="py-20 scroll-mt-20 reveal">
-                
-                <h2 class="text-5xl md:text-6xl font-black text-center mb-4 text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">
-                    私のつよみ
-                </h2>
-                
-                <p class="text-center text-2xl font-bold text-slate-100 mb-16">
-                    高速な「成長サイクル」： <strong class="text-purple-300">思考</strong> &rarr; <strong class="text-cyan-300">技術</strong> &rarr; <strong class="text-pink-300">実行</strong>
-                </p>
-
-                <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-                    
-                    <div class="game-card p-8">
-                        <h3 class="text-3xl font-black text-purple-300 mb-4">1. 思考</h3>
-                        <div class="space-y-4">
-                            <a href="about-details.html" class="block p-4 bg-slate-800/50 rounded-lg hover:bg-purple-400/20 transition-colors h-full">
-                                <h4 class="font-bold text-purple-200 text-xl">「対話」と「構造設計」</h4>
-                                <p class="text-sm mt-2">チームを分析し、メンバーの特性に合わせた最適な「構造設計」を行い、チームのポテンシャルを最大化します。</p>
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="game-card p-8">
-                        <h3 class="text-3xl font-black text-cyan-300 mb-4">2. 技術</h3>
-                        <div class="space-y-4">
-                            <a href="about-details.html" class="block p-4 bg-slate-800/50 rounded-lg hover:bg-cyan-400/20 transition-colors h-full">
-                                <h4 class="font-bold text-cyan-200 text-xl">「思考」を翻訳する「武器」</h4>
-                                <p class="text-sm mt-2">「思考」をコードに翻訳し、ハードウェアやサーバー等、多様な技術スタックをUnityと円滑に統合します。</p>
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="game-card p-8">
-                        <h3 class="text-3xl font-black text-pink-300 mb-4">3. 実行</h3>
-                        <div class="space-y-4">
-                            <a href="about-details.html" class="block p-4 bg-slate-800/50 rounded-lg hover:bg-pink-400/20 transition-colors h-full">
-                                <h4 class="font-bold text-pink-200 text-xl">「実績」に変える「完遂力」</h4>
-                                <p class="text-sm mt-2">「技育展 決勝進出」や「JPHACKS」のように、アイデアを「客観的に評価される実績」へと結びつけます。</p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="text-center mt-12">
-                    <a href="about-details.html" class="text-purple-300 border-2 border-purple-400/50 rounded-full px-8 py-3 font-bold hover:bg-purple-400/20 hover:border-purple-400 transition-all text-lg">
-                        もっとみる →
-                    </a>
-                </div>
-            </section>
-            
-            <section id="contact" class="py-20 text-center reveal">
-                <h2 class="text-5xl md:text-6xl font-black mb-12 text-cyan-300" style="text-shadow: 0 0 20px #64ffda;">連絡先</h2>
-                <p class="text-xl text-slate-300 mb-10 max-w-2xl mx-auto">
-                    お気軽にご連絡ください。
-                </p>
-                <div class="flex justify-center gap-8 flex-wrap">
-                    <a href="https://github.com/kdix-23-240" target="_blank" class="group">
-                        <div class="w-20 h-20 rounded-full bg-cyan-400/10 flex items-center justify-center border-2 border-cyan-400/30 transition-all group-hover:bg-cyan-400 group-hover:border-cyan-400 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-cyan-400/50">
-                            <svg class="w-10 h-10 text-cyan-400 group-hover:text-slate-900 transition-colors" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-                        </div>
-                    </a>
-                    <a href="https://x.com/game_game_nuts" target="_blank" class="group">
-                         <div class="w-20 h-20 rounded-full bg-cyan-400/10 flex items-center justify-center border-2 border-cyan-400/30 transition-all group-hover:bg-cyan-400 group-hover:border-cyan-400 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-cyan-400/50">
-                            <svg class="w-10 h-10 text-cyan-400 group-hover:text-slate-900 transition-colors" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                        </div>
-                    </a>
-                </div>
-            </section>
+  <section id="philosophy" class="section reveal">
+    <div class="wrap">
+      <header class="section-head split-head">
+        <div>
+          <p class="stage-label"><span>01</span> PHILOSOPHY</p>
+          <h2 class="section-title">エンジニアとしての軸</h2>
         </div>
-    </main>
-
-    <footer class="bg-black/50 py-12 mt-20 border-t border-cyan-400/20">
-        <div class="container mx-auto px-6 text-center">
-            <p class="terminal-text text-lg">© 2025 AKIHIDE MIKAMI</p>
+        <blockquote class="thesis">
+          いいゲームには、いいチームが必要。<br>
+          だから私は、コードもチームも<br><em>同じ思想で設計</em>します。
+        </blockquote>
+      </header>
+      <div class="phil-stage">
+        <span class="phil-watermark" aria-hidden="true">×</span>
+        <div class="phil-equation">
+          <span class="pf-lead">── 設計の方程式</span>
+          <div class="pf-row" role="img" aria-label="原点 × 設計 × チーム = メンバーの強みの最大化">
+            <span class="pf-chip pf-chip--a"><b>原点</b><i>ORIGIN</i></span>
+            <span class="pf-x" aria-hidden="true">×</span>
+            <span class="pf-chip pf-chip--b"><b>設計</b><i>DESIGN</i></span>
+            <span class="pf-x" aria-hidden="true">×</span>
+            <span class="pf-chip pf-chip--c"><b>チーム</b><i>TEAM</i></span>
+            <span class="pf-eq" aria-hidden="true">=</span>
+            <span class="pf-result"><span class="pf-result-glow" aria-hidden="true"></span><b>強みを最大化</b><i>MAXIMIZE</i></span>
+          </div>
         </div>
-    </footer>
-
-    <a href="#" id="back-to-top-btn" class="back-to-top-btn">
-        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
-    </a>
-    
-    <div id="modal-overlay" class="modal-overlay">
-        <div id="modal-container" class="modal-container">
-            <button id="modal-close-btn" class="modal-close-btn">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-            <div id="modal-content">
-                </div>
+        <div class="phil-scatter">
+          <article class="phil-card2 reveal" data-index="01">
+            <span class="phil-tape" aria-hidden="true"></span>
+            <span class="phil-figure" aria-hidden="true">01</span>
+            <span class="phil-kicker"><span class="phil-dot"></span>ORIGIN</span>
+            <h3>設計の原点は、<br>コードが書けなかった日々</h3>
+            <p>ほとんどコードが書けないままチーム開発に飛び込みました。戦力として切り捨てられないために選んだ武器が「設計」です。「何が変わって、何が変わらないか」を先に分ける——責務分離や疎結合という言葉を知る前から、生き残るためにそれを自然とやっていました。設計は、私にとって後付けの知識ではなく原体験です。</p>
+            <span class="phil-foot">RESPONSIBILITY ÷ DEPENDENCY</span>
+          </article>
+          <article class="phil-card2 phil-card2--feature reveal" data-index="02">
+            <span class="phil-figure" aria-hidden="true">02</span>
+            <span class="phil-kicker"><span class="phil-dot"></span>DESIGN</span>
+            <h3>設計で、<br>メンバーの強みを最大化する</h3>
+            <p>自分より速くコードを書ける人はたくさんいる。でも、構造を考えられる人は多くない。だから私は、設計でメンバーの強みを最大化します。インターフェースやデータ構造は、隣で開発する仲間と、数週間後に読む未来の自分への「契約」。保守性・拡張性・実装速度のどこに張るかを、企画とメンバーの状況から逆算して決めます。</p>
+            <span class="phil-quote" aria-hidden="true">“コードは、次に読む人への手紙”</span>
+          </article>
+          <article class="phil-card2 reveal" data-index="03">
+            <span class="phil-tape" aria-hidden="true"></span>
+            <span class="phil-figure" aria-hidden="true">03</span>
+            <span class="phil-kicker"><span class="phil-dot"></span>TEAM</span>
+            <h3>マネジメントも、<br>アーキテクチャである</h3>
+            <p>タスクの責務を分け、メンバー間の依存を減らし、各自が最大速度で走れる状態を作る。チーム運営でやっていることは、コードの設計とまったく同じです。事前に引いた設計がハッカソン終盤の危機を救う——その瞬間が、私にとって何よりの手応えです。だから私は、人にもコードにも同じ思想で向き合います。</p>
+            <span class="phil-foot">OUTPUT × MEMBERS</span>
+          </article>
         </div>
+      </div>
     </div>
+  </section>
 
-    <div class="hidden">
-
-        <div id="modal-content-project-streamerio">
-            <img src="./images/streamerio_title.png" alt="Streamerio" class="w-full h-64 object-cover mb-6 rounded-lg">
-            <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
-                <h3 class="text-4xl font-black text-slate-100">Streamerio</h3>
-                <div class="shrink-0 text-sm font-bold text-yellow-300 bg-yellow-500/20 border border-yellow-400/50 rounded-full px-4 py-1">
-                    🏆 技育展 決勝大会 進出
-                </div>
-                <div class="shrink-0 text-sm font-bold text-pink-300 bg-pink-500/20 border border-pink-400/50 rounded-full px-4 py-1">
-                    🏆 株式会社スーパーハムスター！賞 受賞
-                </div>
-            </div>
-            <p class="text-lg text-cyan-400 mb-6">配信者&視聴者 vs 視聴者 アクションシューティングライブゲーム</p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-8">
-                <div><p class="text-sm text-slate-400">役割</p><p class="font-bold text-lg text-slate-200">リーダー, プランナー, インゲームエンジニア</p></div>
-                <div><p class="text-sm text-slate-400">チーム</p><p class="font-bold text-lg text-slate-200">5名</p></div>
-                <div><p class="text-sm text-slate-400">期間</p><p class="font-bold text-lg text-slate-200">2ヶ月</p></div>
-            </div>
-            <div class="space-y-6 text-left">
-                <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
-                        コンセプト：『ゲームに直接参加するライブゲーム』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">2025年9月開催の「第三回 58ハッカソン」にて1週間で制作。「配信者と視聴者が一体となって熱狂できる体験」を創りたいという思いからこのプロジェクトは始まり、単なるゲームではなく、ライブ配信そのものを遊び場に変える挑戦</p>
-                </div>
-                <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
-                        技術思想：『メンバーと、未来の自分たちとのコミュニケーションとしての設計』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">私の信念は「優れたコードは、未来のチームメイトへの最高のコミュニケーションツールになる」ということです。この考えに基づき、本作ではDIコンテナとしてVContainerを初めて導入。これは、将来の機能追加や仕様変更に柔軟に対応できる拡張性の高い構造を、チームの共通言語として実装するためでした。非同期処理にUniTaskやR3を採用したのも、複雑な処理を誰もが読みやすく、メンテナンスしやすい形で記述するためです。技術選定は、常にチームの未来を見据えた投資であると考えています。</p>
-                </div>
-                <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283-.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                        チームシナジー：『対話がクオリティを底上げする』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">即席チームのポテンシャルを最大限引き出すため、リーダーとして「心理的安全性」の高い環境構築を主導しました。Discordに思考を垂れ流せるtimesチャンネルを設け、週2回の進捗会では課題を早期に共有。特に最終日の現地開発2日間では、4〜6時間ごとに進捗確認会を実施し、全員のタスク状況とコードフリーズまでの工数を常に共有しました。この細やかな軌道修正により、ハッカソン終盤でも焦ることなく、全員でゲームを楽しみながらデバッグするほどの余裕が生まれました。風通しの良い対話こそが、最終的なゲームのクオリティに直結すると確信しています。</p>
-                </div>
-            </div>
-             <div class="mt-8 flex gap-4">
-                <a href="https://github.com/kdix-23-240/Streamerio" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all">{ } GitHubでソースを見る</a>
-                <a href="https://topaz.dev/projects/2d89f0599342e4151ae1" target="_blank" class="px-4 py-2 border border-green-400 text-green-400 font-bold rounded-lg hover:bg-green-400 hover:text-slate-900 transition-all">Topa'z</a>
-            </div>
+  <section id="projects" class="section section--projects">
+    <div class="wrap projects-wrap">
+      <header class="projects-head">
+        <div>
+          <p class="stage-label"><span>02</span> QUEST LOG</p>
+          <h2 class="section-title">制作物</h2>
         </div>
-        
-        <div id="modal-content-project-yubisoccer">
-            <img src="./images/yubisoccer_title.png" alt="YubiSoccer" class="w-full h-64 object-cover mb-6 rounded-lg">
-            <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
-                <h3 class="text-4xl font-black text-slate-100">ゆびサッカー</h3>
-                <div class="shrink-0 text-sm font-bold text-yellow-300 bg-yellow-500/20 border border-yellow-400/50 rounded-full px-4 py-1">
-                    🏆 JPHACKS2025 Award Day 審査員特別賞 受賞・Innovator認定
-                </div>
-                <div class="shrink-0 text-sm font-bold text-purple-300 bg-purple-500/20 border border-purple-400/50 rounded-full px-4 py-1">
-                    🏆 技育博2025 vol.5 株式会社サイバーエージェント賞 受賞
-                </div>
-                <div class="shrink-0 text-sm font-bold text-purple-300 bg-purple-500/20 border border-purple-400/50 rounded-full px-4 py-1">
-                    🏆 JPHACKS2025 Hack Day Audience Award 受賞
-                </div>
-                <div class="shrink-0 text-sm font-bold text-purple-300 bg-purple-500/20 border border-purple-400/50 rounded-full px-4 py-1">
-                    🏆 LINEヤフー MixLeap 特別賞 受賞
-                </div>
-            </div>
-            <p class="text-lg text-cyan-400 mb-6">ゆびで操作するオンライン対戦サッカーゲーム</p>
-             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-8">
-                <div><p class="text-sm text-slate-400">役割</p><p class="font-bold text-lg text-slate-200">企画, ディレクター, ゲームクライアントエンジニア</p></div>
-                <div><p class="text-sm text-slate-400">チーム</p><p class="font-bold text-lg text-slate-200">5名 (サーバー/インフラ３名, クライアント1名, アート1名)</p></div>
-                <div><p class="text-sm text-slate-400">期間</p><p class="font-bold text-lg text-slate-200">1ヶ月</p></div>
-            </div>
-            <div class="space-y-6 text-left">
-                 <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
-                        コンセプト：『スマホ一台で、指がサッカー選手になる』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">「スマートフォンと片手のみでサッカー対戦を行う」という目的のもと、スマートフォンのカメラで「逆ピース（人差し指・中指）」をモーションキャプチャー。この2本の指がゲーム内の「足」として直感的に動く、全く新しいバーチャルサッカー体験を目指しました。</p>
-                </div>
-                 <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                        UX設計：『"デコピン"でシュートする直感操作』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">プレイヤーの体験を最優先し、操作方法の直感性に徹底的にこだわりました。机の上で指を前後に動かすと「走り」、片方の指を軸にしてもう片方の指で"デコピン"の要領で弾くと「シュート」が撃てます。指の動きがそのままプレイヤースキルに直結する、奥深い操作性を実現しました。</p>
-                </div>
-                <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21v-1a6 6 0 00-5.173-5.973" /></svg>
-                        チームの挑戦：『2日間での"指"キャプチャーと同期』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">JPHACKSという短期間で、このユニークな体験を実現することが最大の挑戦でした。特に「モーションキャプチャーの精度」「指の動作のゲーム内反映」「複数プレイヤー間の同期」は大きな課題でした。限られた時間の中で、"指でサッカーをする"というコアな面白さを技術的にどう実現するかにチームで集中しました。</p>
-                </div>
-            </div>
-             <div class="mt-8 flex gap-4 flex-wrap">
-                <a href="https://yubi-soccer.notion.site/2a546d565ab680118f8cfa41bd1269d7?source=copy_link" onclick="event.stopPropagation()" target="_blank" class="px-4 py-2 border border-purple-400 text-purple-400 font-bold rounded-lg hover:bg-purple-400 hover:text-slate-900 transition-all hover:scale-105">Notionで詳細を確認する</a>
-                <a href="https://github.com/naka6ryo/Yubi-Soccer-ver.2.0" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all">{ } GitHubでソースを見る</a>
-            </div>
+        <div class="projects-head-controls">
+          <p class="projects-hint" id="projects-view-hint">押しながらスクロールで回る</p>
         </div>
-        
-        <div id="modal-content-project-gricon">
-            <img src="./images/gricon_title.png" alt="GriCon" class="w-full h-64 object-cover mb-6 rounded-lg">
-             <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
-                <h3 class="text-4xl font-black text-slate-100">GriCon</h3>
-                <div class="shrink-0 text-sm font-bold text-purple-300 bg-purple-500/20 border border-purple-400/50 rounded-full px-4 py-1">
-                    🏆 技育博2025 vol.3 株式会社WingArc1st賞 受賞
-                </div>
-            </div>
-            <p class="text-lg text-cyan-400 mb-6">ゼロボタンコントローラー & イライラ棒ゲーム</p>
-             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-8">
-                <div><p class="text-sm text-slate-400">役割</p><p class="font-bold text-lg text-slate-200">企画, ディレクター, ソフトウェアエンジニア</p></div>
-                <div><p class="text-sm text-slate-400">チーム</p><p class="font-bold text-lg text-slate-200">2名 (ハードウェア1名, ソフトウェア1名)</p></div>
-                <div><p class="text-sm text-slate-400">期間</p><p class="font-bold text-lg text-slate-200">1ヶ月 (開発) + 1ヶ月 (ブラッシュアップ)</p></div>
-            </div>
-            <div class="space-y-6 text-left">
-                <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
-                        コンセプト：『文字をなくし、感覚で遊ぶコントローラー』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">「ボタンが少ない方が初心者でも楽しめる」という仮説から、究極の「ゼロボタンコントローラー」を考案。握る、動かす、傾ける、振るという4つの直感的なアクションのみで操作できるハードウェアと、それ専用のイライラ棒ゲームを開発しました。文字を一切排除することで、言語や年齢の壁を超え、誰もが説明なしに楽しめる普遍的なゲーム体験を目指しました。</p>
-                </div>
-                 <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                        UX設計：『直感への徹底的なこだわり』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">文字情報に頼らず、動作だけでゲームの面白さが伝わるよう、UI/UX設計には徹底的にこだわりました。ステージ選択やリザルト画面から文字をなくし、傾きと握りのアクションだけで全ての操作を完結させました。この「究極の直感性」を追求した結果、初めて触れる人でもすぐに夢中になれる、GriConの面白さを最大限に引き出すイライラ棒ゲームが誕生しました。</p>
-                </div>
-                <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21v-1a6 6 0 00-5.173-5.973" /></svg>
-                        チームの挑戦：『ハードとソフトを繋ぐ開拓精神』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">複数大学コラボハッカソンにおいて、ハードウェア担当との2名体制で開発。「握る・傾ける」という独自の入力デバイスに合わせてゲーム体験を設計するという、新たな挑戦でした。企画・ディレクションからソフトウェア実装、演出指示まで幅広く担当し、ハードウェアと密接に連携しながら、前例のないコントローラーとゲームの融合を実現。1ヶ月の開発期間と、技育博出展に向けた1ヶ月のブラッシュアップ期間を経て、この革新的なプロジェクトを完成させました。</p>
-                </div>
-            </div>
-             <div class="mt-8 flex gap-4 flex-wrap">
-                <a href="https://www.youtube.com/watch?v=EZxbcKHtADs" target="_blank" class="px-4 py-2 bg-cyan-400 text-slate-900 font-bold rounded-lg hover:bg-cyan-300 transition-transform hover:scale-105">▶ 動画を視聴</a>
-                <a href="https://github.com/kdix-23-240/GriCon?tab=readme-ov-file" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all">{ } GitHubでソースを見る</a>
-            </div>
+      </header>
+      <div class="view-switch-bar" id="view-switch-bar">
+        <span class="vs-lead" aria-hidden="true">回転が操作しにくいときは、一覧でも見られます</span>
+        <div class="view-switch" role="group" aria-label="制作物の表示を切り替え">
+          <button type="button" class="vs-btn is-active" data-view="flow" aria-pressed="true"><span class="vs-ico" aria-hidden="true">◐</span>回転で見る</button>
+          <button type="button" class="vs-btn" data-view="grid" aria-pressed="false"><span class="vs-ico" aria-hidden="true">▦</span>一覧で見る<span class="vs-count" id="vs-count">11</span></button>
         </div>
-        
-        <div id="modal-content-project-kanscream">
-            <img src="./images/kanscream_title.png" alt="KANSCREAM" class="w-full h-64 object-cover mb-6 rounded-lg">
-             <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
-                <h3 class="text-4xl font-black text-slate-100">KANSCREAM</h3>
-                <div class="shrink-0 text-sm font-bold text-pink-300 bg-pink-500/20 border border-pink-400/50 rounded-full px-4 py-1">
-                    🏆 KC3Hack2025 デザイン賞 受賞
-                </div>
-                <div class="shrink-0 text-sm font-bold text-purple-300 bg-purple-500/20 border border-purple-400/50 rounded-full px-4 py-1">
-                    🏆 技育博2025 vol.1 株式会社ゆめみ賞 受賞
-                </div>
-            </div>
-            <p class="text-lg text-cyan-400 mb-6">関西 vs 関東 改造オセロゲーム</p>
-             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-8">
-                <div><p class="text-sm text-slate-400">役割</p><p class="font-bold text-lg text-slate-200">リーダー, リードエンジニア</p></div>
-                <div><p class="text-sm text-slate-400">チーム</p><p class="font-bold text-lg text-slate-200">5名</p></div>
-                <div><p class="text-sm text-slate-400">期間</p><p class="font-bold text-lg text-slate-200">1週間</p></div>
-            </div>
-            <div class="space-y-6 text-left">
-                <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                        コンセプト：『叫んでひっくり返す、理不尽“改造”オセロ』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">関西最大級のハッカソンという舞台で、誰もが笑顔になれる「圧倒的バカゲー感」を追求。関西陣営が「なんでやねん！」と叫ぶと声量やイントネーションに応じて盤面がひっくり返るという理不尽な要素で、戦略性と偶発性が入り混じる新しいオセロ体験を設計しました。</p>
-                </div>
-                 <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                        UX設計：『ロマンとしてのUX』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">「機能的には不要でも、あると体験が豊かになる」という信念のもと、サウンド、アニメーション、照明など、ゲームへの没入感を高める演出に徹底的にこだわりました。和のテイストで統一された世界観の中で、プレイヤーが盤面に集中し、勝利の快感を最大限に味わえるよう細部まで設計。このUXへの全振りが、デザイン賞受賞に繋がったと思います。</p>
-                </div>
-                <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21v-1a6 6 0 00-5.173-5.973" /></svg>
-                        チームの初挑戦：『信頼から生まれた品質』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">自身にとって初めてハッカソンでゲームを完成させたプロジェクトです。信頼できる仲間と共に、それぞれの得意不得意を理解した上でタスクを設計・分担。私がオセロシステムの根幹を担い、音声認識や同期、アセット収集は他のメンバーに任せることで、1週間という短期間で高品質なゲームを完成させることができました。後輩メンバーの育成にも配慮し、チーム全体の成長も実感できた開発でした。</p>
-                </div>
-            </div>
-             <div class="mt-8 flex gap-4 flex-wrap">
-                <a href="https://github.com/kc3hack/2025_8" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all">{ } GitHubでソースを見る</a>
-                <a href="https://qiita.com/nut_nuts_nut/items/a7f6cf3cc2211835e938" target="_blank" class="px-4 py-2 border border-purple-400 text-purple-400 font-bold rounded-lg hover:bg-purple-400 hover:text-slate-900 transition-all">QiitaでUX設計の裏側を見る</a>
-            </div>
+      </div>
+      <div class="projects-flow" id="projects-flow">
+        <div class="projects-stage" id="projects-stage">
+          <div class="carousel-viewport" id="carousel-viewport">
+            <button type="button" class="carousel-nav carousel-nav--prev" id="carousel-prev" aria-label="前の制作物">‹</button>
+            <div class="carousel-track" id="carousel-track" role="tablist" aria-label="制作物カルーセル"></div>
+            <button type="button" class="carousel-nav carousel-nav--next" id="carousel-next" aria-label="次の制作物">›</button>
+            <p class="carousel-counter" id="carousel-counter" aria-live="polite">NO.01 / 11 ∞</p>
+          </div>
+          <nav class="project-jump" id="project-jump" role="tablist" aria-label="制作物を直接選択" hidden></nav>
         </div>
-
-        <div id="modal-content-project-eiinmado">
-            <img src="./images/eiinmado_title.png" alt="詠印魔道" class="w-full h-64 object-cover mb-6 rounded-lg">
-             <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
-                <h3 class="text-4xl font-black text-slate-100">詠印魔道</h3>
-                <div class="shrink-0 text-sm font-bold text-purple-300 bg-purple-500/20 border border-purple-400/50 rounded-full px-4 py-1">
-                    🏆 テックシーカー TEQS賞 受賞
-                </div>
-            </div>
-            <p class="text-lg text-cyan-400 mb-6">“詠唱して、振って、撃ち抜け。” 声の呪文と手のジェスチャーで魔法を発動する、リアル×デジタルの対戦アクション。</p>
-             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-8">
-                <div><p class="text-sm text-slate-400">役割</p><p class="font-bold text-lg text-slate-200">企画, 設計, マネジメント, リードUnityエンジニア</p></div>
-                <div><p class="text-sm text-slate-400">チーム</p><p class="font-bold text-lg text-slate-200">4名 (ハードウェア1名, ソフトウェア3名)</p></div>
-                <div><p class="text-sm text-slate-400">期間</p><p class="font-bold text-lg text-slate-200">2ヶ月</p></div>
-            </div>
-            <div class="space-y-6 text-left">
-                <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
-                        コンセプト：『“中二心、解放” 詠唱×ジェスチャーの魔法対戦』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">声で詠唱し、手の一振りで“魔法”を撃つ、新感覚の対戦アクションです。右手のリング型デバイスがジェスチャーを検知し、スクリーンに魔法が走ります。「“詠唱して、振って、撃ち抜け。”」をテーマに、誰もが持つ「中二心」を解放する、リアルとデジタルが融合した魔法体験を追求しました。</p>
-                </div>
-                 <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                        UX設計：『五感で“撃つ”新感覚インターフェース』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">魔法体験への没入感を高めるため、複数の技術を融合。「詠唱 × ジェスチャー」では、呪文の詠唱で攻撃/防御力が決まり、リングデバイスのジェスチャーで魔法を発動。さらに「アナグリフ表示」を採用し、赤・緑のフィルターメガネで同じスクリーンを見ながら互いに異なる情報を表示させます。被弾時にはコントローラが震える「ハプティクス」も実装し、ダメージを“触覚”でも実感できる設計にこだわりました。</p>
-                </div>
-                <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21v-1a6 6 0 00-5.173-5.973" /></svg>
-                        チームの挑戦：『ハードとソフトを繋ぐ2ヶ月の開発』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">企画・設計・マネジメント兼リードUnityエンジニアとして、2ヶ月でハードとソフトを連携させることが最大の挑戦でした。ハード担当1名・ソフト担当3名の構成で、リング型デバイスや足元センサー等の独自入力装置とゲームロジックを密に連携。声とジェスチャーというアナログな入力を、デジタルの魔法として破綻なく表現するために、チームで高速なイテレーションを繰り返しました。</p>
-                </div>
-            </div>
-             <div class="mt-8 flex gap-4 flex-wrap">
-                <a href="https://www.youtube.com/watch?v=9MgPosLRifY" target="_blank" class="px-4 py-2 bg-cyan-400 text-slate-900 font-bold rounded-lg hover:bg-cyan-300 transition-transform hover:scale-105">▶ 動画を視聴</a>
-                <a href="https://github.com/kdix-23-240/Eiinmado/tree/hard-controller-connection" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all">{ } GitHubでソースを見る</a>
-            </div>
-        </div>
-
-        <div id="modal-content-project-ema">
-            <img src="./images/ema_title.jpg" alt="E-ma" class="w-full h-64 object-cover mb-6 rounded-lg">
-            <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
-                <h3 class="text-4xl font-black text-slate-100">E-ma</h3>
-                <div class="shrink-0 text-sm font-bold text-green-300 bg-green-500/20 border border-green-400/50 rounded-full px-4 py-1">
-                    🌟 初の一般公開作品
-                </div>
-            </div>
-            <p class="text-lg text-cyan-400 mb-6">お寺を彩る、インタラクティブなデジタル絵馬アトラクション</p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-8">
-                <div><p class="text-sm text-slate-400">役割</p><p class="font-bold text-lg text-slate-200">企画, Unityサイド全て</p></div>
-                <div><p class="text-sm text-slate-400">チーム</p><p class="font-bold text-lg text-slate-200">3名</p></div>
-                <div><p class="text-sm text-slate-400">期間</p><p class="font-bold text-lg text-slate-200">2025/2〜2025/5</p></div>
-            </div>
-            <div class="space-y-6 text-left">
-                <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
-                        コンセプト：『お寺に息づく、新しい祈りの形』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">大阪市内の正福寺というお寺のお堂をお借りし、体験型プロジェクションマッピングを実施。参拝者が願い事を書いた絵馬をかざすと、プロジェクションマッピングと連動して華やかな演出が繰り広げられる、伝統と最新技術が融合した新しい祈りの体験を提供しました。</p>
-                </div>
-                <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                        高速開発：『短期集中での挑戦』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">他大学の学生からの声がけで参加することになった本プロジェクト。かなり短い期間で企画から開発、実施まで行う必要があり、メンバー募集でも技術的についてこられる人が限られるという大きな壁に何度も直面しました。しかし、最終的には成功させることができ、自身初の一般公開作品となりました。</p>
-                </div>
-            </div>
-            <div class="mt-8 flex gap-4 flex-wrap">
-                <a href="https://www.youtube.com/watch?v=AXuaWGYiIFM" target="_blank" class="px-4 py-2 bg-cyan-400 text-slate-900 font-bold rounded-lg hover:bg-cyan-300 transition-transform hover:scale-105">▶ 動画を視聴</a>
-                <a href="https://github.com/momoyama-tech/e-ma-unity" target="_blank" class="px-4 py-2 border border-cyan-400 text-cyan-400 font-bold rounded-lg hover:bg-cyan-400 hover:text-slate-900 transition-all">{ } GitHubでソースを見る</a>
-                <a href="https://pinnate-smash-23b.notion.site/E-ma-19efe465481f804e9a28cbca9379be98" target="_blank" class="px-4 py-2 border border-blue-400 text-blue-400 font-bold rounded-lg hover:bg-blue-400 hover:text-slate-900 transition-all">Notion</a>
-            </div>
-        </div>
-
-        <div id="modal-content-project-kami">
-            <img src="./images/kami_title.jpg" alt="神は人々の命を落とさない" class="w-full h-64 object-cover mb-6 rounded-lg">
-            <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
-                <h3 class="text-4xl font-black text-slate-100">神は人々の命を落とさない</h3>
-                <div class="shrink-0 text-sm font-bold text-pink-300 bg-pink-500/20 border border-pink-400/50 rounded-full px-4 py-1">
-                    🏆 株式会社GONENGO賞 受賞
-                </div>
-                <div class="shrink-0 text-sm font-bold text-purple-300 bg-purple-500/20 border border-purple-400/50 rounded-full px-4 py-1">
-                    🏆 株式会社スタディスト賞 受賞
-                </div>
-            </div>
-            <p class="text-lg text-cyan-400 mb-6">「いのち」を拾い集める24時間ソロ開発アクション</p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-8">
-                <div><p class="text-sm text-slate-400">役割</p><p class="font-bold text-lg text-slate-200">ソロエンジニア</p></div>
-                <div><p class="text-sm text-slate-400">チーム</p><p class="font-bold text-lg text-slate-200">1名</p></div>
-                <div><p class="text-sm text-slate-400">期間</p><p class="font-bold text-lg text-slate-200">24時間</p></div>
-            </div>
-            <div class="space-y-6 text-left">
-                <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                        コンセプト：『24時間でクラス設計と遊びを両立』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">第二回58ハッカソンにて、急遽ソロ開発となった24時間で制作。限られた時間の中で、自身のこだわりである「優れたクラス設計」を最優先し、遊びやすさと技術的基盤の両立を目指しました。降ってくる「命」は、ハッカソン運営や参加者に「いのちをください」と言って描いてもらった絵を使用しています。</p>
-                </div>
-                <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
-                        設計思想：『限られた時間でも妥協しない品質』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">24時間という制約の中でも設計思想をふんだんに盛り込みました。MVPアーキテクチャ、Observer、Strategy、ObjectPool、Singleton、SOLID原則など、将来的な拡張性と保守性を見据えた設計パターンを適用。短時間開発でも技術的妥協をしない姿勢を貫きました。</p>
-                </div>
-            </div>
-            <div class="mt-8 flex gap-4 flex-wrap">
-                <a href="https://topaz.dev/projects/7d04bf96e7ef603b1b45" target="_blank" class="px-4 py-2 border border-green-400 text-green-400 font-bold rounded-lg hover:bg-green-400 hover:text-slate-900 transition-all">Topa'z</a>
-            </div>
-        </div>
-
-        <div id="modal-content-project-capybara">
-            <img src="./images/capybara_title.jpg" alt="カピバラゲーム" class="w-full h-64 object-cover mb-6 rounded-lg">
-            <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
-                <h3 class="text-4xl font-black text-slate-100">カピバラゲーム</h3>
-                <div class="shrink-0 text-sm font-bold text-yellow-300 bg-yellow-500/20 border border-yellow-400/50 rounded-full px-4 py-1">
-                    ✨ 子どもたちの夢を実現
-                </div>
-            </div>
-            <p class="text-lg text-cyan-400 mb-6">小学生の夢を叶える、カピバラランゲーム</p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-8">
-                <div><p class="text-sm text-slate-400">役割</p><p class="font-bold text-lg text-slate-200">プランナー, リーダー, リードエンジニア</p></div>
-                <div><p class="text-sm text-slate-400">チーム</p><p class="font-bold text-lg text-slate-200">3名</p></div>
-                <div><p class="text-sm text-slate-400">期間</p><p class="font-bold text-lg text-slate-200">2日間</p></div>
-            </div>
-            <div class="space-y-6 text-left">
-                <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
-                        コンセプト：『子どもたちの「遊びたい」を形に』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">小学生向けプログラミング教室で、参加してくれた子からの「カピバラのゲームを作ってほしい！」というリクエストに応えて2日間で制作したランゲーム。技術的な挑戦や工夫は特にありませんが、完成したゲームを後日その子に遊んでもらったとき、とても喜んでくれて心から嬉しく思えた作品です。</p>
-                </div>
-                <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283-.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                        チーム体制：『小さなチームでの迅速な開発』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">ゲームクライアントエンジニア2人、アート1人の3名体制で開発。私はプランナー、リーダー、リードゲームクライアントエンジニアを担当しました。短期間での開発でしたが、子どもたちの純粋な喜びを目の当たりにし、ゲーム制作の本質的な価値を改めて感じることができました。</p>
-                </div>
-            </div>
-            <div class="mt-8 flex gap-4 flex-wrap">
-                <a href="https://unityroom.com/games/capybaragame" target="_blank" class="px-4 py-2 border border-red-400 text-red-400 font-bold rounded-lg hover:bg-red-400 hover:text-slate-900 transition-all">unityroom でプレイ</a>
-            </div>
-        </div>
-
-        <div id="modal-content-project-magrat">
-            <img src="https://placehold.co/800x400/94a3b8/0f172a?text=MAGRAT" alt="MAGRAT" class="w-full h-64 object-cover mb-6 rounded-lg">
-            <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
-                <h3 class="text-4xl font-black text-slate-100">MAGRAT</h3>
-                <div class="shrink-0 text-sm font-bold text-purple-300 bg-purple-500/20 border border-purple-400/50 rounded-full px-4 py-1">
-                    CAPCOMゲームコンペティション参加作品
-                </div>
-            </div>
-            <p class="text-lg text-cyan-400 mb-6">磁石を切り替えて敵に立ち向かうアクションゲーム</p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-8">
-                <div><p class="text-sm text-slate-400">役割</p><p class="font-bold text-lg text-slate-200">プランナー, リードエンジニア, ディレクター</p></div>
-                <div><p class="text-sm text-slate-400">チーム</p><p class="font-bold text-lg text-slate-200">12名</p></div>
-                <div><p class="text-sm text-slate-400">期間</p><p class="font-bold text-lg text-slate-200">2025/4〜2025/9</p></div>
-            </div>
-            <div class="space-y-6 text-left">
-                <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
-                        コンセプト：『磁力で魅せる、直感アクション体験』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">CAPCOMのゲームコンペティションに向けて開発した作品。難しい操作のない、誰でも遊べる且つ、磁石の力で壁や天井に張り付き、様々なアクションを楽しめるゲームを目指しました。</p>
-                </div>
-                <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
-                        技術挑戦：『初めてのRE-Engine開発』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">初めてカプコンの自社開発エンジンRE-Engineを使用してゲームを制作。ゲーム制作経験者が2人しかいない状況で、未経験者にゲーム制作を教えながら、独自開発エンジンという挑戦的な環境での開発となりました。</p>
-                </div>
-                <div>
-                    <h4 class="text-xl font-bold text-cyan-300 mb-2 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283-.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                        チーム構築：『未経験者を戦力に変える挑戦』
-                    </h4>
-                    <p class="text-slate-300 leading-relaxed pl-8">情報学部内でのメンバー募集により、役割の偏りが激しく、ゲーム制作未経験者が大半を占める中での開発。メンバー全員の能力を見極めながら適切なタスク配分を行い、何度もの挫折と企画の縮小を経て、チーム全員で完成まで導きました。リーダーと共に試行錯誤を重ねながら、チーム構築の難しさと重要性を学んだプロジェクトでした。</p>
-                </div>
-            </div>
-        </div>
-
-        <div id="modal-content-activity-hackathons">
-             <h3 class="text-4xl font-black text-slate-100 mb-2">ハッカソン実績</h3>
-             <p class="text-lg text-cyan-400 mb-6">短期間でのチーム開発とアウトプットに挑戦し、数々の賞をいただきました。</p>
-             <div class="mt-6">
-                 <h4 class="text-2xl font-bold text-cyan-300 mb-4 border-b-2 border-cyan-400/50 pb-2">受賞実績</h4>
-                 <div class="space-y-4">
-                     <div><p class="font-bold text-slate-100 text-lg">JPHACKS2025</p><p class="text-sm text-yellow-300 font-semibold">Award Day 審査員特別賞・Innovator認定・Hack Day Audience Award 受賞</p></div>
-                     <div><p class="font-bold text-slate-100 text-lg">技育博2025 vol.1</p><p class="text-sm text-purple-300 font-semibold">株式会社ゆめみ賞 受賞</p></div>
-                     <div><p class="font-bold text-slate-100 text-lg">技育博2025 vol.3</p><p class="text-sm text-purple-300 font-semibold">株式会社WingArc1st賞 受賞</p></div>
-                     <div><p class="font-bold text-slate-100 text-lg">技育博2025 vol.5</p><p class="text-sm text-purple-300 font-semibold">株式会社サイバーエージェント賞 受賞</p></div>
-                     <div><p class="font-bold text-slate-100 text-lg">LINEヤフー MixLeap</p><p class="text-sm text-purple-300 font-semibold">審査員特別賞 受賞</p></div>
-                     <div><p class="font-bold text-slate-100 text-lg">第二回 58ハッカソン</p><p class="text-sm text-purple-300 font-semibold">株式会社GONENGO賞・株式会社スタディスト賞 W受賞</p></div>
-                     <div><p class="font-bold text-slate-100 text-lg">第三回 58ハッカソン</p><p class="text-sm text-purple-300 font-semibold">株式会社スーパーハムスター！賞 受賞</p></div>
-                     <div><p class="font-bold text-slate-100 text-lg">テックシーカー</p><p class="text-sm text-purple-300 font-semibold">TEQS(会場)賞 受賞</p></div>
-                     <div><p class="font-bold text-slate-100 text-lg">KC3Hack2025</p><p class="text-sm text-pink-300 font-semibold">デザイン賞 受賞</p></div>
-                 </div>
-             </div>
-             <div class="mt-8">
-                 <h4 class="text-2xl font-bold text-cyan-300 mb-4 border-b-2 border-cyan-400/50 pb-2">参加実績</h4>
-                 <ul class="list-disc list-inside text-slate-300 space-y-2">
-                     <li>技育展 2025</li><li>SPAJAM</li><li>JPHACKS2024</li><li>第一回 58ハッカソン</li><li>XRHackathon</li><li>複数大学コラボハッカソン</li>
-                 </ul>
-             </div>
-        </div>
-        <div id="modal-content-activity-interns">
-             <h3 class="text-4xl font-black text-slate-100 mb-2">インターンシップ</h3>
-             <p class="text-lg text-cyan-400 mb-6">プロの現場で開発スキルとチームワークを学びました。</p>
-             <div class="space-y-6">
-                 <div><h4 class="text-xl font-bold text-pink-300 mb-2">株式会社ミラティブ (1ヶ月)</h4><p>ライブ配信アプリ「Mirrativ」のギフト制作に関わる就業型インターンシップに参加。Unityエンジニアとして、既存の複雑なコードベースを理解し、新機能の実装と改修を行いました。コードレビューやチームでの議論を通じて、大規模サービスにおける品質担保の重要性と、他者と協力して開発を進める実践的なスキルを習得しました。</p></div>
-                 <div><h4 class="text-xl font-bold text-pink-300 mb-2">株式会社サイバーエージェント (2日間)</h4><p>ゲーム開発に特化した短期集中型のハッカソンに参加。社員メンターの指導のもと、チームで企画から実装までを行い、高速なプロトタイピング能力とチームでの課題解決能力を磨きました。短期間だからこそ見えたチームマネジメントの重要性についても学びました。</p></div>
-             </div>
-        </div>
-        <div id="modal-content-activity-events">
-             <h3 class="text-4xl font-black text-slate-100 mb-2">イベント主催・運営</h3>
-             <p class="text-lg text-cyan-400 mb-6">コミュニティへの貢献と、技術を広める活動に力を入れています。</p>
-             <ul class="list-disc list-inside text-slate-300 space-y-2">
-                 <li>部内ハッカソンのメンター</li><li>デジタル絵馬アトラクションの一般公開</li><li>小学生向けプログラミング教室のサポート</li><li>小学生向けアイデアソンの企画・運営</li><li>複数大学コラボイベントの企画・運営 (複数回)</li><li>所属団体内でのLT会、勉強会、ディスカッションイベントの主催 (複数回)</li>
-             </ul>
-        </div>
-        <div id="modal-content-activity-community">
-             <h3 class="text-4xl font-black text-slate-100 mb-2">団体運営</h3>
-             <p class="text-lg text-cyan-400 mb-6">リーダーシップと組織運営の経験を積みました</p>
-             <div><h4 class="text-xl font-bold text-pink-300 mb-2">kitbucket (ゲーム制作団体)</h4><p>学内でゲーム制作団体を設立。制作したゲームをオープンキャンパスやイベントに出展。さらに、学外のイベントへの参加や、他大学のIT団体との交流を通じて、メンバーのスキル向上やネットワークの拡大に貢献しました。</p></div>
-        </div>
+      </div>
+      <div class="projects-grid" id="projects-grid" hidden></div>
     </div>
+  </section>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const initLoadingScreen = () => {
-                const loadingScreen = document.getElementById('loading-screen');
-                if (!loadingScreen) return;
-                const loadingBar = document.getElementById('loading-bar');
-                const loadingText = document.getElementById('loading-text');
-                const messages = ['Loading game assets...', 'Initializing renderer...', 'Loading player data...', 'Ready!'];
-                let progress = 0;
-                let messageIndex = 0;
-                const interval = setInterval(() => {
-                    progress += Math.random() * 15;
-                    if (progress > 100) progress = 100;
-                    loadingBar.style.width = progress + '%';
-                    if (progress > 25 * (messageIndex + 1) && messageIndex < messages.length - 1) {
-                        messageIndex++;
-                        loadingText.textContent = messages[messageIndex];
-                    }
-                    if (progress >= 100) {
-                        clearInterval(interval);
-                        setTimeout(() => {
-                            loadingScreen.classList.add('hidden');
-                        }, 500);
-                    }
-                }, 100);
-            };
+  <section id="skills" class="section reveal">
+    <div class="wrap">
+      <header class="section-head split-head">
+        <div>
+          <p class="stage-label"><span>03</span> LOADOUT</p>
+          <h2 class="section-title">スキルセット</h2>
+        </div>
+        <p class="section-lede section-lede--narrow">
+          武器の中心は Unity / C# ──ですが、本当の主武装は<strong>「設計」</strong>です。
+          パターンは覚えるものではなく、課題から逆算して選ぶもの。クライアントの外側（サーバー・DB・インフラ）まで自分で組んだ経験が、その判断を裏打ちしています。
+        </p>
+      </header>
+      <div class="loadout-layout">
+        <div class="loadout-card main reveal">
+          <div class="loadout-badge">MAIN</div>
+          <p class="loadout-label">MAIN WEAPON</p>
+          <h3>設計 ＆ ゲーム<br><span class="loadout-en">/ Unity Client</span></h3>
+          <div class="skill-cluster">
+            <div class="skill-block skill-block--patterns">
+              <h4>設計（主武装）</h4>
+              <ul class="skill-list">
+                <li class="hl">責務分離 / 疎結合</li><li class="hl">MV(R)P</li><li class="hl">DI（VContainer）</li><li>Facade</li><li>Strategy</li><li>ObjectPool</li><li>Observer</li><li>SOLID</li>
+              </ul>
+            </div>
+            <div class="skill-block skill-block--lg">
+              <h4>言語・エンジン</h4>
+              <ul class="skill-list">
+                <li class="hl xl">Unity</li><li class="hl xl">C#</li><li>RE-Engine</li>
+              </ul>
+            </div>
+            <div class="skill-block">
+              <h4>ライブラリ</h4>
+              <ul class="skill-list">
+                <li class="hl">R3 / UniRx</li><li class="hl">UniTask</li><li>DOTween</li>
+              </ul>
+            </div>
+          </div>
+          <p class="skill-note">
+            パターンは目的から逆算して選びます。Facade は「お互いの実装を知らずに並行開発できる境界」を引くため（Streamerio）、Strategy は実装が未決の処理を後で差し替えるため（研究アプリ）、MV(R)P＋R3 は描画とロジックを分離するため。
+            設計という<strong>マクロ</strong>の強みに加え、ゆびサッカーでフレームタイム 60ms→16ms の<strong>ミクロ</strong>なチューニングにも踏み込みました。
+          </p>
+        </div>
+        <div class="loadout-card sub reveal">
+          <div class="loadout-badge">SUB</div>
+          <p class="loadout-label">SUB WEAPON</p>
+          <h3>Web / Backend</h3>
+          <div class="skill-cluster skill-cluster--compact">
+            <div class="skill-block">
+              <h4>フロント</h4>
+              <ul class="skill-list"><li>React</li><li>TypeScript</li><li>Vite</li><li>Zustand</li></ul>
+            </div>
+            <div class="skill-block">
+              <h4>サーバー</h4>
+              <ul class="skill-list"><li>Node.js</li><li>Fastify</li><li>Python</li><li>FastAPI</li></ul>
+            </div>
+            <div class="skill-block">
+              <h4>DB・インフラ</h4>
+              <ul class="skill-list"><li>MySQL</li><li>Firestore</li><li>Cloud Run</li><li>Docker</li></ul>
+            </div>
+          </div>
+          <p class="skill-note">研究プロジェクトで、フロント〜バックエンド〜推薦エンジン〜インフラを一人で設計・構築。クライアントの「外側」を自分の手で組んだ経験が、通信・データ設計の判断を支えています。</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-            const setupScrollEffects = () => {
-                const scrollProgress = document.getElementById('scroll-progress');
-                const backToTopBtn = document.getElementById('back-to-top-btn');
-                const revealElements = document.querySelectorAll('.reveal');
-                const handleScroll = () => {
-                    const scrollTotal = document.documentElement.scrollHeight - window.innerHeight;
-                    const scrollPosition = window.scrollY;
-                    const progress = (scrollPosition / scrollTotal) * 100;
-                    if (scrollProgress) scrollProgress.style.width = progress + '%';
-                    if (backToTopBtn) backToTopBtn.classList.toggle('visible', scrollPosition > 400);
-                    revealElements.forEach(element => {
-                        if (element.getBoundingClientRect().top < window.innerHeight - 100) {
-                            element.classList.add('active');
-                        }
-                    });
-                };
-                window.addEventListener('scroll', handleScroll);
-                handleScroll();
-            };
+  <section id="awards" class="section">
+    <div class="wrap">
+      <header class="section-head">
+        <p class="stage-label"><span>04</span> TROPHIES</p>
+        <div class="title-row">
+          <h2 class="section-title">実績</h2>
+          <p class="section-aside" id="awards-summary"></p>
+        </div>
+      </header>
+      <div id="awards-timeline" class="awards-timeline"></div>
+    </div>
+  </section>
 
-            const initParticles = () => {
-                const particlesContainer = document.getElementById('particles-container');
-                if (!particlesContainer) return;
-                const particleShapes = ['▲', '■', '●', '◆', '★', '+', 'x'];
-                for (let i = 0; i < 30; i++) {
-                    const particle = document.createElement('div');
-                    particle.classList.add('particle');
-                    particle.textContent = particleShapes[Math.floor(Math.random() * particleShapes.length)];
-                    particle.style.left = Math.random() * 100 + 'vw';
-                    particle.style.fontSize = (Math.random() * 15 + 10) + 'px';
-                    particle.style.animationDuration = (Math.random() * 20 + 15) + 's';
-                    particle.style.animationDelay = Math.random() * 10 + 's';
-                    particlesContainer.appendChild(particle);
-                }
-            };
+  <section id="experience" class="section reveal">
+    <div class="wrap">
+      <header class="section-head">
+        <p class="stage-label"><span>05</span> EXPERIENCE</p>
+        <h2 class="section-title">経歴・活動</h2>
+      </header>
+      <div class="exp-board">
+        <article class="exp-obj exp-obj--pass reveal" data-exp="01">
+          <span class="pass-hole" aria-hidden="true"></span>
+          <div class="pass-head">
+            <span class="pass-brand">INTERN PASS</span>
+            <span class="pass-no">#01</span>
+          </div>
+          <div class="pass-row">
+            <span class="pass-photo" aria-hidden="true">M</span>
+            <div class="pass-meta">
+              <p class="exp-when">就業型インターン / 1ヶ月</p>
+              <h3 class="exp-title">株式会社ミラティブ</h3>
+              <p class="exp-role">Unityエンジニア</p>
+            </div>
+          </div>
+          <div class="exp-desc">
+            <p>ライブゲーム「スラポンコロシアム」の機能実装を担当。1年以上運用されている大規模なコードベースを読み解きながら、テスト機能の追加やイベント向けの仕様変更、新キャラクター追加に伴う特別仕様の実装を行いました。</p>
+            <p>コードレビューを通じて「長く運用されることを前提にした設計」をプロの現場で体感しました。</p>
+          </div>
+          <span class="pass-barcode" aria-hidden="true"></span>
+        </article>
 
-            const setupSmoothScroll = () => {
-                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                    anchor.addEventListener('click', function (e) {
-                        if (anchor.getAttribute('onclick') || anchor.getAttribute('target') === '_blank') {
-                            return;
-                        }
+        <article class="exp-obj exp-obj--seal reveal" data-exp="02">
+          <div class="seal-badge" aria-hidden="true"><span>kb</span><small>EST.</small></div>
+          <span class="seal-tag">FOUNDER</span>
+          <h3 class="exp-title">kitbucket</h3>
+          <p class="exp-role">創設者 / 代表</p>
+          <div class="exp-desc">
+            <p>「プログラマーだけではいいゲームは作れない」と感じ、デザイナーやサウンドクリエイターを学内で集めてゲーム制作団体を設立。</p>
+            <p>オープンキャンパス出展、他大学IT団体との交流、LT会・勉強会・部内ハッカソンの主催を通じて、人と技術が交わる場を広げ続けています。</p>
+          </div>
+          <span class="seal-foot">学内ゲーム制作団体 ── 創設から現在</span>
+        </article>
 
-                        const targetId = anchor.getAttribute('href');
-                        if (!targetId || targetId === '#') {
-                            e.preventDefault();
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
-                            return;
-                        }
-                        const target = document.querySelector(targetId);
-                        if (target) {
-                            e.preventDefault();
-                            target.scrollIntoView({ behavior: 'smooth' });
-                        }
-                    });
-                });
-            };
+        <article class="exp-obj exp-obj--note reveal" data-exp="03">
+          <div class="note-head">
+            <span class="note-label">LAB NOTE</span>
+            <span class="note-date">研究室プロジェクト</span>
+          </div>
+          <h3 class="exp-title">システムデザイン論研究室</h3>
+          <p class="exp-role">フルスタック設計・開発</p>
+          <div class="exp-desc">
+            <p>毎週の進捗報告で企画・仕様・概念設計を深く議論しながら、構造的なソフトウェア設計を学んでいます。</p>
+            <p>イベント周遊促進アプリを要件定義からアーキテクチャ・推薦エンジン・GCPインフラまで単独設計し、先輩から引き継いだ旧コードの大規模リファクタリング（DB正規化・責務分割・抽象化層の導入）も主導しています。</p>
+          </div>
+          <div class="note-tags">
+            <span>要件定義</span><span>DB正規化</span><span>推薦エンジン</span><span>インフラ</span>
+          </div>
+        </article>
 
-            const setupModals = () => {
-                const modalOverlay = document.getElementById('modal-overlay');
-                if (!modalOverlay) return;
-                const modalContent = document.getElementById('modal-content');
-                const closeModalBtn = document.getElementById('modal-close-btn');
-                const modalContainer = document.getElementById('modal-container');
+        <article class="exp-obj exp-obj--flyer reveal" data-exp="04">
+          <span class="flyer-perf" aria-hidden="true"></span>
+          <span class="flyer-kicker">★ COMMUNITY ACTIVITY ★</span>
+          <h3 class="exp-title">イベント主催・運営</h3>
+          <p class="exp-role">メンター / 企画</p>
+          <div class="exp-desc">
+            <p>部内ハッカソンのメンター、定期的なLT会やゲーム制作の勉強会の主催、小学生向けプログラミング教室でのサポートとアイデアソン企画、複数大学コラボイベントの運営などを実施。</p>
+            <p>知らない人・領域と交わる場をつくること自体が、自分にとっての刺激になっています。</p>
+          </div>
+          <div class="flyer-stamps">
+            <span>ハッカソンメンター</span><span>LT会</span><span>ゲーム勉強会</span><span>こども教室</span><span>大学コラボ</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
 
-                const openModal = (targetId) => {
-                    const contentTemplate = document.getElementById(`modal-content-${targetId}`);
-                    
-                    if (contentTemplate && modalContainer) { 
-                        modalContent.innerHTML = contentTemplate.innerHTML;
-                        modalOverlay.classList.add('visible');
-                        document.body.style.overflow = 'hidden';
-                        
-                        modalContainer.scrollTop = 0; 
-                    }
-                };
+  <section id="contact" class="section continue reveal">
+    <div class="wrap">
+      <p class="continue-pre">── NEXT STAGE</p>
+      <h2>CONTINUE<span class="blink">?</span></h2>
+      <p class="continue-lede">設計でチームを加速させるエンジニアを探しているなら、ぜひ。一緒にいいゲームを作りましょう。</p>
+      <nav class="continue-menu" aria-label="連絡先">
+        <a href="https://github.com/kdix-23-240" target="_blank" rel="noopener"><span class="cm-num">01</span>GITHUB</a>
+        <a href="https://x.com/game_game_nuts" target="_blank" rel="noopener"><span class="cm-num">02</span>X / TWITTER</a>
+        <a href="https://qiita.com/nut_nuts_nut" target="_blank" rel="noopener"><span class="cm-num">03</span>QIITA</a>
+      </nav>
+    </div>
+  </section>
+</main>
 
-                const closeModal = () => {
-                    modalOverlay.classList.remove('visible');
-                    document.body.style.overflow = '';
-                };
-                document.querySelectorAll('[data-modal-target]').forEach(trigger => {
-                    trigger.addEventListener('click', () => {
-                        const targetId = trigger.dataset.modalTarget;
-                        openModal(targetId);
-                    });
-                });
-                closeModalBtn.addEventListener('click', closeModal);
-                modalOverlay.addEventListener('click', (e) => {
-                    if (e.target === modalOverlay) {
-                        closeModal();
-                    }
-                });
-                document.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape' && modalOverlay.classList.contains('visible')) {
-                        closeModal();
-                    }
-                });
-            };
+<footer class="site-footer">
+  <div class="wrap">
+    <p>© 2026 AKIHIDE MIKAMI ── TIPS: ↑↑↓↓←→←→BA</p>
+  </div>
+</footer>
 
-            initLoadingScreen();
-            setupScrollEffects();
-            initParticles();
-            setupSmoothScroll();
-            setupModals();
-        });
-    </script>
+<div id="grid-focus-layer" class="grid-focus-layer" hidden aria-hidden="true">
+  <div class="grid-focus-backdrop" id="grid-focus-backdrop"></div>
+  <div class="grid-focus-mount" id="grid-focus-mount"></div>
+</div>
+
+<div id="toast" class="toast" role="status"></div>
+
+<script src="./data/content.js"></script>
+<script src="./main.js"></script>
 </body>
 </html>
