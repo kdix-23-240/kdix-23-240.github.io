@@ -129,15 +129,25 @@ function serviceLinkHTML(l, isPrimary) {
 
 // ── Render helpers ──────────────────────────────────────────
 
+function formatMainRoleValue(value) {
+  const parts = String(value).split(' / ');
+  if (parts.length < 2) return esc(String(value));
+  return `${esc(parts[0])} /<br>${esc(parts.slice(1).join(' / '))}`;
+}
+
 function renderStats() {
   const ul = $('#status-rows');
   if (!ul) return;
-  ul.innerHTML = Object.values(stats).map((s) => `
-    <li>
+  ul.innerHTML = Object.entries(stats).map(([key, s]) => {
+    const roleClass = key === 'mainRole' ? ' stat-main-role' : key === 'subRole' ? ' stat-sub-role' : '';
+    const valueHtml = key === 'mainRole' ? formatMainRoleValue(s.value) : esc(String(s.value));
+    return `
+    <li class="${s.text ? 'stat-text' : ''}${roleClass}">
       <span class="k">${esc(s.label)}</span>
-      <span class="v">${s.value}<small>${esc(s.suffix)}</small></span>
+      <span class="v${s.text ? ' v--text' : ''}">${valueHtml}<small>${esc(s.suffix)}</small></span>
     </li>
-  `).join('');
+  `;
+  }).join('');
 }
 
 function projectThemeVars(p) {

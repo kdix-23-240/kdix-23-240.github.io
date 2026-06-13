@@ -781,6 +781,24 @@
     font-family: var(--font-sans);
     margin-left: 2px;
   }
+
+  .player-stats .v--text {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.45;
+    letter-spacing: 0.01em;
+  }
+
+  .player-stats .stat-main-role {
+    border-right: 1px solid color-mix(in srgb, var(--line-strong) 70%, transparent);
+    padding-right: 14px;
+    margin-right: -8px;
+  }
+
+  .player-stats .stat-sub-role {
+    padding-left: 2px;
+  }
   
   .player-file-foot {
     margin: 13px 0 0;
