@@ -396,7 +396,7 @@ function wrapSlot(slot) {
 }
 
 function slotOffset(i) {
-  return wrapSlot(i - rotationIndex - dragOffset);
+  return wrapSlot(i - rotationIndex + dragOffset);
 }
 
 function updateStageTheme(p) {
@@ -849,9 +849,9 @@ function setupProjects() {
   const snapFromDrag = () => {
     const steps = Math.round(dragOffset);
     if (steps !== 0) {
-      rotationIndex += steps;
+      rotationIndex -= steps;
     } else if (Math.abs(dragOffset) > 0.12) {
-      rotationIndex += dragOffset > 0 ? 1 : -1;
+      rotationIndex -= dragOffset > 0 ? 1 : -1;
     }
     activeIndex = ((rotationIndex % projects.length) + projects.length) % projects.length;
     dragOffset = 0;
