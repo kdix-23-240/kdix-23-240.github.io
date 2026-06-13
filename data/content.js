@@ -51,6 +51,8 @@ window.PORTFOLIO_DATA = {
           { title: '結果 ── コアの面白さに集中させて5つの賞へ', body: '「指でサッカーをする」という一点の面白さにチーム全員のリソースを集中させ、JPHACKS2025で審査員特別賞・Hack Day Audience Award・Innovator認定、技育博でサイバーエージェント賞、LINEヤフー MixLeapで特別賞をいただきました。' },
         ],
         links: [
+          { label: '▶ 動画', url: 'https://www.youtube.com/watch?v=S0n7tT2ixuc&t=1s' },
+          { label: 'Play', url: 'https://yubi-soccer-ver2.netlify.app/', deploy: true },
           { label: 'Notionで詳細を見る', url: 'https://yubi-soccer.notion.site/2a546d565ab680118f8cfa41bd1269d7?source=copy_link', primary: true },
           { label: 'GitHub', url: 'https://github.com/naka6ryo/Yubi-Soccer-ver.2.0' },
         ],
@@ -86,6 +88,7 @@ window.PORTFOLIO_DATA = {
         ],
         links: [
           { label: '▶ 動画を見る', url: 'https://youtu.be/aWU_fEskVf4', primary: true },
+          { label: 'unityroomでPlay', url: 'https://unityroom.com/games/streamerio', deploy: true },
           { label: 'GitHub', url: 'https://github.com/kdix-23-240/Streamerio' },
           { label: "Topa'z", url: 'https://topaz.dev/projects/2d89f0599342e4151ae1' },
         ],
@@ -219,7 +222,10 @@ window.PORTFOLIO_DATA = {
         sections: [
           { title: '制約 ── 24時間でも、設計の手は抜かない', body: '急遽ソロでの参加になった24時間ハッカソン。時間がない状況だからこそ、MVP・Observer・Strategy・ObjectPool・SOLIDといった設計を意図して適用しました。「短時間でも品質の土台は崩さない」というこだわりを自分に課した作品で、降ってくる「いのち」は、運営や参加者の方々に「いのちをください」と頼んで描いてもらった絵をそのまま使っています。チームのためでなく、自分の設計観を確かめるための一作でした。' },
         ],
-        links: [{ label: "Topa'z", url: 'https://topaz.dev/projects/7d04bf96e7ef603b1b45' }],
+        links: [
+          { label: 'unityroomでPlay', url: 'https://unityroom.com/games/the-life', deploy: true },
+          { label: "Topa'z", url: 'https://topaz.dev/projects/7d04bf96e7ef603b1b45' },
+        ],
       },
     },
     {
@@ -248,7 +254,7 @@ window.PORTFOLIO_DATA = {
       id: 'talkscope',
       title: 'TalkScope',
       genre: 'WEBアプリ × 音声解析',
-      highlights: ['フロント', '失敗と学び'],
+      highlights: ['フロント', '失敗と学び', 'AI仕様書駆動開発'],
       weight: 'md',
       featured: false,
       fallback: 'TALKSCOPE',
@@ -266,14 +272,17 @@ window.PORTFOLIO_DATA = {
           { title: '技術 ── React 19 / クリーンアーキテクチャ / FastAPI × Cloud Run', body: 'フロントはReact 19 + TypeScript + Vite 6 + Tailwind v4 + Bun + Zustandをクリーンアーキテクチャで構成。バックエンドはPython + FastAPI + GiNZA + Gemini API、インフラはCloud Run + Vercel。バックエンド2名・フロント1名の分業で、APIの型定義を「契約」として先に固め、並行開発できる基盤を整備しました。' },
           { title: '失敗と学び ── 「コードは次に読む人への手紙」', body: '設計だけを担当しAIに実装を任せるバイブコーディングで開発を進めた結果、バックエンド側のドメイン型変更の影響範囲をフロント全体で把握できておらず変更を拒否。メンバーから「自分のコードに責任を持て」と指摘されました。この経験から「コードは次に読む人への手紙」「データ構造は設計者の契約」という意識へ到達。メンバーの強みを最大化するという設計の考え方を、コードの品質にも広げる原点になりました。' },
         ],
-        links: [],
+        links: [
+          { label: 'Open', url: 'https://talk-scope-kohl.vercel.app/', deploy: true },
+          { label: '技術解説', url: 'https://talk-scope-descriotion-site.vercel.app/' },
+        ],
       },
     },
     {
       id: 'shuyu',
       title: 'イベント周遊促進アプリ',
       genre: 'WEBアプリ（研究）',
-      highlights: ['フルスタック', '一人設計'],
+      highlights: ['フルスタック', '一人設計', 'AI仕様書駆動開発', 'サーバー/インフラ/DB経験'],
       weight: 'sm',
       featured: false,
       fallback: 'EVENT APP',
