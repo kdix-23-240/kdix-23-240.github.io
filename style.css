@@ -3651,8 +3651,26 @@
     .grid-focus-mount .modal-panel .card-face--front .card-screen {
       border-right: none; border-bottom: 2px solid var(--card-border, var(--line-strong));
     }
-    .grid-focus-mount .modal-panel .card-back-content { grid-template-columns: 1fr; }
-    .grid-focus-mount .modal-panel .card-back-top { border-right: none; }
+    .grid-focus-mount .modal-panel .card-face--front .card-front-info {
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+    }
+    .grid-focus-mount .modal-panel .card-back-content {
+      grid-template-columns: 1fr;
+      grid-template-rows: minmax(0, auto) minmax(0, 1fr);
+      overflow: hidden;
+    }
+    .grid-focus-mount .modal-panel .card-back-top {
+      border-right: none;
+      border-bottom: 2px solid var(--card-border, var(--line-strong));
+      max-height: 42%;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+    .grid-focus-mount .modal-panel .card-back-sections {
+      min-height: 0;
+    }
   }
   
   /* ── EXPERIENCE : four distinct objects on a board ─────────── */

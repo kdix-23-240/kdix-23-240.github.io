@@ -1127,7 +1127,7 @@ function renderAwards() {
       ${yearOrder.map((y) => {
         const items = byYear.get(y);
         if (y === '2025') return awardYearPanelHTML(y, items, { split: true });
-        return awardYearPanelHTML(y, items, { open: y === '2026' });
+        return awardYearPanelHTML(y, items);
       }).join('')}
     </div>
   `;
