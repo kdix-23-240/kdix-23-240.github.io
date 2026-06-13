@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&amp;family=Zen+Kaku+Gothic+New:wght@500;700;900&amp;family=IBM+Plex+Mono:wght@400;600&amp;family=DotGothic16&amp;display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;}
+body{margin:0;background:#F4F1EA;-webkit-font-smoothing:antialiased;}
+::selection{background:#EE4429;color:#fff;}
+html{scroll-behavior:smooth;}
+@keyframes pf-blink{0%,55%{opacity:1}56%,100%{opacity:0}}
+@keyframes pf-float1{0%,100%{transform:translateY(0) rotate(-2.5deg)}50%{transform:translateY(-16px) rotate(-1deg)}}
+@keyframes pf-float2{0%,100%{transform:translateY(0)}50%{transform:translateY(13px)}}
+@keyframes pf-float3{0%,100%{transform:translateY(0) rotate(2deg)}50%{transform:translateY(-11px) rotate(4deg)}}
+@keyframes pf-drift{0%,100%{transform:translate(0,0)}33%{transform:translate(34px,-22px)}66%{transform:translate(-22px,26px)}}
+@keyframes pf-spin{to{transform:rotate(360deg)}}
+</style>
+<script src="./image-slot.js"></script>
+</helmet>
+
+<div id="pf-root" style="position:relative;background:#F4F1EA;color:#15171C;font-family:'Zen Kaku Gothic New','Noto Sans JP',sans-serif;font-size:16px;line-height:1.85;letter-spacing:0.01em;overflow-x:clip;min-height:100vh;">
+
+  <!-- ATMOSPHERE -->
+  <div aria-hidden="true" style="position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;">
+    <span style="position:absolute;width:520px;height:520px;top:-12%;right:-6%;border-radius:50%;filter:blur(80px);opacity:0.5;background:rgba(238,68,41,0.14);animation:pf-drift 22s ease-in-out infinite;"></span>
+    <span style="position:absolute;width:380px;height:380px;bottom:6%;left:-8%;border-radius:50%;filter:blur(80px);opacity:0.42;background:rgba(47,107,255,0.12);animation:pf-drift 28s ease-in-out infinite reverse;"></span>
+    <span style="position:absolute;width:300px;height:300px;top:46%;left:42%;border-radius:50%;filter:blur(90px);opacity:0.32;background:rgba(22,185,129,0.12);animation:pf-drift 19s ease-in-out infinite;"></span>
+  </div>
+
+  <!-- HEADER -->
+  <header style="position:fixed;inset:0 0 auto 0;z-index:400;height:60px;display:flex;align-items:center;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(244,241,234,0.72);border-bottom:1px solid #E5E1D8;">
+    <div style="width:100%;max-width:1280px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;">
+      <a href="#top" style="font-family:'DotGothic16',monospace;font-size:14px;letter-spacing:0.06em;text-decoration:none;color:#15171C;">AKIHIDE&nbsp;MIKAMI<span style="color:#EE4429;animation:pf-blink 1.2s steps(1) infinite;">_</span></a>
+      <nav style="display:flex;gap:2px;flex-wrap:wrap;">
+        <a href="#philosophy" style="font-size:12.5px;color:#6A6E7C;text-decoration:none;padding:7px 11px;border-radius:6px;transition:color 0.2s,background 0.2s;" style-hover="color:#15171C;background:rgba(255,255,255,0.6);">哲学</a>
+        <a href="#projects" style="font-size:12.5px;color:#6A6E7C;text-decoration:none;padding:7px 11px;border-radius:6px;transition:color 0.2s,background 0.2s;" style-hover="color:#15171C;background:rgba(255,255,255,0.6);">制作物</a>
+        <a href="#skills" style="font-size:12.5px;color:#6A6E7C;text-decoration:none;padding:7px 11px;border-radius:6px;transition:color 0.2s,background 0.2s;" style-hover="color:#15171C;background:rgba(255,255,255,0.6);">スキル</a>
+        <a href="#awards" style="font-size:12.5px;color:#6A6E7C;text-decoration:none;padding:7px 11px;border-radius:6px;transition:color 0.2s,background 0.2s;" style-hover="color:#15171C;background:rgba(255,255,255,0.6);">実績</a>
+        <a href="#experience" style="font-size:12.5px;color:#6A6E7C;text-decoration:none;padding:7px 11px;border-radius:6px;transition:color 0.2s,background 0.2s;" style-hover="color:#15171C;background:rgba(255,255,255,0.6);">経歴</a>
+        <a href="#contact" style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#EE4429;text-decoration:none;padding:7px 13px;border:1px solid rgba(238,68,41,0.4);border-radius:999px;transition:color 0.2s,background 0.2s;" style-hover="background:#EE4429;color:#fff;">CONTACT</a>
+      </nav>
+    </div>
+  </header>
+
+  <main style="position:relative;z-index:1;">
+
+  <!-- HERO -->
+  <section id="top" data-screen-label="Hero" style="position:relative;padding:148px 0 130px;perspective:1500px;overflow:hidden;border-bottom:1px solid #E5E1D8;scroll-margin-top:72px;">
+    <div aria-hidden="true" style="position:absolute;right:-3%;top:2%;font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(280px,40vw,600px);line-height:0.8;color:rgba(238,68,41,0.06);pointer-events:none;user-select:none;transform:translate3d(calc(var(--mx,0) * 40px), calc(var(--my,0) * 28px), 0);">×</div>
+    <span aria-hidden="true" style="position:absolute;left:5%;top:20%;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#A2A6B2;transform:rotate(-6deg) translate3d(calc(var(--mx,0) * -20px), calc(var(--my,0) * 14px), 0);">// PLAYING_DIRECTOR</span>
+    <span aria-hidden="true" style="position:absolute;left:34%;top:11%;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#C9B0AC;transform:rotate(4deg) translate3d(calc(var(--mx,0) * 16px), calc(var(--my,0) * -12px), 0);">×15 HACKATHONS</span>
+    <span aria-hidden="true" style="position:absolute;right:8%;bottom:14%;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.18em;color:#A2A6B2;transform:rotate(-3deg) translate3d(calc(var(--mx,0) * 22px), calc(var(--my,0) * 16px), 0);">Unity / C#</span>
+
+    <div style="position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:0 28px;display:grid;grid-template-columns:1.12fr 0.88fr;gap:56px;align-items:center;">
+      <div data-reveal="" data-reveal-from="translateY(28px)">
+        <p style="display:flex;align-items:center;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#EE4429;letter-spacing:0.18em;margin:0 0 22px;"><span style="width:30px;height:2px;background:#EE4429;"></span>PLAYER FILE ── GAME CLIENT ENGINEER</p>
+        <h1 style="margin:0 0 26px;line-height:1.12;">
+          <span style="display:block;font-size:clamp(22px,3vw,32px);font-weight:700;color:#6A6E7C;letter-spacing:0.06em;margin-bottom:8px;">設計は、</span>
+          <span style="display:block;font-family:'Syne','Zen Kaku Gothic New',sans-serif;font-weight:800;font-size:clamp(46px,7vw,86px);letter-spacing:-0.02em;color:#15171C;">チームの<span style="position:relative;color:#EE4429;">乗数<span aria-hidden="true" style="position:absolute;left:-0.16em;right:-0.16em;bottom:0.08em;height:0.16em;background:rgba(238,68,41,0.25);z-index:-1;"></span></span>。</span>
+        </h1>
+        <p style="font-size:16px;color:#3C3F49;max-width:33em;margin:0 0 14px;">三上晃英（カシュー）。Unity / C# を主軸とするゲームクライアントエンジニア。企画・設計・実装・マネジメントを同時にこなす<strong style="color:#15171C;font-weight:700;">プレイングディレクター</strong>として、ハッカソンを競技のように戦ってきました。</p>
+        <p style="font-size:14.5px;color:#6A6E7C;max-width:31em;margin:0 0 34px;padding-left:16px;border-left:2px solid #D2CCBF;">設計するのは、一人で速く作るためではなく、<strong style="color:#15171C;font-weight:700;">チーム全員の出力を最大化するため</strong>です。</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <a href="#projects" style="display:inline-flex;align-items:center;font-size:14px;font-weight:700;text-decoration:none;padding:13px 26px;border-radius:10px;background:#EE4429;color:#fff;border:1.5px solid #EE4429;box-shadow:0 10px 24px rgba(238,68,41,0.22);transition:transform 0.16s,box-shadow 0.2s;" style-hover="transform:translateY(-3px);box-shadow:0 16px 34px rgba(238,68,41,0.3);">制作物を見る →</a>
+          <a href="https://github.com/kdix-23-240" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;font-size:14px;font-weight:700;text-decoration:none;padding:13px 26px;border-radius:10px;background:#fff;color:#15171C;border:1.5px solid #D2CCBF;transition:transform 0.16s,border-color 0.2s;" style-hover="transform:translateY(-3px);border-color:#15171C;">GitHub</a>
+        </div>
+      </div>
+
+      <aside style="position:relative;transform:translate3d(calc(var(--mx,0) * -22px), calc(var(--my,0) * -16px), 0);">
+        <div style="animation:pf-float1 8s ease-in-out infinite;">
+          <div aria-hidden="true" style="position:absolute;inset:18px -16px -18px 16px;border-radius:24px;background:repeating-linear-gradient(135deg,rgba(238,68,41,0.16),rgba(238,68,41,0.16) 8px,transparent 8px,transparent 18px);transform:rotate(2.6deg);z-index:0;"></div>
+          <div style="position:relative;z-index:1;background:#fff;border:1px solid #E5E1D8;border-radius:22px;padding:14px 14px 16px;box-shadow:0 44px 88px rgba(20,24,32,0.18),0 12px 28px rgba(20,24,32,0.08);transform:rotate(-2.6deg);">
+            <span style="position:absolute;top:-1px;left:-1px;width:18px;height:18px;border:2px solid #EE4429;border-width:2px 0 0 2px;border-radius:6px 0 0 0;"></span>
+            <span style="position:absolute;top:-1px;right:-1px;width:18px;height:18px;border:2px solid #EE4429;border-width:2px 2px 0 0;border-radius:0 6px 0 0;"></span>
+            <span style="position:absolute;bottom:-1px;left:-1px;width:18px;height:18px;border:2px solid #EE4429;border-width:0 0 2px 2px;border-radius:0 0 0 6px;"></span>
+            <span style="position:absolute;bottom:-1px;right:-1px;width:18px;height:18px;border:2px solid #EE4429;border-width:0 2px 2px 0;border-radius:0 0 6px 0;"></span>
+
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:2px 4px 10px;">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.16em;color:#EE4429;">PLAYER FILE</span>
+              <span style="display:inline-flex;align-items:center;gap:5px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;color:#A2A6B2;"><span style="width:7px;height:7px;border-radius:50%;background:#EE4429;animation:pf-blink 1.2s steps(1) infinite;"></span>NO.001</span>
+            </div>
+
+            <div style="position:relative;border-radius:16px;overflow:hidden;background:#FBF7F2;">
+              <image-slot id="hero-portrait" shape="rect" fit="cover" placeholder="顔写真をドロップ" style="display:block;width:100%;height:330px;"></image-slot>
+              <span aria-hidden="true" style="position:absolute;top:12px;left:12px;z-index:3;font-family:'Syne',sans-serif;font-weight:800;font-size:15px;letter-spacing:0.04em;color:#fff;background:#EE4429;border-radius:8px;padding:5px 11px;box-shadow:0 6px 16px rgba(238,68,41,0.4);transform:rotate(-5deg);">PLAYER&nbsp;1</span>
+              <div style="position:absolute;left:0;right:0;bottom:0;z-index:2;padding:30px 16px 13px;background:linear-gradient(transparent,rgba(18,20,26,0.82));pointer-events:none;">
+                <p style="margin:0;font-family:'Syne','Zen Kaku Gothic New',sans-serif;font-weight:900;font-size:25px;letter-spacing:0.02em;color:#fff;line-height:1.05;">三上 晃英</p>
+                <p style="margin:4px 0 0;font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(255,255,255,0.78);letter-spacing:0.16em;">KASHU ── PLAYING DIRECTOR</p>
+              </div>
+            </div>
+
+            <ul style="list-style:none;margin:14px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;">
+              <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+                <li style="display:flex;flex-direction:column;gap:1px;padding:7px 0 6px;border-top:1px dotted #E5E1D8;">
+                  <span style="font-size:11px;color:#6A6E7C;letter-spacing:0.02em;">{{ s.label }}</span>
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:19px;font-weight:600;line-height:1.1;">{{ s.value }}<span style="font-size:10.5px;color:#A2A6B2;font-family:'Zen Kaku Gothic New',sans-serif;margin-left:2px;">{{ s.suffix }}</span></span>
+                </li>
+              </sc-for>
+            </ul>
+            <p style="margin:13px 0 0;padding-top:11px;border-top:1px dashed #E5E1D8;font-family:'DotGothic16',monospace;font-size:10px;color:#A2A6B2;letter-spacing:0.14em;">FOUNDER OF KITBUCKET</p>
+          </div>
+        </div>
+        <div aria-hidden="true" style="position:absolute;bottom:-34px;right:-14px;text-align:right;pointer-events:none;animation:pf-float3 9s ease-in-out infinite;z-index:2;">
+          <span style="display:block;font-family:'Syne',sans-serif;font-size:80px;font-weight:800;color:#EE4429;line-height:1;opacity:0.24;">×</span>
+          <span style="font-family:'DotGothic16',monospace;font-size:9px;letter-spacing:0.18em;color:#A2A6B2;">MULTIPLIER</span>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- PHILOSOPHY -->
+  <section id="philosophy" data-screen-label="Philosophy" style="position:relative;padding:110px 0;border-bottom:1px solid #E5E1D8;scroll-margin-top:72px;">
+    <div style="max-width:1280px;margin:0 auto;padding:0 28px;">
+      <header data-reveal="" data-reveal-from="translateY(24px)" style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end;margin-bottom:54px;">
+        <div>
+          <p style="display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#EE4429;letter-spacing:0.16em;margin:0 0 14px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border:1.5px solid #EE4429;border-radius:50%;font-size:11px;">01</span>PHILOSOPHY</p>
+          <h2 style="font-family:'Syne','Zen Kaku Gothic New',sans-serif;font-size:clamp(30px,4vw,46px);font-weight:800;letter-spacing:-0.01em;margin:0;">エンジニアとしての軸</h2>
+        </div>
+        <blockquote style="font-family:'Syne','Zen Kaku Gothic New',sans-serif;font-size:clamp(20px,2.7vw,28px);font-weight:700;line-height:1.65;color:#3C3F49;padding-left:24px;border-left:4px solid #EE4429;margin:0;">いいゲームには、いいチームが必要。<br>だから私は、コードもチームも<br><em style="font-style:normal;color:#EE4429;">同じ思想で設計</em>します。</blockquote>
+      </header>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:start;perspective:1200px;">
+        <article data-reveal="" data-reveal-from="translateY(34px) rotate(-3deg)" style="position:relative;background:#fff;border:1px solid #E5E1D8;border-radius:16px;padding:34px 26px 28px;margin-top:18px;transform:rotate(-1.6deg);box-shadow:0 18px 40px rgba(20,24,32,0.06);transition:transform 0.3s,box-shadow 0.3s;" style-hover="transform:rotate(0deg) translateY(-6px);box-shadow:0 28px 56px rgba(20,24,32,0.12);">
+          <span style="position:absolute;top:12px;right:18px;font-family:'Syne',sans-serif;font-size:50px;font-weight:800;color:rgba(238,68,41,0.1);line-height:1;">01</span>
+          <span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.16em;color:#EE4429;margin-bottom:14px;">ORIGIN</span>
+          <h3 style="font-size:18px;font-weight:900;line-height:1.55;margin:0 0 14px;">設計の原点は、<br>コードが書けなかった日々</h3>
+          <div style="width:40px;height:3px;background:#EE4429;margin-bottom:16px;"></div>
+          <p style="font-size:13.5px;color:#6A6E7C;line-height:1.95;margin:0;">ほとんどコードが書けない状態でチーム開発に飛び込みました。チームに切り捨てられないために選んだ武器が「設計」。役割を分け、依存を減らし、自分にも仲間にも分かる構造を作る——責務分離と疎結合の発想は、この経験から生まれています。</p>
+        </article>
+        <article data-reveal="" data-reveal-from="translateY(34px) rotate(2deg)" style="position:relative;background:#15171C;color:#F0F0F0;border:1px solid #15171C;border-radius:16px;padding:34px 26px 28px;transform:rotate(1.4deg);box-shadow:0 24px 50px rgba(20,24,32,0.2);transition:transform 0.3s,box-shadow 0.3s;" style-hover="transform:rotate(0deg) translateY(-8px);box-shadow:0 34px 64px rgba(20,24,32,0.3);">
+          <span style="position:absolute;top:12px;right:18px;font-family:'Syne',sans-serif;font-size:50px;font-weight:800;color:rgba(255,138,147,0.16);line-height:1;">02</span>
+          <span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.16em;color:#FF8A93;margin-bottom:14px;">DESIGN</span>
+          <h3 style="font-size:18px;font-weight:900;line-height:1.55;margin:0 0 14px;">設計は、<br>コミュニケーションツール</h3>
+          <div style="width:40px;height:3px;background:rgba(255,255,255,0.3);margin-bottom:16px;"></div>
+          <p style="font-size:13.5px;color:rgba(255,255,255,0.72);line-height:1.95;margin:0;">優れた設計は、隣で開発する仲間にも、数週間後にそのコードを読む未来の自分にも意図が伝わります。インターフェースやデータ構造は「契約」。保守性・拡張性・実装速度のどこに張るかを、企画とメンバーのレベル感から逆算して決めます。</p>
+        </article>
+        <article data-reveal="" data-reveal-from="translateY(34px) rotate(-2deg)" style="position:relative;background:#fff;border:1px solid #E5E1D8;border-radius:16px;padding:34px 26px 28px;margin-top:30px;transform:rotate(-2.2deg);box-shadow:0 18px 40px rgba(20,24,32,0.06);transition:transform 0.3s,box-shadow 0.3s;" style-hover="transform:rotate(0deg) translateY(-6px);box-shadow:0 28px 56px rgba(20,24,32,0.12);">
+          <span style="position:absolute;top:12px;right:18px;font-family:'Syne',sans-serif;font-size:50px;font-weight:800;color:rgba(238,68,41,0.1);line-height:1;">03</span>
+          <span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.16em;color:#EE4429;margin-bottom:14px;">TEAM</span>
+          <h3 style="font-size:18px;font-weight:900;line-height:1.55;margin:0 0 14px;">マネジメントも、<br>アーキテクチャである</h3>
+          <div style="width:40px;height:3px;background:#EE4429;margin-bottom:16px;"></div>
+          <p style="font-size:13.5px;color:#6A6E7C;line-height:1.95;margin:0;">タスクの責務を分け、メンバー間の依存を減らし、各自が最大速度で走れる状態を作る——チーム運営でやっていることは、設計と同じです。だから私の設計は、チームメンバーの出力を掛け算で増やす「乗数」になります。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" data-screen-label="Projects" style="position:relative;padding:88px 0 64px;border-bottom:1px solid #E5E1D8;scroll-margin-top:72px;overflow:hidden;">
+    <div style="max-width:1280px;margin:0 auto;padding:0 28px;">
+      <header style="display:flex;align-items:baseline;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:8px;">
+        <div>
+          <p style="display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#EE4429;letter-spacing:0.16em;margin:0 0 12px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border:1.5px solid #EE4429;border-radius:50%;font-size:11px;">02</span>QUEST LOG</p>
+          <h2 style="font-family:'Syne','Zen Kaku Gothic New',sans-serif;font-size:clamp(30px,4vw,46px);font-weight:800;letter-spacing:-0.01em;margin:0;">制作物</h2>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#A2A6B2;letter-spacing:0.06em;margin:0;">{{ viewHint }}</p>
+          <div style="display:inline-flex;gap:3px;background:#fff;border:1px solid #E5E1D8;border-radius:999px;padding:3px;box-shadow:0 4px 14px rgba(20,24,32,0.05);">
+            <button type="button" onClick="{{ setFlow }}" style="{{ flowBtnStyle }}">◐ FLOW</button>
+            <button type="button" onClick="{{ setGrid }}" style="{{ gridBtnStyle }}">▦ GRID</button>
+          </div>
+        </div>
+      </header>
+    </div>
+
+    <sc-if value="{{ flowView }}" hint-placeholder-val="{{ true }}">
+    <div style="position:relative;height:560px;perspective:1700px;perspective-origin:50% 44%;overflow:hidden;touch-action:pan-y;" onPointerDown="{{ onDown }}" onPointerMove="{{ onMove }}" onPointerUp="{{ onUp }}" onPointerLeave="{{ onUp }}" onPointerCancel="{{ onUp }}">
+      <div style="position:absolute;left:0;top:0;bottom:0;width:14%;z-index:30;pointer-events:none;background:linear-gradient(90deg,#F4F1EA,transparent);"></div>
+      <div style="position:absolute;right:0;top:0;bottom:0;width:14%;z-index:30;pointer-events:none;background:linear-gradient(270deg,#F4F1EA,transparent);"></div>
+
+      <div style="position: absolute; inset: 0; transform-style: preserve-3d; left: -26px; top: 42px">
+        <sc-for list="{{ projects }}" as="p" hint-placeholder-count="5">
+          <div role="group" style="{{ p.cardStyle }}" onClick="{{ p.onSelect }}">
+            <dc-import name="ProjectCard" project="{{ p.proj }}" hint-size="100%,100%" style="width:100%;height:100%;"></dc-import>
+          </div>
+        </sc-for>
+      </div>
+
+      <button type="button" onClick="{{ prev }}" aria-label="前へ" style="position:absolute;top:50%;left:clamp(10px,3vw,40px);transform:translateY(-50%);z-index:40;width:46px;height:46px;border-radius:50%;border:1px solid #D2CCBF;background:rgba(255,255,255,0.92);color:#15171C;font-size:24px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(20,24,32,0.1);transition:transform 0.2s,color 0.2s,border-color 0.2s;" style-hover="transform:translateY(-50%) scale(1.08);color:#EE4429;border-color:#EE4429;">‹</button>
+      <button type="button" onClick="{{ next }}" aria-label="次へ" style="position:absolute;top:50%;right:clamp(10px,3vw,40px);transform:translateY(-50%);z-index:40;width:46px;height:46px;border-radius:50%;border:1px solid #D2CCBF;background:rgba(255,255,255,0.92);color:#15171C;font-size:24px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(20,24,32,0.1);transition:transform 0.2s,color 0.2s,border-color 0.2s;" style-hover="transform:translateY(-50%) scale(1.08);color:#EE4429;border-color:#EE4429;">›</button>
+      <p style="position:absolute;bottom:6px;left:50%;transform:translateX(-50%);z-index:35;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;color:#A2A6B2;background:rgba(255,255,255,0.85);border:1px solid #E5E1D8;border-radius:999px;padding:4px 14px;pointer-events:none;">{{ counter }}</p>
+    </div>
+
+    <div style="max-width:1280px;margin:14px auto 0;padding:0 28px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center;">
+      <sc-for list="{{ projects }}" as="p" hint-placeholder-count="5">
+        <button type="button" onClick="{{ p.onSelect }}" style="{{ p.dotStyle }}"><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;color:{{ p.theme }};">{{ p.num }}</span><span style="font-size:11px;font-weight:700;max-width:9em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ p.title }}</span></button>
+      </sc-for>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ gridView }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width:1280px;margin:0 auto;padding:0 28px;display:grid;grid-template-columns:repeat(auto-fill,minmax(296px,1fr));gap:24px;">
+        <sc-for list="{{ projects }}" as="p" hint-placeholder-count="6">
+          <div style="{{ p.gridStyle }}" style-hover="transform:translateY(-8px) rotate(0deg);">
+            <dc-import name="ProjectCard" project="{{ p.proj }}" hint-size="100%,476px" style="display:block;height:476px;"></dc-import>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" data-screen-label="Skills" style="position:relative;padding:110px 0;border-bottom:1px solid #E5E1D8;scroll-margin-top:72px;">
+    <div style="max-width:1280px;margin:0 auto;padding:0 28px;">
+      <header data-reveal="" data-reveal-from="translateY(24px)" style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end;margin-bottom:48px;">
+        <div>
+          <p style="display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#EE4429;letter-spacing:0.16em;margin:0 0 14px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border:1.5px solid #EE4429;border-radius:50%;font-size:11px;">03</span>LOADOUT</p>
+          <h2 style="font-family:'Syne','Zen Kaku Gothic New',sans-serif;font-size:clamp(30px,4vw,46px);font-weight:800;letter-spacing:-0.01em;margin:0;">スキルセット</h2>
+        </div>
+        <p style="color:#6A6E7C;font-size:15px;line-height:1.9;max-width:28em;margin-left:auto;">主武装は Unity / C#。クライアントの「外側」——サーバー・DB・インフラ——を自分で組んだ経験が、通信やデータ設計の判断を支えています。</p>
+      </header>
+
+      <div style="display:grid;grid-template-columns:1.32fr 1fr;gap:24px;align-items:start;perspective:1200px;">
+        <div data-reveal="" data-reveal-from="translateY(30px) rotate(-1.5deg)" style="position:relative;background:#fff;border:2px solid #EE4429;border-radius:16px;padding:34px 28px;box-shadow:10px 12px 0 rgba(238,68,41,0.1),0 20px 44px rgba(20,24,32,0.06);transform:rotate(-0.8deg);">
+          <div style="position:absolute;top:16px;right:16px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;padding:4px 10px;border:1px solid #EE4429;border-radius:5px;color:#EE4429;">MAIN</div>
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.16em;color:#EE4429;margin:0 0 8px;">MAIN WEAPON</p>
+          <h3 style="font-family:'Syne',sans-serif;font-size:clamp(26px,3vw,34px);font-weight:800;line-height:1.15;margin:0 0 26px;">Game Client <span style="font-size:0.6em;color:#6A6E7C;">/ Unity</span></h3>
+          <div style="display:flex;flex-direction:column;gap:20px;">
+            <div>
+              <h4 style="font-size:12px;font-weight:700;color:#6A6E7C;letter-spacing:0.08em;text-transform:uppercase;margin:0 0 9px;">言語・エンジン</h4>
+              <ul style="display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0;">
+                <li style="font-family:'IBM Plex Mono',monospace;font-size:15px;border:1px solid rgba(238,68,41,0.4);background:#FBF7F2;border-radius:6px;padding:8px 16px;color:#EE4429;font-weight:600;">Unity</li>
+                <li style="font-family:'IBM Plex Mono',monospace;font-size:15px;border:1px solid rgba(238,68,41,0.4);background:#FBF7F2;border-radius:6px;padding:8px 16px;color:#EE4429;font-weight:600;">C#</li>
+                <li style="font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid #E5E1D8;background:#FBF7F2;border-radius:6px;padding:5px 12px;">RE-Engine</li>
+              </ul>
+            </div>
+            <div>
+              <h4 style="font-size:11px;font-weight:700;color:#A2A6B2;letter-spacing:0.1em;text-transform:uppercase;margin:0 0 9px;">設計パターン</h4>
+              <ul style="display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0;">
+                <li style="font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid rgba(238,68,41,0.4);color:#EE4429;font-weight:600;background:#FBF7F2;border-radius:6px;padding:5px 12px;">MV(R)P</li>
+                <li style="font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid #E5E1D8;background:#FBF7F2;border-radius:6px;padding:5px 12px;">Facade</li>
+                <li style="font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid #E5E1D8;background:#FBF7F2;border-radius:6px;padding:5px 12px;">Strategy</li>
+                <li style="font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid #E5E1D8;background:#FBF7F2;border-radius:6px;padding:5px 12px;">ObjectPool</li>
+                <li style="font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid #E5E1D8;background:#FBF7F2;border-radius:6px;padding:5px 12px;">SOLID</li>
+                <li style="font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid #E5E1D8;background:#FBF7F2;border-radius:6px;padding:5px 12px;">DI</li>
+              </ul>
+            </div>
+            <div>
+              <h4 style="font-size:11px;font-weight:700;color:#A2A6B2;letter-spacing:0.1em;text-transform:uppercase;margin:0 0 9px;">ライブラリ</h4>
+              <ul style="display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0;">
+                <li style="font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid rgba(238,68,41,0.4);color:#EE4429;font-weight:600;background:#FBF7F2;border-radius:6px;padding:5px 12px;">R3 / UniRx</li>
+                <li style="font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid rgba(238,68,41,0.4);color:#EE4429;font-weight:600;background:#FBF7F2;border-radius:6px;padding:5px 12px;">UniTask</li>
+                <li style="font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid #E5E1D8;background:#FBF7F2;border-radius:6px;padding:5px 12px;">DOTween</li>
+                <li style="font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid #E5E1D8;background:#FBF7F2;border-radius:6px;padding:5px 12px;">VContainer</li>
+              </ul>
+            </div>
+          </div>
+          <p style="font-size:12.5px;color:#6A6E7C;line-height:1.9;margin:20px 0 0;padding-top:18px;border-top:1px dashed #E5E1D8;">R3は MV(R)P の Model-Presenter 接続で常用。UniTask は非同期フローとキャンセル制御。フレームタイム 60ms→16ms のチューニング経験あり。</p>
+        </div>
+
+        <div data-reveal="" data-reveal-from="translateY(30px) rotate(1.5deg)" style="position:relative;background:#fff;border:1px solid #E5E1D8;border-radius:16px;padding:32px 28px;transform:rotate(1deg);box-shadow:0 18px 40px rgba(20,24,32,0.05);margin-top:22px;">
+          <div style="position:absolute;top:16px;right:16px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.12em;padding:4px 10px;border:1px solid #E5E1D8;border-radius:5px;color:#A2A6B2;">SUB</div>
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.16em;color:#EE4429;margin:0 0 8px;">SUB WEAPON</p>
+          <h3 style="font-family:'Syne',sans-serif;font-size:clamp(24px,2.8vw,30px);font-weight:800;line-height:1.15;margin:0 0 24px;">Web / Backend</h3>
+          <div style="display:flex;flex-direction:column;gap:16px;">
+            <div>
+              <h4 style="font-size:11px;font-weight:700;color:#A2A6B2;letter-spacing:0.1em;text-transform:uppercase;margin:0 0 8px;">フロント</h4>
+              <ul style="display:flex;flex-wrap:wrap;gap:7px;list-style:none;margin:0;padding:0;">
+                <li style="font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid #E5E1D8;background:#FBF7F2;border-radius:6px;padding:5px 12px;">React</li><li style="font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid #E5E1D8;background:#FBF7F2;border-radius:6px;padding:5px 12px;">TypeScript</li><li style="font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid #E5E1D8;background:#FBF7F2;border-radius:6px;padding:5px 12px;">Vite</li><li style="font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid #E5E1D8;background:#FBF7F2;border-radius:6px;padding:5px 12px;">Zustand</li>
+              </ul>
+            </div>
+            <div>
+              <h4 style="font-size:11px;font-weight:700;color:#A2A6B2;letter-spacing:0.1em;text-transform:uppercase;margin:0 0 8px;">サーバー</h4>
+              <ul style="display:flex;flex-wrap:wrap;gap:7px;list-style:none;margin:0;padding:0;">
+                <li style="font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid #E5E1D8;background:#FBF7F2;border-radius:6px;padding:5px 12px;">Node.js</li><li style="font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid #E5E1D8;background:#FBF7F2;border-radius:6px;padding:5px 12px;">Fastify</li><li style="font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid #E5E1D8;background:#FBF7F2;border-radius:6px;padding:5px 12px;">Python</li><li style="font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid #E5E1D8;background:#FBF7F2;border-radius:6px;padding:5px 12px;">FastAPI</li>
+              </ul>
+            </div>
+            <div>
+              <h4 style="font-size:11px;font-weight:700;color:#A2A6B2;letter-spacing:0.1em;text-transform:uppercase;margin:0 0 8px;">DB・インフラ</h4>
+              <ul style="display:flex;flex-wrap:wrap;gap:7px;list-style:none;margin:0;padding:0;">
+                <li style="font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid #E5E1D8;background:#FBF7F2;border-radius:6px;padding:5px 12px;">MySQL</li><li style="font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid #E5E1D8;background:#FBF7F2;border-radius:6px;padding:5px 12px;">Firestore</li><li style="font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid #E5E1D8;background:#FBF7F2;border-radius:6px;padding:5px 12px;">Cloud Run</li><li style="font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid #E5E1D8;background:#FBF7F2;border-radius:6px;padding:5px 12px;">Docker</li>
+              </ul>
+            </div>
+          </div>
+          <p style="font-size:12.5px;color:#6A6E7C;line-height:1.9;margin:20px 0 0;padding-top:18px;border-top:1px dashed #E5E1D8;">研究プロジェクトでフロント〜推薦エンジン〜インフラを一人で設計・構築。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AWARDS -->
+  <section id="awards" data-screen-label="Awards" style="position:relative;padding:110px 0;border-bottom:1px solid #E5E1D8;scroll-margin-top:72px;">
+    <div style="max-width:1280px;margin:0 auto;padding:0 28px;">
+      <header data-reveal="" data-reveal-from="translateY(24px)" style="margin-bottom:48px;">
+        <p style="display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#EE4429;letter-spacing:0.16em;margin:0 0 14px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border:1.5px solid #EE4429;border-radius:50%;font-size:11px;">04</span>TROPHIES</p>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:20px;flex-wrap:wrap;">
+          <h2 style="font-family:'Syne','Zen Kaku Gothic New',sans-serif;font-size:clamp(30px,4vw,46px);font-weight:800;letter-spacing:-0.01em;margin:0;">実績</h2>
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#A2A6B2;letter-spacing:0.05em;">{{ awardSummary }}</p>
+        </div>
+      </header>
+
+      <div style="display:flex;flex-direction:column;gap:40px;">
+        <sc-for list="{{ awardGroups }}" as="g" hint-placeholder-count="3">
+          <div data-reveal="" data-reveal-from="translateY(26px)" style="display:grid;grid-template-columns:96px 1fr;gap:28px;">
+            <div style="display:flex;flex-direction:column;align-items:center;padding-top:6px;">
+              <span style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:#EE4429;line-height:1;">{{ g.year }}</span>
+              <span style="flex:1;width:2px;min-height:40px;margin-top:12px;background:linear-gradient(#EE4429,#E5E1D8);"></span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:14px;align-items:start;">
+              <sc-for list="{{ g.items }}" as="a" hint-placeholder-count="3">
+                <article style="{{ a.cardStyle }}">
+                  <span style="{{ a.badgeStyle }}">{{ a.badge }}</span>
+                  <div>
+                    <h3 style="{{ a.titleStyle }}">{{ a.title }}</h3>
+                    <p style="font-size:12px;color:#6A6E7C;margin:4px 0 0;">{{ a.project }}</p>
+                  </div>
+                </article>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" data-screen-label="Experience" style="position:relative;padding:110px 0;border-bottom:1px solid #E5E1D8;scroll-margin-top:72px;">
+    <div style="max-width:1280px;margin:0 auto;padding:0 28px;">
+      <header data-reveal="" data-reveal-from="translateY(24px)" style="margin-bottom:48px;">
+        <p style="display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#EE4429;letter-spacing:0.16em;margin:0 0 14px;"><span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border:1.5px solid #EE4429;border-radius:50%;font-size:11px;">05</span>EXPERIENCE</p>
+        <h2 style="font-family:'Syne','Zen Kaku Gothic New',sans-serif;font-size:clamp(30px,4vw,46px);font-weight:800;letter-spacing:-0.01em;margin:0;">経歴・活動</h2>
+      </header>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;perspective:1200px;">
+        <article data-reveal="" data-reveal-from="translateY(28px) rotate(-1.5deg)" style="position:relative;background:#fff;border:1px solid #E5E1D8;border-radius:16px;padding:28px 26px 26px 56px;transform:rotate(-0.8deg);box-shadow:0 16px 36px rgba(20,24,32,0.05);transition:transform 0.3s,box-shadow 0.3s;" style-hover="transform:rotate(0deg) translateY(-5px);box-shadow:0 26px 52px rgba(20,24,32,0.1);">
+          <span style="position:absolute;left:20px;top:26px;font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:rgba(238,68,41,0.12);line-height:1;">01</span>
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#A2A6B2;margin:0 0 8px;">就業型インターン / 1ヶ月</p>
+          <h3 style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin:0 0 4px;">株式会社ミラティブ</h3>
+          <p style="font-size:12px;color:#EE4429;font-weight:700;margin:0 0 12px;">Unityエンジニア</p>
+          <p style="font-size:13px;color:#6A6E7C;line-height:1.9;margin:0;">ライブ配信アプリ「Mirrativ」のギフト機能を担当。大規模コードベースを読み解き、新機能の実装と改修を実施。コードレビューを通じて長期運用を見据えた設計を学びました。</p>
+        </article>
+        <article data-reveal="" data-reveal-from="translateY(28px) rotate(1.5deg)" style="position:relative;background:#15171C;color:#EEE;border:1px solid #15171C;border-radius:16px;padding:28px 26px 26px 56px;transform:rotate(0.9deg);box-shadow:0 24px 50px rgba(20,24,32,0.2);transition:transform 0.3s,box-shadow 0.3s;" style-hover="transform:rotate(0deg) translateY(-6px);box-shadow:0 32px 62px rgba(20,24,32,0.32);">
+          <span style="position:absolute;left:20px;top:26px;font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:rgba(255,138,147,0.3);line-height:1;">02</span>
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(255,255,255,0.55);margin:0 0 8px;">創設 — 現在</p>
+          <h3 style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin:0 0 4px;">kitbucket</h3>
+          <p style="font-size:12px;color:#FF8A93;font-weight:700;margin:0 0 12px;">創設者 / 代表</p>
+          <p style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.9;margin:0;">学内ゲーム制作団体を設立・運営。OC出展、他大学IT団体との交流、LT会・勉強会・部内ハッカソンの主催を通じてコミュニティを拡大しています。</p>
+        </article>
+        <article data-reveal="" data-reveal-from="translateY(28px) rotate(1.2deg)" style="position:relative;background:#fff;border:1px solid #E5E1D8;border-radius:16px;padding:28px 26px 26px 56px;transform:rotate(0.7deg);box-shadow:0 16px 36px rgba(20,24,32,0.05);transition:transform 0.3s,box-shadow 0.3s;" style-hover="transform:rotate(0deg) translateY(-5px);box-shadow:0 26px 52px rgba(20,24,32,0.1);">
+          <span style="position:absolute;left:20px;top:26px;font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:rgba(238,68,41,0.12);line-height:1;">03</span>
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#A2A6B2;margin:0 0 8px;">研究室プロジェクト</p>
+          <h3 style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin:0 0 4px;">システムデザイン論研究室</h3>
+          <p style="font-size:12px;color:#EE4429;font-weight:700;margin:0 0 12px;">フルスタック設計・開発</p>
+          <p style="font-size:13px;color:#6A6E7C;line-height:1.9;margin:0;">イベント周遊促進アプリを要件定義からインフラまで一貫設計。引き継ぎコードのリファクタリング（DB正規化・抽象化層導入）も主導しました。</p>
+        </article>
+        <article data-reveal="" data-reveal-from="translateY(28px) rotate(-1.2deg)" style="position:relative;background:#fff;border:1px solid #E5E1D8;border-radius:16px;padding:28px 26px 26px 56px;transform:rotate(-0.6deg);box-shadow:0 16px 36px rgba(20,24,32,0.05);transition:transform 0.3s,box-shadow 0.3s;" style-hover="transform:rotate(0deg) translateY(-5px);box-shadow:0 26px 52px rgba(20,24,32,0.1);">
+          <span style="position:absolute;left:20px;top:26px;font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:rgba(238,68,41,0.12);line-height:1;">04</span>
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#A2A6B2;margin:0 0 8px;">コミュニティ活動</p>
+          <h3 style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin:0 0 4px;">イベント主催・運営</h3>
+          <p style="font-size:12px;color:#EE4429;font-weight:700;margin:0 0 12px;">メンター / 企画</p>
+          <p style="font-size:13px;color:#6A6E7C;line-height:1.9;margin:0;">部内ハッカソンのメンター、小学生向けプログラミング教室、複数大学コラボイベント、デジタル絵馬アトラクションの一般公開などを実施。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" data-screen-label="Contact" style="position:relative;padding:120px 0 140px;text-align:center;overflow:hidden;scroll-margin-top:72px;">
+    <div aria-hidden="true" style="position:absolute;left:50%;top:40%;transform:translate(-50%,-50%);font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(220px,30vw,440px);color:rgba(238,68,41,0.05);line-height:1;pointer-events:none;user-select:none;">×</div>
+    <div style="position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:0 28px;">
+      <p style="font-family:'DotGothic16',monospace;font-size:11px;letter-spacing:0.2em;color:#A2A6B2;margin:0 0 14px;">── NEXT STAGE</p>
+      <h2 style="font-family:'DotGothic16',monospace;font-size:clamp(44px,8vw,84px);letter-spacing:0.08em;margin:0 0 14px;">CONTINUE<span style="color:#EE4429;animation:pf-blink 1.1s steps(1) infinite;">?</span></h2>
+      <p style="color:#6A6E7C;margin:0 0 44px;">一緒にいいゲームを作りましょう。</p>
+      <nav style="display:inline-flex;flex-direction:column;gap:6px;text-align:left;">
+        <a href="https://github.com/kdix-23-240" target="_blank" rel="noopener" style="position:relative;font-family:'DotGothic16',monospace;font-size:16px;letter-spacing:0.1em;text-decoration:none;color:#6A6E7C;padding:13px 16px 13px 50px;border-radius:10px;transition:color 0.15s,background 0.2s,letter-spacing 0.25s;" style-hover="color:#15171C;background:#fff;letter-spacing:0.16em;"><span style="position:absolute;left:14px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#A2A6B2;">01</span>GITHUB</a>
+        <a href="https://x.com/game_game_nuts" target="_blank" rel="noopener" style="position:relative;font-family:'DotGothic16',monospace;font-size:16px;letter-spacing:0.1em;text-decoration:none;color:#6A6E7C;padding:13px 16px 13px 50px;border-radius:10px;transition:color 0.15s,background 0.2s,letter-spacing 0.25s;" style-hover="color:#15171C;background:#fff;letter-spacing:0.16em;"><span style="position:absolute;left:14px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#A2A6B2;">02</span>X / TWITTER</a>
+        <a href="https://qiita.com/nut_nuts_nut" target="_blank" rel="noopener" style="position:relative;font-family:'DotGothic16',monospace;font-size:16px;letter-spacing:0.1em;text-decoration:none;color:#6A6E7C;padding:13px 16px 13px 50px;border-radius:10px;transition:color 0.15s,background 0.2s,letter-spacing 0.25s;" style-hover="color:#15171C;background:#fff;letter-spacing:0.16em;"><span style="position:absolute;left:14px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#A2A6B2;">03</span>QIITA</a>
+      </nav>
+    </div>
+  </section>
+
+  </main>
+
+  <footer style="position:relative;z-index:1;border-top:1px solid #E5E1D8;padding:32px 0;text-align:center;">
+    <p style="font-family:'DotGothic16',monospace;font-size:11px;letter-spacing:0.12em;color:#A2A6B2;margin:0;">© 2026 AKIHIDE MIKAMI ── TIPS: ↑↑↓↓←→←→BA</p>
+  </footer>
+
+  <sc-if value="{{ crt }}" hint-placeholder-val="{{ false }}">
+    <div aria-hidden="true" style="position:fixed;inset:0;z-index:9999;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,0.06) 0 1px,transparent 1px 3px),radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.16) 100%);"></div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { active: 0, flip: {}, crt: false, view: 'flow' };
+
+  setView(v) { this.setState({ view: v }); }
+
+  constructor(props) {
+    super(props);
+    this.drag = 0;
+    this.dragging = false;
+    this.startX = 0;
+    this.moved = false;
+    this.raf = 0;
+  }
+
+  get stats() {
+    return [
+      { label: 'ハッカソン出場', value: '15', suffix: '+ 回' },
+      { label: '受賞', value: '12', suffix: ' 件' },
+      { label: '主武装', value: 'Unity', suffix: ' / C#' },
+      { label: '設立', value: 'kitbucket', suffix: '' },
+    ];
+  }
+
+  get projects() {
+    return [
+      { id: 'p1', title: 'RHYTHM FORGE', kana: 'リズムアクション', theme: '#EE4429',
+        tagline: '譜面が武器を鍛える、叩いて作るリズム鍛冶アクション。',
+        role: '設計 / クライアント', team: '4人', period: '48時間',
+        tech: ['Unity', 'C#', 'R3', 'UniTask'], awards: ['最優秀賞'],
+        sections: [
+          { title: '設計 ── 判定の一貫性', body: '入力・音・描画のタイムラインを単一の時刻源に統一し、判定のブレを排除しました。' },
+          { title: 'チーム', body: '責務をUI / 譜面 / オーディオに分離し、各メンバーが並列で実装できる構造に。' },
+        ],
+        primaryLabel: 'PLAY', primaryUrl: '#',
+        links: [{ label: 'GitHub', url: '#' }, { label: '記事', url: '#' }] },
+      { id: 'p2', title: 'NEON DRIFT', kana: 'レースアクション', theme: '#2F6BFF',
+        tagline: 'ネオンの街を滑走する、オンライン対戦ドリフトレース。',
+        role: '設計 / 通信', team: '5人', period: '3日間',
+        tech: ['Unity', 'C#', 'Photon', 'DOTween'], awards: ['ベストデザイン賞'],
+        sections: [
+          { title: '設計 ── 通信の権威', body: 'サーバー権威で位置を同期しつつ、クライアント補間で滑らかさを両立させました。' },
+          { title: '演出', body: 'DOTweenでドリフト時のカメラとライトを連動させ、速度の快感を増幅。' },
+        ],
+        primaryLabel: 'PLAY', primaryUrl: '#',
+        links: [{ label: 'GitHub', url: '#' }] },
+      { id: 'p3', title: 'PIXEL GARDEN', kana: '育成シミュレーション', theme: '#16B981',
+        tagline: '描いたドット絵が植物になって育つ、お絵描き育成ゲーム。',
+        role: '企画 / 設計 / 実装', team: '3人', period: '1ヶ月',
+        tech: ['Unity', 'C#', 'Firestore'], awards: ['優秀賞'],
+        sections: [
+          { title: '設計 ── 拡張しやすい成長系', body: '成長ルールをScriptableObjectで外部化し、企画が自由に種を増やせる構造に。' },
+          { title: '保存', body: 'Firestoreで作品を保存・共有。オフラインでも遊べるようキャッシュ層を実装。' },
+        ],
+        primaryLabel: 'PLAY', primaryUrl: '#',
+        links: [{ label: 'GitHub', url: '#' }, { label: 'サイト', url: '#' }] },
+      { id: 'p4', title: 'ECHO DUNGEON', kana: 'ローグライク', theme: '#7C5CFF',
+        tagline: '足音の反響で地形を探る、暗闇ローグライクダンジョン。',
+        role: '設計 / クライアント', team: '4人', period: '48時間',
+        tech: ['Unity', 'C#', 'VContainer'], awards: ['準優勝'],
+        sections: [
+          { title: '設計 ── DIで差し替え可能に', body: 'VContainerで音響・生成・敵AIを疎結合化し、ハッカソン中の仕様変更に追従。' },
+          { title: '体験', body: '視覚を絞り聴覚で攻める設計で、短時間でも記憶に残る緊張感を生みました。' },
+        ],
+        primaryLabel: 'PLAY', primaryUrl: '#',
+        links: [{ label: 'GitHub', url: '#' }] },
+      { id: 'p5', title: 'SKY COURIER', kana: 'フライトアクション', theme: '#F5A524',
+        tagline: '荷物を運んで空を編む、爽快フライト配達アクション。',
+        role: '企画 / 設計', team: '6人', period: '2週間',
+        tech: ['Unity', 'C#', 'DOTween'], awards: ['最優秀賞'],
+        sections: [
+          { title: '設計 ── ステート整理', body: '飛行・配達・被弾をStrategyで状態管理し、6人開発でも破綻しない流れに。' },
+          { title: 'マネジメント', body: 'タスクを機能単位で分割し、メンバー全員が並走できる体制を設計しました。' },
+        ],
+        primaryLabel: 'PLAY', primaryUrl: '#',
+        links: [{ label: 'GitHub', url: '#' }, { label: '動画', url: '#' }] },
+      { id: 'p6', title: 'LOOP LAB', kana: 'パズル', theme: '#11B7C2',
+        tagline: '時間を巻き戻して自分と協力する、ループ系パズル。',
+        role: '設計 / 実装', team: '2人', period: '72時間',
+        tech: ['Unity', 'C#', 'R3'], awards: ['技術賞'],
+        sections: [
+          { title: '設計 ── 記録と再生', body: '操作履歴をリング状に保持し、過去の自分を確定的に再生する仕組みを構築。' },
+          { title: '最適化', body: 'ObjectPoolで分身を使い回し、フレームタイムを安定させました。' },
+        ],
+        primaryLabel: 'PLAY', primaryUrl: '#',
+        links: [{ label: 'GitHub', url: '#' }] },
+      { id: 'p7', title: 'BOLT BISTRO', kana: '料理アクション', theme: '#F0792B',
+        tagline: '注文の波をさばく、時間管理クッキングアクション。',
+        role: '企画 / 設計', team: '3人', period: '48時間',
+        tech: ['Unity', 'C#', 'UniTask'], awards: ['特別賞'],
+        sections: [
+          { title: '設計 ── 注文キュー', body: '注文をキューで管理し、難易度カーブをデータ側で調整できる構造に。' },
+          { title: '演出', body: 'DOTweenの小気味よいフィードバックで、さばく爽快感を強化しました。' },
+        ],
+        primaryLabel: 'PLAY', primaryUrl: '#',
+        links: [{ label: 'GitHub', url: '#' }] },
+      { id: 'p8', title: 'STELLAR RELAY', kana: 'タワーディフェンス', theme: '#6457E6',
+        tagline: '電力を中継して守る、配線型タワーディフェンス。',
+        role: '設計 / クライアント', team: '5人', period: '2週間',
+        tech: ['Unity', 'C#', 'VContainer'], awards: ['優秀賞'],
+        sections: [
+          { title: '設計 ── グリッド抽象化', body: '盤面をグリッドで抽象化し、敵・塔・配線を疎結合に保ちました。' },
+          { title: '最適化', body: 'ObjectPoolで弾と敵を再利用し、終盤でもフレームを安定させました。' },
+        ],
+        primaryLabel: 'PLAY', primaryUrl: '#',
+        links: [{ label: 'GitHub', url: '#' }, { label: '動画', url: '#' }] },
+      { id: 'p9', title: 'INK RUNNER', kana: '2Dランアクション', theme: '#D6418E',
+        tagline: '描いた線が床になる、お絵描きランアクション。',
+        role: '企画 / 実装', team: '2人', period: '72時間',
+        tech: ['Unity', 'C#', 'R3'], awards: ['アイデア賞'],
+        sections: [
+          { title: '設計 ── 入力の変換', body: 'ストロークを点列で保持し、当たり判定とコリジョンへ変換しています。' },
+          { title: '体験', body: '直感的な操作で、初見でもすぐ遊べる導線を意識して設計しました。' },
+        ],
+        primaryLabel: 'PLAY', primaryUrl: '#',
+        links: [{ label: 'GitHub', url: '#' }] },
+      { id: 'p10', title: 'AURORA FISH', kana: '釣りシミュレーション', theme: '#2BA84A',
+        tagline: '光る魚を狙う、静かな夜釣りシミュレーション。',
+        role: '設計 / クライアント', team: '4人', period: '1ヶ月',
+        tech: ['Unity', 'C#', 'Firestore'], awards: [],
+        sections: [
+          { title: '設計 ── 状態管理', body: 'キャスト〜ヒット〜リールをStrategyで状態化し、拡張しやすく整理。' },
+          { title: '保存', body: '釣果をFirestoreに記録し、図鑑として共有できるようにしました。' },
+        ],
+        primaryLabel: 'PLAY', primaryUrl: '#',
+        links: [{ label: 'GitHub', url: '#' }, { label: 'サイト', url: '#' }] },
+    ];
+  }
+
+  get awards() {
+    return [
+      { year: '2026', title: '最優秀賞', project: 'RHYTHM FORGE', tier: 'finalist', badge: 'GRAND PRIZE' },
+      { year: '2026', title: '準優勝', project: 'ECHO DUNGEON', tier: 'major', badge: '2ND' },
+      { year: '2026', title: '技術賞', project: 'LOOP LAB', tier: 'major', badge: 'TECH' },
+      { year: '2026', title: 'オーディエンス賞', project: 'NEON DRIFT', tier: 'standard', badge: 'AUDIENCE' },
+      { year: '2025', title: '最優秀賞', project: 'SKY COURIER', tier: 'finalist', badge: 'GRAND PRIZE' },
+      { year: '2025', title: 'ベストデザイン賞', project: 'NEON DRIFT', tier: 'major', badge: 'BEST DESIGN' },
+      { year: '2025', title: 'スポンサー賞', project: 'PIXEL GARDEN', tier: 'standard', badge: 'SPONSOR' },
+      { year: '2025', title: '特別賞', project: 'LOOP LAB', tier: 'standard', badge: 'SPECIAL' },
+      { year: '2025', title: '入賞', project: 'ECHO DUNGEON', tier: 'standard', badge: 'PRIZE' },
+      { year: '2024', title: '優秀賞', project: 'PIXEL GARDEN', tier: 'major', badge: 'EXCELLENCE' },
+      { year: '2024', title: 'アイデア賞', project: 'SKY COURIER', tier: 'standard', badge: 'IDEA' },
+      { year: '2024', title: '入賞', project: 'RHYTHM FORGE', tier: 'standard', badge: 'PRIZE' },
+    ];
+  }
+
+  componentDidMount() {
+    this._mm = (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 2;
+      const y = (e.clientY / window.innerHeight - 0.5) * 2;
+      document.documentElement.style.setProperty('--mx', x.toFixed(3));
+      document.documentElement.style.setProperty('--my', y.toFixed(3));
+    };
+    window.addEventListener('pointermove', this._mm, { passive: true });
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const root = document.getElementById('pf-root');
+    if (root && !reduced) {
+      const els = root.querySelectorAll('[data-reveal]');
+      els.forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight * 0.92) return;
+        el.style.opacity = '0';
+        el.style.transform = el.dataset.revealFrom || 'translateY(26px)';
+        el.style.transition = 'opacity 0.7s ease, transform 0.7s cubic-bezier(0.22,1,0.36,1)';
+      });
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((ents) => {
+          ents.forEach((en) => {
+            if (en.isIntersecting) {
+              en.target.style.opacity = '1';
+              en.target.style.transform = 'none';
+              io.unobserve(en.target);
+            }
+          });
+        }, { rootMargin: '0px 0px -6% 0px' });
+        els.forEach((el) => { if (el.style.opacity === '0') io.observe(el); });
+      }
+    }
+
+    this._code = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+    this._pos = 0;
+    this._kd = (e) => {
+      if (document.getElementById('projects')?.matches(':hover')) {
+        if (e.key === 'ArrowLeft') { this.go(-1); }
+        else if (e.key === 'ArrowRight') { this.go(1); }
+      }
+      const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+      this._pos = (key === this._code[this._pos]) ? this._pos + 1 : (key === this._code[0] ? 1 : 0);
+      if (this._pos === this._code.length) { this._pos = 0; this.setState((s) => ({ crt: !s.crt })); }
+    };
+    window.addEventListener('keydown', this._kd);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('pointermove', this._mm);
+    window.removeEventListener('keydown', this._kd);
+    if (this.raf) cancelAnimationFrame(this.raf);
+  }
+
+  go(dir) {
+    const n = this.projects.length;
+    this.setState((s) => ({ active: ((s.active + dir) % n + n) % n }));
+  }
+  goTo(i) { this.setState({ active: i }); }
+  toggleFlip(id) { this.setState((s) => ({ flip: { ...s.flip, [id]: !s.flip[id] } })); }
+
+  onDown = (e) => {
+    if (e.button !== undefined && e.button !== 0) return;
+    if (e.target.closest('button, a')) return;
+    this.dragging = true; this.moved = false; this.startX = e.clientX; this.drag = 0;
+    try { e.currentTarget.setPointerCapture(e.pointerId); } catch (_) {}
+  };
+  onMove = (e) => {
+    if (!this.dragging) return;
+    const d = (e.clientX - this.startX) / 130;
+    if (Math.abs(e.clientX - this.startX) > 4) this.moved = true;
+    this.drag = Math.max(-2.4, Math.min(2.4, d));
+    if (!this.raf) this.raf = requestAnimationFrame(() => { this.raf = 0; this.forceUpdate(); });
+  };
+  onUp = (e) => {
+    if (!this.dragging) return;
+    this.dragging = false;
+    const n = this.projects.length;
+    let a = this.state.active;
+    const steps = Math.round(-this.drag);
+    if (steps !== 0) a = ((a + steps) % n + n) % n;
+    else if (Math.abs(this.drag) > 0.18) a = ((a + (this.drag > 0 ? -1 : 1)) % n + n) % n;
+    this.drag = 0;
+    if (a !== this.state.active) this.setState({ active: a });
+    else this.forceUpdate();
+  };
+
+  panelStyle(i) {
+    const n = this.projects.length;
+    let off = i - this.state.active - this.drag;
+    while (off > n / 2) off -= n;
+    while (off < -n / 2) off += n;
+    const a = Math.abs(off);
+    const base = {
+      position: 'absolute', left: '50%', top: '50%',
+      width: '340px', height: '486px', marginLeft: '-170px', marginTop: '-243px',
+      transformStyle: 'preserve-3d', transformOrigin: 'center center',
+      transition: this.dragging ? 'none' : 'transform 0.55s cubic-bezier(0.34,0.72,0.24,1), opacity 0.4s ease',
+      willChange: 'transform',
+    };
+    if (a > 2.7) {
+      return { ...base, transform: 'translate3d(0,0,-400px) scale(0.6)', opacity: 0, pointerEvents: 'none', zIndex: 0 };
+    }
+    const tx = off * 224;
+    const tz = -a * 130;
+    const ry = -off * 33;
+    const sc = Math.max(0.74, 1 - a * 0.075);
+    const op = a > 2.3 ? 0 : (a < 0.5 ? 1 : Math.max(0.42, 0.95 - (a - 0.5) * 0.32));
+    return {
+      ...base,
+      transform: `translate3d(${tx.toFixed(1)}px,0,${tz.toFixed(1)}px) rotateY(${ry.toFixed(2)}deg) scale(${sc.toFixed(3)})`,
+      opacity: op,
+      zIndex: 200 - Math.round(a * 20),
+      pointerEvents: a < 1.3 ? 'auto' : 'none',
+      cursor: a < 0.5 ? 'default' : 'pointer',
+    };
+  }
+
+  hexA(hex, alpha) {
+    const a = Math.round(alpha * 255).toString(16).padStart(2, '0');
+    return hex + a;
+  }
+
+  renderVals() {
+    const active = this.state.active;
+    const flip = this.state.flip;
+
+    const view = this.state.view || 'flow';
+
+    const projects = this.projects.map((p, i) => {
+      const num = String(i + 1).padStart(2, '0');
+      const isActive = i === active;
+      return {
+        proj: { ...p, num },
+        num,
+        title: p.title,
+        theme: p.theme,
+        cardStyle: this.panelStyle(i),
+        gridStyle: this.gridStyle(i),
+        dotStyle: this.dotStyle(p, isActive),
+        onSelect: () => { if (!this.moved && i !== active) this.goTo(i); },
+      };
+    });
+
+    const byYear = {};
+    this.awards.forEach((a) => { (byYear[a.year] = byYear[a.year] || []).push(a); });
+    const awardGroups = Object.keys(byYear).sort((a, b) => b - a).map((year) => ({
+      year,
+      items: byYear[year].map((a, idx) => ({ ...a, ...this.awardStyles(a, idx) })),
+    }));
+    const majors = this.awards.filter((a) => a.tier === 'finalist' || a.tier === 'major').length;
+    const awardSummary = `${this.awards.length} RECORDS ── ${majors} HIGHLIGHTS`;
+
+    return {
+      stats: this.stats,
+      projects,
+      counter: `NO.${String(active + 1).padStart(2, '0')} / ${String(this.projects.length).padStart(2, '0')} ∞`,
+      prev: () => this.go(-1),
+      next: () => this.go(1),
+      onDown: this.onDown,
+      onMove: this.onMove,
+      onUp: this.onUp,
+      flowView: view === 'flow',
+      gridView: view === 'grid',
+      setFlow: () => this.setView('flow'),
+      setGrid: () => this.setView('grid'),
+      flowBtnStyle: this.viewBtnStyle(view === 'flow'),
+      gridBtnStyle: this.viewBtnStyle(view === 'grid'),
+      viewHint: view === 'flow'
+        ? `${this.projects.length} PROJECTS ── ドラッグ・矢印で回す`
+        : `${this.projects.length} PROJECTS ── タップで裏返す`,
+      awardGroups,
+      awardSummary,
+      crt: this.state.crt,
+    };
+  }
+
+  viewBtnStyle(on) {
+    return {
+      fontFamily: "'IBM Plex Mono', monospace",
+      fontSize: '11px', letterSpacing: '0.08em',
+      padding: '7px 15px', borderRadius: '999px', cursor: 'pointer',
+      border: 'none', whiteSpace: 'nowrap',
+      background: on ? '#EE4429' : 'transparent',
+      color: on ? '#fff' : '#6A6E7C',
+    };
+  }
+
+  gridStyle(i) {
+    const rot = (i % 2 === 0 ? -1.4 : 1.4);
+    return {
+      position: 'relative', height: '476px',
+      transform: `rotate(${rot}deg)`,
+      transition: 'transform 0.32s ease',
+      cursor: 'default',
+    };
+  }
+
+  dotStyle(p, isActive) {
+    return {
+      display: 'inline-flex', alignItems: 'center', gap: '6px',
+      padding: '5px 11px 5px 9px', borderRadius: '999px', cursor: 'pointer',
+      fontFamily: "'Zen Kaku Gothic New', sans-serif",
+      border: isActive ? `1px solid ${p.theme}` : '1px solid #E5E1D8',
+      background: isActive ? this.hexA(p.theme, 0.1) : '#fff',
+      color: isActive ? '#15171C' : '#6A6E7C',
+      transform: isActive ? 'translateY(-1px)' : 'none',
+      boxShadow: isActive ? `0 0 0 1px ${this.hexA(p.theme, 0.3)}` : 'none',
+      transition: 'background 0.2s, border-color 0.2s, transform 0.15s',
+    };
+  }
+
+  awardStyles(a, idx) {
+    const rot = ((idx * 41) % 5) - 2;
+    const isF = a.tier === 'finalist';
+    const isM = a.tier === 'major';
+    const accent = isF ? '#EE4429' : (isM ? '#EE4429' : '#D2CCBF');
+    return {
+      cardStyle: {
+        position: 'relative',
+        display: 'flex', flexDirection: 'column', gap: '12px',
+        background: isF ? 'linear-gradient(140deg,#fff, #FDEEEB)' : '#fff',
+        border: isF ? '2px solid #EE4429' : (isM ? '1px solid rgba(238,68,41,0.45)' : '1px solid #E5E1D8'),
+        borderRadius: '14px',
+        padding: isF ? '20px 22px' : '16px 18px',
+        gridColumn: isF ? 'span 2' : 'span 1',
+        transform: `rotate(${rot}deg)`,
+        boxShadow: isF ? '0 18px 40px rgba(238,68,41,0.14)' : '0 10px 26px rgba(20,24,32,0.05)',
+        transition: 'transform 0.3s, box-shadow 0.3s',
+      },
+      badgeStyle: `align-self:flex-start;font-family:'DotGothic16',monospace;font-size:${isF ? '12px' : '10px'};letter-spacing:0.12em;color:${accent === '#D2CCBF' ? '#A2A6B2' : '#EE4429'};border:1px solid ${accent};border-radius:6px;padding:4px 10px;`,
+      titleStyle: `font-size:${isF ? '19px' : '14.5px'};font-weight:${isF ? '900' : '700'};line-height:1.5;margin:0;`,
+    };
+  }
+}
+</script>
+</body>
+</html>
