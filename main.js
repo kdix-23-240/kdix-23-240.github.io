@@ -111,9 +111,9 @@ function renderStats() {
   const ul = $('#status-rows');
   if (!ul) return;
   ul.innerHTML = Object.values(stats).map((s) => `
-    <li class="${s.wide ? 'stat-wide' : ''}${s.text ? ' stat-text' : ''}">
+    <li>
       <span class="k">${esc(s.label)}</span>
-      <span class="v">${esc(String(s.value))}${s.suffix ? `<small>${esc(s.suffix)}</small>` : ''}</span>
+      <span class="v">${s.value}<small>${esc(s.suffix)}</small></span>
     </li>
   `).join('');
 }
@@ -239,14 +239,14 @@ function applyProjectTheme(p) {
   updateStageTheme(p);
 }
 
-function projectPanelHTML(p, i, { modal = false } = {}) {
+function projectPanelHTML(p, i, { grid = false, modal = false } = {}) {
   const t = p.theme;
   const tv = projectThemeVars(p);
   const num = String(i + 1).padStart(2, '0');
   const screenImg = p.titleImage
     ? `<img class="card-screen-img" src="${esc(p.titleImage)}" alt="${esc(p.title)}のタイトル画面" loading="${modal ? 'eager' : 'lazy'}" decoding="async" fetchpriority="${modal ? 'high' : 'auto'}" onerror="this.remove()">`
     : '';
-  const screenPlaceholder = p.titleImage ? '' : `<div class="card-screen-placeholder">
+  const screenPlaceholder = `<div class="card-screen-placeholder">
         <span class="ts-grid" aria-hidden="true"></span>
         <span class="ts-glow" aria-hidden="true"></span>
         <span class="ts-corner ts-corner--tl" aria-hidden="true"></span>
@@ -257,7 +257,7 @@ function projectPanelHTML(p, i, { modal = false } = {}) {
         <span class="card-screen-kana">${esc(p.fallback)}</span>
         <span class="ts-press" aria-hidden="true">PRESS START</span>
       </div>`;
-  const panelClass = modal ? 'modal-panel' : 'carousel-panel';
+  const panelClass = modal ? 'modal-panel' : (grid ? 'grid-panel' : 'carousel-panel');
   const bodyClass = modal ? 'card-body card-body--memo card-body--modal' : 'card-body card-body--memo';
 
   return `
@@ -304,25 +304,16 @@ function jumpBtnHTML(p, i) {
   `;
 }
 
-function gridTileTagsHTML(p) {
-  const genre = p.genre;
-  const highlights = p.highlights ?? [];
-  if (!genre && !highlights.length) return '';
-
-  const genreTag = genre ? `<span class="gt-tag gt-tag--genre">${esc(genre)}</span>` : '';
-  const highlightTags = highlights.map((h) => `<span class="gt-tag gt-tag--highlight">${esc(h)}</span>`).join('');
-
-  return `<span class="gt-tags" aria-label="ジャンル・タグ">${genreTag}${highlightTags}</span>`;
-}
-
 function gridTileHTML(p, i) {
   const t = p.theme;
   const tv = projectThemeVars(p);
   const num = String(i + 1).padStart(2, '0');
   const weight = p.weight || 'md';
-  const screen = p.titleImage
-    ? `<img class="gt-img" src="${esc(p.titleImage)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">`
-    : `<span class="gt-ph"><span class="gt-ph-kana">${esc(p.fallback)}</span><span class="gt-ph-tag">TITLE</span></span>`;
+  const screen = `<span class="gt-ph"><span class="gt-ph-kana">${esc(p.fallback)}</span><span class="gt-ph-tag">TITLE</span></span>${
+    p.titleImage
+      ? `<img class="gt-img" src="${esc(p.titleImage)}" alt="" loading="lazy" decoding="async" onerror="this.remove()">`
+      : ''
+  }`;
   const topAward = p.awards && p.awards.length
     ? `<span class="gt-award">★ ${esc(p.awards[0])}</span>`
     : '';
@@ -337,7 +328,6 @@ function gridTileHTML(p, i) {
         <span class="gt-wash" aria-hidden="true"></span>
       </span>
       <span class="gt-num">${num}</span>
-      ${gridTileTagsHTML(p)}
       <span class="gt-info">
         <span class="gt-kana">${esc(p.fallback)}</span>
         <span class="gt-title">${esc(p.title)}</span>
@@ -485,33 +475,26 @@ function nudgeCarousel(steps) {
 }
 
 function buildGridOrder() {
+  // Interleave large / medium / small tiles so the big cards never sit
+  // side by side and every size is mixed through the gallery.
   const buckets = { lg: [], md: [], sm: [] };
   projects.forEach((p, i) => {
     const w = p.weight || 'md';
     (buckets[w] || buckets.md).push(i);
   });
   const pattern = ['lg', 'md', 'sm', 'md', 'sm'];
-  const fallback = ['lg', 'md', 'sm'];
   const order = [];
+  let remaining = buckets.lg.length + buckets.md.length + buckets.sm.length;
   let step = 0;
   let guard = 0;
-  while (order.length < projects.length && guard++ < 500) {
-    const preferred = pattern[step % pattern.length];
-    const pickFrom = [preferred, ...fallback.filter((w) => w !== preferred)];
-    let picked = null;
-    for (const w of pickFrom) {
-      if (buckets[w].length) {
-        picked = buckets[w].shift();
-        break;
-      }
+  while (remaining > 0 && guard++ < 2000) {
+    const w = pattern[step % pattern.length];
+    if (buckets[w].length) {
+      order.push(buckets[w].shift());
+      remaining--;
     }
-    if (picked === null) break;
-    order.push(picked);
     step++;
   }
-  fallback.forEach((w) => {
-    while (buckets[w].length) order.push(buckets[w].shift());
-  });
   return order;
 }
 
@@ -691,7 +674,7 @@ function setupProjectThemeHover() {
   };
 
   const refreshBindings = () => {
-    section.querySelectorAll('.carousel-panel, .grid-tile, .jump-btn').forEach(bindTheme);
+    section.querySelectorAll('.carousel-panel, .grid-panel, .grid-tile, .jump-btn').forEach(bindTheme);
   };
 
   refreshBindings();
@@ -707,12 +690,34 @@ function handleCardFlip(e) {
   const flip = e.target.closest('[data-flip]');
   if (!flip) return false;
 
-  const panel = flip.closest('.carousel-panel');
+  const panel = flip.closest('.carousel-panel, .grid-panel');
   if (!panel) return true;
 
-  if (panel.classList.contains('is-active') && flip.dataset.flip === 'to-back') {
+  if (panel.classList.contains('grid-panel')) {
     focusGridPanel(panel);
-    setModalFlipped(getModalPanel(), true, { defer: true });
+    if (flip.dataset.flip === 'to-back') {
+      setModalFlipped(getModalPanel(), true, { defer: true });
+    }
+    return true;
+  }
+
+  if (panel.classList.contains('carousel-panel') && panel.classList.contains('is-active')) {
+    if (flip.dataset.flip === 'to-back') {
+      focusGridPanel(panel);
+      setModalFlipped(getModalPanel(), true, { defer: true });
+    }
+    return true;
+  }
+
+  if (panel.classList.contains('carousel-panel') && !panel.classList.contains('is-active')) {
+    return true;
+  }
+
+  if (flip.dataset.flip === 'to-back') {
+    hydrateCardBack(panel);
+    panel.classList.add('is-flipped');
+  } else {
+    panel.classList.remove('is-flipped');
   }
   return true;
 }
@@ -731,7 +736,10 @@ function setupProjects() {
   $('#projects-grid')?.addEventListener('click', (e) => {
     if (e.target.closest('.card-front-link, .card-link, .card-service-btn')) return;
     const tile = e.target.closest('.grid-tile');
-    if (tile) focusGridPanel(tile);
+    if (tile) { focusGridPanel(tile); return; }
+    if (handleCardFlip(e)) return;
+    const panel = e.target.closest('.grid-panel');
+    if (panel) focusGridPanel(panel);
   });
 
   track.addEventListener('click', (e) => {
@@ -871,8 +879,8 @@ function setupProjects() {
 }
 
 function awardSortKey(a) {
+  if ((a.dateLabel || '').toUpperCase() === 'NOW') return '9999-99';
   if (a.date) return a.date;
-  if (a.dateLabel === 'NOW') return '9999-12';
   const y = String(a.year ?? '0000');
   const m = a.month != null ? String(a.month).padStart(2, '0') : '00';
   return `${y}-${m}`;
@@ -901,36 +909,19 @@ function awardDateLabel(a) {
 function awardCardHTML(a) {
   const iso = awardDateISO(a);
   const label = awardDateLabel(a);
-  const project = a.project ? `<p class="award-node-project">${esc(a.project)}</p>` : '';
-  const badge = a.badge ? `<span class="award-node-badge">${esc(a.badge)}</span>` : '';
-  const noBadge = badge ? '' : ' award-node-card--plain';
-
   return `
     <time class="award-node-date" datetime="${esc(iso)}">${esc(label)}</time>
     <div class="award-node-spine" aria-hidden="true">
       <span class="award-node-dot award-node-dot--${a.tier}"></span>
     </div>
-    <div class="award-node-card award-node-card--${a.tier}${noBadge}">
+    <div class="award-node-card award-node-card--${a.tier}">
       <div class="award-node-body">
         <p class="award-node-title">${esc(a.title)}</p>
-        ${project}
+        <p class="award-node-project">${esc(a.project)}</p>
       </div>
-      ${badge}
+      <span class="award-node-badge">${esc(a.badge)}</span>
     </div>
   `;
-}
-
-function countAwardPrizes(list) {
-  return list.reduce((total, a) => {
-    if (!a.badge) return total;
-    if (a.prizeCount) return total + a.prizeCount;
-    const mult = a.badge.match(/×(\d+)/);
-    if (mult) return total + Number(mult[1]);
-    if (a.badge === 'NATIONAL' && a.title.includes('・')) {
-      return total + a.title.split('・').length;
-    }
-    return total + 1;
-  }, 0);
 }
 
 function sortAwardsChronological(list) {
@@ -939,28 +930,212 @@ function sortAwardsChronological(list) {
     .sort((a, b) => awardSortKey(a).localeCompare(awardSortKey(b)) || a._order - b._order);
 }
 
+const AWARD_TIER_META = {
+  lg: { glyph: '♛', rank: '全国規模', defaultBadge: 'NATIONAL' },
+  md: { glyph: '★', rank: '受賞', defaultBadge: 'AWARD' },
+  sm: { glyph: '・', rank: '出場', defaultBadge: '' },
+};
+
+const awardYearBuckets = new Map();
+
+function awardYear(a) {
+  if ((a.dateLabel || '').toUpperCase() === 'NOW') return 'NOW';
+  if (a.date) return a.date.slice(0, 4);
+  if (a.year != null) return String(a.year);
+  return '—';
+}
+
+function awardTileHTML(a, { inTimeline = false } = {}) {
+  const tier = AWARD_TIER_META[a.tier] ? a.tier : 'sm';
+  const meta = AWARD_TIER_META[tier];
+  const iso = awardDateISO(a);
+  const label = awardDateLabel(a);
+  const badge = a.badge || meta.defaultBadge;
+  const isNow = (a.dateLabel || '').toUpperCase() === 'NOW';
+  const dateHTML = inTimeline
+    ? ''
+    : `<time class="at-date" datetime="${esc(iso)}">${esc(label)}</time>`;
+  const headHTML = dateHTML || badge
+    ? `<div class="at-head">${dateHTML}${badge ? `<span class="at-badge">${esc(badge)}</span>` : ''}</div>`
+    : '';
+
+  return `
+    <article class="award-tile award-tile--${tier}${isNow ? ' award-tile--now' : ''}" data-tier="${esc(tier)}">
+      <span class="at-rank" aria-hidden="true"><span class="at-glyph">${meta.glyph}</span>${tier === 'sm' ? '' : `<span class="at-rank-label">${esc(meta.rank)}</span>`}</span>
+      <div class="at-main">
+        ${headHTML}
+        <p class="at-title">${esc(a.title)}</p>
+        ${a.project ? `<p class="at-project">${esc(a.project)}</p>` : ''}
+      </div>
+    </article>
+  `;
+}
+
+function awardTimelineNodeHTML(a) {
+  const tier = AWARD_TIER_META[a.tier] ? a.tier : 'sm';
+  const iso = awardDateISO(a);
+  const label = awardDateLabel(a);
+
+  return `
+    <article class="award-node award-node--${tier}">
+      <time class="award-node-date" datetime="${esc(iso)}">${esc(label)}</time>
+      <div class="award-node-spine" aria-hidden="true">
+        <span class="award-node-dot award-node-dot--${tier}"></span>
+      </div>
+      <div class="award-node-body">
+        ${awardTileHTML(a, { inTimeline: true })}
+      </div>
+    </article>
+  `;
+}
+
+function isAwardNowEntry(a) {
+  return (a.dateLabel || '').toUpperCase() === 'NOW';
+}
+
+function awardYearPanelMeta(items, year) {
+  if (!items.length) return '0件';
+  const won = items.filter((a) => {
+    const tier = AWARD_TIER_META[a.tier] ? a.tier : 'sm';
+    return tier === 'lg' || tier === 'md';
+  }).length;
+  let participation = items.length;
+  if (year === '2026' && items.some(isAwardNowEntry)) participation -= 1;
+  const parts = [];
+  if (won) parts.push(`受賞 ${won}`);
+  parts.push(`出場 ${participation}`);
+  return parts.join(' / ');
+}
+
+function awardYearTrackHTML(year, items) {
+  const label = year.includes('-') ? year.replace('-', ' · ') : year;
+  return `
+    <div class="awards-track" aria-label="${esc(label)}の実績">
+      <span class="awards-track-line" aria-hidden="true"></span>
+      ${items.map((a) => awardTimelineNodeHTML(a)).join('')}
+    </div>
+  `;
+}
+
+function isAwardExhibition2025(a) {
+  return /技育博|技育展|MixLeap|CAPCOM/i.test(a.title);
+}
+
+function hydrateAwardYearPanel(panel) {
+  const body = panel.querySelector('[data-lazy-year]');
+  if (!body) return;
+
+  const bucketKey = body.dataset.lazyYear;
+  const items = awardYearBuckets.get(bucketKey);
+  if (!items?.length) return;
+
+  body.removeAttribute('data-lazy-year');
+  body.innerHTML = awardYearTrackHTML(bucketKey, items);
+  panel.dataset.hydrated = 'true';
+}
+
+function setupAwardYearLazyRender() {
+  document.querySelectorAll('.award-year-panel[data-year], .award-sub-panel[data-year]').forEach((panel) => {
+    const onToggle = () => {
+      if (panel.open) hydrateAwardYearPanel(panel);
+    };
+    panel.addEventListener('toggle', onToggle);
+    if (panel.open) hydrateAwardYearPanel(panel);
+  });
+}
+
+function awardSubPanelHTML(bucketKey, label, items, { open = false } = {}) {
+  awardYearBuckets.set(bucketKey, items);
+  const openAttr = open ? ' open' : '';
+  const bodyHTML = open
+    ? `<div class="award-sub-body">${awardYearTrackHTML(bucketKey, items)}</div>`
+    : `<div class="award-sub-body" data-lazy-year="${esc(bucketKey)}"></div>`;
+
+  return `
+    <details class="award-sub-panel" data-year="${esc(bucketKey)}"${openAttr}>
+      <summary class="award-sub-trigger">
+        <span class="award-sub-label">${esc(label)}</span>
+        <span class="award-sub-meta">${esc(awardYearPanelMeta(items, bucketKey))}</span>
+        <span class="award-year-chevron" aria-hidden="true">▼</span>
+      </summary>
+      ${bodyHTML}
+    </details>
+  `;
+}
+
+function awardYearPanelHTML(year, items, { open = false, split = false } = {}) {
+  if (split) {
+    const hackathon = items.filter((a) => !isAwardExhibition2025(a));
+    const exhibition = items.filter((a) => isAwardExhibition2025(a));
+    const meta = `ハッカソン ${hackathon.length} / 展示 ${exhibition.length}`;
+
+    return `
+      <details class="award-year-panel award-year-panel--split" data-year="${esc(year)}"${open ? ' open' : ''}>
+        <summary class="award-year-trigger">
+          <span class="award-year-label">${esc(year)}</span>
+          <span class="award-year-meta">${esc(meta)}</span>
+          <span class="award-year-chevron" aria-hidden="true">▼</span>
+        </summary>
+        <div class="award-year-body award-year-body--split">
+          ${awardSubPanelHTML(`${year}-hackathon`, 'ハッカソン', hackathon)}
+          ${awardSubPanelHTML(`${year}-exhibition`, '展示', exhibition)}
+        </div>
+      </details>
+    `;
+  }
+
+  awardYearBuckets.set(year, items);
+  const openAttr = open ? ' open' : '';
+  const bodyHTML = open
+    ? `<div class="award-year-body">${awardYearTrackHTML(year, items)}</div>`
+    : `<div class="award-year-body" data-lazy-year="${esc(year)}"></div>`;
+
+  return `
+    <details class="award-year-panel" data-year="${esc(year)}"${openAttr}>
+      <summary class="award-year-trigger">
+        <span class="award-year-label">${esc(year)}</span>
+        <span class="award-year-meta">${esc(awardYearPanelMeta(items, year))}</span>
+        <span class="award-year-chevron" aria-hidden="true">▼</span>
+      </summary>
+      ${bodyHTML}
+    </details>
+  `;
+}
+
 function renderAwards() {
   const mount = $('#awards-timeline');
   const summary = $('#awards-summary');
   if (!mount) return;
 
   const sorted = sortAwardsChronological(awards);
+  const yearOrder = ['2024', '2025', '2026'];
+  const byYear = new Map(yearOrder.map((y) => [y, []]));
+
+  sorted.forEach((a) => {
+    let y = awardYear(a);
+    if (y === 'NOW') y = '2026';
+    if (byYear.has(y)) byYear.get(y).push(a);
+  });
 
   mount.innerHTML = `
-    <div class="awards-track" aria-label="受賞歴（時系列）">
-      <span class="awards-track-line" aria-hidden="true"></span>
-      ${sorted.map((a) => `<article class="award-node">${awardCardHTML(a)}</article>`).join('')}
+    <div class="awards-legend" aria-hidden="true">
+      <span class="awards-legend-item"><span class="al-glyph al-glyph--lg">♛</span>全国規模</span>
+      <span class="awards-legend-item"><span class="al-glyph al-glyph--md">★</span>受賞</span>
+      <span class="awards-legend-item"><span class="al-glyph al-glyph--sm">・</span>出場</span>
+    </div>
+    <div class="awards-years-acc">
+      ${yearOrder.map((y) => {
+        const items = byYear.get(y);
+        if (y === '2025') return awardYearPanelHTML(y, items, { split: true });
+        return awardYearPanelHTML(y, items, { open: y === '2026' });
+      }).join('')}
     </div>
   `;
 
   if (summary) {
-    const events = stats.hackathons?.value ?? awards.filter((a) => a.dateLabel !== 'NOW').length;
-    const won = stats.awards?.value ?? countAwardPrizes(awards);
-    const national = awards.filter((a) => a.tier === 'lg').length;
-    const first = awardDateLabel(sorted[0]);
-    const lastEntry = [...sorted].reverse().find((a) => a.date) ?? sorted[sorted.length - 1];
-    const last = awardDateLabel(lastEntry);
-    summary.textContent = `${first}–${last} ── ${events} events / ${won} awards / ${national} national`;
+    const major = awards.filter((a) => a.tier === 'lg' || a.tier === 'md').length;
+    const entries = awards.filter((a) => (a.dateLabel || '').toUpperCase() !== 'NOW').length;
+    summary.textContent = `${entries}件の挑戦 ── 受賞 ${major}件`;
   }
 }
 
@@ -996,7 +1171,7 @@ function setupNav() {
 
 function setupReveal() {
   const staggerTargets = document.querySelectorAll(
-    '.phil-scatter > *, .loadout-layout > *, .exp-board > *, .award-node, .jump-btn'
+    '.phil-scatter > *, .loadout-layout > *, .exp-board > *, .jump-btn'
   );
   staggerTargets.forEach((el, i) => {
     el.classList.add('reveal');
@@ -1157,6 +1332,7 @@ function boot() {
   renderStats();
   renderProjects();
   renderAwards();
+  setupAwardYearLazyRender();
   setupProjects();
   setupViewSwitch();
   setupGridFocus();
