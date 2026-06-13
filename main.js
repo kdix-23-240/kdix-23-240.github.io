@@ -304,6 +304,17 @@ function jumpBtnHTML(p, i) {
   `;
 }
 
+function gridTileTagsHTML(p) {
+  const genre = p.genre;
+  const highlights = p.highlights ?? [];
+  if (!genre && !highlights.length) return '';
+
+  const genreTag = genre ? `<span class="gt-tag gt-tag--genre">${esc(genre)}</span>` : '';
+  const highlightTags = highlights.map((h) => `<span class="gt-tag gt-tag--highlight">${esc(h)}</span>`).join('');
+
+  return `<span class="gt-tags" aria-label="ジャンル・タグ">${genreTag}${highlightTags}</span>`;
+}
+
 function gridTileHTML(p, i) {
   const t = p.theme;
   const tv = projectThemeVars(p);
@@ -326,6 +337,7 @@ function gridTileHTML(p, i) {
         <span class="gt-wash" aria-hidden="true"></span>
       </span>
       <span class="gt-num">${num}</span>
+      ${gridTileTagsHTML(p)}
       <span class="gt-info">
         <span class="gt-kana">${esc(p.fallback)}</span>
         <span class="gt-title">${esc(p.title)}</span>

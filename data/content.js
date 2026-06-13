@@ -9,6 +9,8 @@
  *     - dateLabel: optional custom display string
  *   tier = 'finalist' | 'major' | 'award' for visual weight.
  *   weight = 'lg' | 'md' | 'sm' for 作品一覧 gallery tile size.
+ *   genre = 作品一覧タイル右上に表示するジャンル（例: ゲーム / WEBアプリ）
+ *   highlights[] = 作品一覧タイル右上の補助タグ（例: 設計 / パフォーマンスチューニング）
  */
 
 window.PORTFOLIO_DATA = {
@@ -23,6 +25,8 @@ projects: [
   {
     id: 'yubisoccer',
     title: 'ゆびサッカー',
+    genre: 'ゲーム',
+    highlights: ['パフォーマンスチューニング', '設計'],
     weight: 'lg',
     featured: false,
     fallback: 'YUBI SOCCER',
@@ -55,6 +59,8 @@ projects: [
   {
     id: 'streamerio',
     title: 'Streamerio',
+    genre: 'ゲーム',
+    highlights: ['設計'],
     weight: 'lg',
     featured: false,
     fallback: 'STREAMERIO',
@@ -88,6 +94,8 @@ projects: [
   {
     id: 'gricon',
     title: 'GriCon',
+    genre: 'ゲーム',
+    highlights: ['設計'],
     weight: 'md',
     featured: false,
     fallback: 'GRICON',
@@ -113,6 +121,8 @@ projects: [
   {
     id: 'kanscream',
     title: 'KANSCREAM',
+    genre: 'ゲーム',
+    highlights: ['設計'],
     weight: 'md',
     featured: false,
     fallback: 'KANSCREAM',
@@ -138,6 +148,8 @@ projects: [
   {
     id: 'eiinmado',
     title: '詠印魔道',
+    genre: '体験型アトラクション',
+    highlights: ['設計'],
     weight: 'md',
     featured: false,
     fallback: 'EIINMADO',
@@ -163,6 +175,8 @@ projects: [
   {
     id: 'ema',
     title: 'E-ma',
+    genre: 'プロジェクションマッピング',
+    highlights: ['体験型アトラクション'],
     weight: 'md',
     featured: false,
     fallback: 'E-MA',
@@ -188,6 +202,8 @@ projects: [
   {
     id: 'kami',
     title: '神は人々の命を落とさない',
+    genre: 'ゲーム',
+    highlights: ['設計'],
     weight: 'md',
     featured: false,
     fallback: 'KAMI',
@@ -209,6 +225,7 @@ projects: [
   {
     id: 'capybara',
     title: 'カピバラゲーム',
+    genre: 'ゲーム',
     weight: 'sm',
     featured: false,
     fallback: 'CAPYBARA',
@@ -230,6 +247,8 @@ projects: [
   {
     id: 'talkscope',
     title: 'TalkScope',
+    genre: 'WEBアプリ',
+    highlights: ['設計'],
     weight: 'md',
     featured: false,
     fallback: 'TALKSCOPE',
@@ -253,6 +272,8 @@ projects: [
   {
     id: 'shuyu',
     title: 'イベント周遊促進アプリ',
+    genre: 'WEBアプリ',
+    highlights: ['バックエンド/インフラ', '設計'],
     weight: 'sm',
     featured: false,
     fallback: 'EVENT APP',
@@ -277,6 +298,8 @@ projects: [
   {
     id: 'magrat',
     title: 'MAGRAT',
+    genre: 'ゲーム',
+    highlights: ['設計'],
     weight: 'sm',
     featured: false,
     fallback: 'MAGRAT',

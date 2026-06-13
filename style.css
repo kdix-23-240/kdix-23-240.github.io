@@ -3491,6 +3491,21 @@
   .card-back-actions .card-service-btns {
     justify-content: flex-end;
   }
+
+  .grid-focus-mount .modal-panel .card-service-btns {
+    gap: 12px;
+  }
+  .grid-focus-mount .modal-panel .card-service-btn {
+    width: 76px;
+    height: 76px;
+    border-radius: 16px;
+    font-size: 34px;
+  }
+  .grid-focus-mount .modal-panel .card-service-btn--notion { font-size: 40px; }
+  .grid-focus-mount .modal-panel .card-service-btn--qiita { font-size: 30px; }
+  .grid-focus-mount .modal-panel .card-service-btn--github { font-size: 36px; }
+  .grid-focus-mount .modal-panel .card-service-btn--topaz { font-size: 40px; }
+  .grid-focus-mount .modal-panel .card-service-btn--deploy { font-size: 36px; }
   
   @media (max-width: 720px) {
     .grid-focus-mount { height: min(88vh, 680px); }
@@ -3792,6 +3807,35 @@
     background: rgba(255, 255, 255, 0.94); color: var(--stage-primary, var(--accent));
     box-shadow: 0 3px 10px rgba(20, 24, 32, 0.2);
   }
+  .gt-tags {
+    position: absolute; top: 10px; right: 10px; z-index: 4;
+    display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px;
+    max-width: min(68%, 220px);
+    pointer-events: none;
+  }
+  .gt-tag {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.05em;
+    line-height: 1.2;
+    border-radius: 999px;
+    padding: 4px 8px;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(20, 24, 32, 0.18);
+  }
+  .gt-tag--genre {
+    background: rgba(255, 255, 255, 0.96);
+    color: var(--stage-primary, var(--accent));
+    border: 1px solid color-mix(in srgb, var(--stage-primary, var(--accent)) 40%, #fff);
+    font-weight: 700;
+  }
+  .gt-tag--highlight {
+    background: rgba(20, 24, 32, 0.78);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+  }
+  .grid-tile--sm .gt-tag--highlight { display: none; }
+  .grid-tile--sm .gt-tags { max-width: 72%; }
   .gt-info {
     position: absolute; left: 0; right: 0; bottom: 0; z-index: 3;
     display: flex; flex-direction: column; gap: 5px;
@@ -3816,12 +3860,14 @@
   .grid-tile--sm .gt-kana, .grid-tile--sm .gt-award { display: none; }
   .grid-tile--sm .gt-info { padding: 11px 12px; }
   .gt-cta {
-    position: absolute; top: 10px; right: 10px; z-index: 3;
+    position: absolute; top: auto; bottom: 58px; right: 10px; z-index: 3;
     font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; color: #fff;
     background: rgba(20, 24, 32, 0.5); border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 999px; padding: 4px 9px;
-    opacity: 0; transform: translateY(-4px); transition: opacity 0.2s, transform 0.2s;
+    opacity: 0; transform: translateY(4px); transition: opacity 0.2s, transform 0.2s;
   }
+  .grid-tile--lg .gt-cta { bottom: 88px; }
+  .grid-tile--sm .gt-cta { bottom: 44px; }
   .grid-tile:hover .gt-cta { opacity: 1; transform: translateY(0); }
 
   
