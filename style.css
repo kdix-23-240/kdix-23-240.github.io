@@ -1541,6 +1541,52 @@
   .card-back-top {
     flex-shrink: 0;
     padding: 18px 18px 0;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  .carousel-panel .card-face--back .card-body--back,
+  .grid-panel .card-face--back .card-body--back {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .carousel-panel .card-back-top,
+  .grid-panel .card-back-top {
+    flex: 0 0 auto;
+    max-height: none;
+    overflow: visible;
+    padding-bottom: 12px;
+  }
+
+  .carousel-panel .card-back-content,
+  .grid-panel .card-back-content {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  .carousel-panel .card-back-sections,
+  .grid-panel .card-back-sections {
+    flex: 0 0 auto;
+    overflow: visible;
+    min-height: 0;
+  }
+
+  .carousel-panel .card-facts.card-facts--grid,
+  .grid-panel .card-facts.card-facts--grid {
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: none;
+  }
+
+  .carousel-panel .card-facts.card-facts--grid > div,
+  .grid-panel .card-facts.card-facts--grid > div {
+    width: 100%;
   }
   
   .card-back-top .card-title {
@@ -1671,9 +1717,14 @@
   .carousel-panel .card-face--front .card-screen,
   .grid-panel .card-face--front .card-screen {
     position: relative;
-    flex: 0 0 176px;
+    flex: 0 0 156px;
     min-height: 0;
     overflow: hidden;
+  }
+
+  .carousel-panel:has(.card-service-btn--play) .card-face--front .card-screen,
+  .carousel-panel:has(.card-service-btn:nth-child(3)) .card-face--front .card-screen {
+    flex-basis: 128px;
   }
   
   .card-screen-placeholder {
@@ -1747,6 +1798,14 @@
     border-top: 2px solid var(--card-border, var(--line));
     background: var(--surface);
     overflow: hidden;
+  }
+
+  .carousel-panel .card-front-info,
+  .grid-panel .card-front-info {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    padding-bottom: 12px;
   }
   
   .card-kana {
@@ -1848,30 +1907,77 @@
   /* ── card front bottom row: tech tags + service buttons ── */
   .card-front-bottom {
     display: flex;
+    flex-wrap: wrap;
     align-items: flex-end;
     justify-content: space-between;
-    gap: 8px;
+    gap: 8px 6px;
     margin-top: auto;
     overflow: visible;
     position: relative;
     z-index: 2;
   }
-  
+
+  .card-front-service {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: flex-end;
+    align-items: center;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
   .card-front-service,
   .card-service-btns {
     overflow: visible;
   }
-  
+
   .card-front-bottom .card-front-tech {
     margin-top: 0;
-    flex: 1;
+    flex: 1 1 100%;
     min-width: 0;
   }
-  
+
   .card-service-btns {
     display: flex;
-    gap: 6px;
+    flex-wrap: wrap;
+    gap: 5px;
     flex-shrink: 0;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .carousel-panel .card-front-bottom,
+  .grid-panel .card-front-bottom {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 8px 6px;
+  }
+
+  .carousel-panel .card-front-bottom .card-front-tech,
+  .grid-panel .card-front-bottom .card-front-tech {
+    flex: 1 1 100%;
+  }
+
+  .carousel-panel .card-front-service,
+  .grid-panel .card-front-service {
+    justify-content: flex-start;
+    width: 100%;
+    flex: 1 1 100%;
+  }
+
+  .card-front-service:has(.card-service-btn:not(.card-service-btn--play):nth-child(4)),
+  .card-service-btns:has(.card-service-btn:not(.card-service-btn--play):nth-child(4)) {
+    gap: 4px;
+  }
+
+  .card-front-service:has(.card-service-btn:not(.card-service-btn--play):nth-child(4)) .card-service-btn:not(.card-service-btn--play),
+  .card-service-btns:has(.card-service-btn:not(.card-service-btn--play):nth-child(4)) .card-service-btn:not(.card-service-btn--play) {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+    border-radius: 8px;
   }
   
   .card-service-btn {
@@ -1961,13 +2067,39 @@
     font-weight: 700;
   }
   
-  .card-service-btn--deploy {
-    background: var(--stage-primary, var(--accent));
+  .card-service-btn--play {
+    width: auto;
+    min-width: 0;
+    height: 32px;
+    padding: 0 12px 0 10px;
+    gap: 5px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--stage-primary, var(--accent)) 0%, color-mix(in srgb, var(--stage-primary, var(--accent)) 72%, #000) 100%);
     color: #fff;
-    font-size: 18px;
+    font-family: var(--font-hud);
+    font-size: 11px;
     font-weight: 700;
+    letter-spacing: 0.1em;
+    box-shadow: 0 4px 14px color-mix(in srgb, var(--stage-primary, var(--accent)) 42%, transparent);
+    border: 1.5px solid color-mix(in srgb, #fff 35%, var(--stage-primary, var(--accent)));
   }
-  
+
+  .card-service-btn--play:hover {
+    transform: scale(1.04);
+    filter: brightness(1.08);
+  }
+
+  .card-service-play-glyph {
+    font-size: 10px;
+    line-height: 1;
+    opacity: 0.92;
+  }
+
+  .card-service-play-label {
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
   .card-front-meta {
     padding: 8px 9px;
     margin-bottom: 10px;
@@ -2382,6 +2514,7 @@
     color: #fff;
   }
   
+  .card-service-link--play,
   .card-service-link--deploy {
     background: var(--stage-primary, var(--accent));
     color: #fff;
@@ -3514,6 +3647,10 @@
     grid-area: info;
     padding: 26px 28px 10px;
     display: flex; flex-direction: column;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
   .grid-focus-mount .modal-panel .card-front-info .card-kana {
     font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.18em;
@@ -3537,7 +3674,17 @@
   }
   .grid-focus-mount .modal-panel .card-front-bottom {
     margin-top: auto; padding-top: 16px; border-top: 1px dashed var(--line);
-    position: relative; flex-direction: column; align-items: stretch; gap: 10px;
+    position: relative; flex-direction: row; flex-wrap: wrap; align-items: flex-end; gap: 10px 8px;
+  }
+
+  .grid-focus-mount .modal-panel .card-front-bottom .card-front-tech {
+    flex: 1 1 100%;
+  }
+
+  .grid-focus-mount .modal-panel .card-front-service {
+    flex: 1 1 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
   }
   .grid-focus-mount .modal-panel .card-front-bottom::before {
     content: "EQUIPMENT"; font-family: var(--font-mono); font-size: 9px;
@@ -3561,7 +3708,13 @@
   }
   
   /* BACK — status sidebar | mission log */
-  .grid-focus-mount .modal-panel .card-face--back .card-body--back { height: 100%; }
+  .grid-focus-mount .modal-panel .card-face--back .card-body--back {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+  }
   .grid-focus-mount .modal-panel .card-back-content {
     display: grid; grid-template-columns: 40% 60%;
     flex: 1; min-height: 0; padding: 0; gap: 0;
@@ -3645,31 +3798,49 @@
   @media (max-width: 720px) {
     .grid-focus-mount { height: min(88vh, 680px); }
     .grid-focus-mount .modal-panel .card-face--front .card-body--modal {
-      grid-template-columns: 1fr; grid-template-rows: 38% 1fr auto;
+      grid-template-columns: 1fr;
+      grid-template-rows: minmax(0, 34%) minmax(0, 1fr) auto;
       grid-template-areas: "screen" "info" "bar";
+      min-height: 0;
+      overflow: hidden;
     }
     .grid-focus-mount .modal-panel .card-face--front .card-screen {
       border-right: none; border-bottom: 2px solid var(--card-border, var(--line-strong));
     }
-    .grid-focus-mount .modal-panel .card-face--front .card-front-info {
+    .grid-focus-mount .modal-panel .card-tagline--front {
+      -webkit-line-clamp: unset;
+      display: block;
+      overflow: visible;
+    }
+    .grid-focus-mount .modal-panel .card-back-content {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       overscroll-behavior: contain;
     }
-    .grid-focus-mount .modal-panel .card-back-content {
-      grid-template-columns: 1fr;
-      grid-template-rows: minmax(0, auto) minmax(0, 1fr);
-      overflow: hidden;
-    }
     .grid-focus-mount .modal-panel .card-back-top {
       border-right: none;
       border-bottom: 2px solid var(--card-border, var(--line-strong));
-      max-height: 42%;
-      overflow-y: auto;
-      overscroll-behavior: contain;
+      flex: 0 0 auto;
+      max-height: none;
+      min-height: 0;
+      overflow: visible;
     }
     .grid-focus-mount .modal-panel .card-back-sections {
+      flex: 0 0 auto;
       min-height: 0;
+      overflow: visible;
+    }
+    .grid-focus-mount .modal-panel .card-back-top .card-title {
+      font-size: clamp(17px, 4.5vw, 22px);
+      margin-bottom: 10px;
+    }
+    .grid-focus-mount .modal-panel .card-front-service,
+    .grid-focus-mount .modal-panel .card-service-btns {
+      justify-content: flex-start;
     }
   }
   
@@ -3952,6 +4123,46 @@
     display: flex; align-items: center; justify-content: center;
     background: rgba(255, 255, 255, 0.94); color: var(--stage-primary, var(--accent));
     box-shadow: 0 3px 10px rgba(20, 24, 32, 0.2);
+  }
+  .gt-tags {
+    position: absolute; top: 10px; right: 10px; z-index: 4;
+    display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px;
+    max-width: min(68%, 220px);
+    pointer-events: none;
+  }
+  .gt-tag {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.05em;
+    line-height: 1.2;
+    border-radius: 999px;
+    padding: 4px 8px;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(20, 24, 32, 0.18);
+  }
+  .gt-tag--genre {
+    background: rgba(255, 255, 255, 0.96);
+    color: var(--stage-primary, var(--accent));
+    border: 1px solid color-mix(in srgb, var(--stage-primary, var(--accent)) 40%, #fff);
+    font-weight: 700;
+  }
+  .gt-tag--highlight {
+    background: rgba(20, 24, 32, 0.78);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+  }
+  .grid-tile--sm .gt-tags {
+    top: 8px;
+    right: 8px;
+    max-width: calc(100% - 52px);
+    gap: 3px;
+  }
+  .grid-tile--sm .gt-tag {
+    font-size: 8px;
+    padding: 3px 6px;
+    white-space: normal;
+    text-align: left;
+    max-width: 100%;
   }
   .gt-info {
     position: absolute; left: 0; right: 0; bottom: 0; z-index: 3;

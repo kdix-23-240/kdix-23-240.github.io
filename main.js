@@ -49,11 +49,11 @@ function gameplayImgPath(p) {
 function serviceLinkKind(url, deploy = false) {
   if (!url) return null;
   if (url.includes('youtube.com') || url.includes('youtu.be')) return 'youtube';
-  if (url.includes('notion.site') || url.includes('notion.so')) return 'notion';
+  if (url.includes('notion.site') || url.includes('notion.so') || url.includes('talk-scope-descriotion-site.vercel.app')) return 'notion';
   if (url.includes('qiita.com')) return 'qiita';
   if (url.includes('github.com')) return 'github';
   if (url.includes('topaz.dev')) return 'topaz';
-  if (deploy || url.includes('unityroom.com') || url.includes('itch.io')) return 'deploy';
+  if (deploy || url.includes('unityroom.com') || url.includes('itch.io') || url.includes('netlify.app') || url.includes('vercel.app')) return 'play';
   return null;
 }
 
@@ -67,18 +67,29 @@ const SERVICE_BTN_ICONS = {
   qiita: 'Q',
   github: '⎇',
   topaz: '◇',
-  deploy: '↗',
+  play: '▶',
 };
+
+function servicePlayLabel(l) {
+  if (/アプリ|open/i.test(l.label)) return 'Open';
+  return 'Play';
+}
 
 function serviceBtnTip(l) {
   const kind = serviceLinkKind(l.url, l.deploy);
   const tips = {
     youtube: 'YouTubeで動画を見る',
-    notion: 'Notionで詳細を見る',
+    notion: /talk-scope-descriotion-site/i.test(l.url)
+      ? '技術解説サイトを見る'
+      : 'Notionで詳細を見る',
     qiita: 'Qiitaの記事を読む',
     github: 'GitHubリポジトリを見る',
     topaz: 'Topa\'zの説明ページ',
-    deploy: l.url.includes('unityroom') ? 'unityroomでプレイ' : '外部サイトで体験する',
+    play: l.url.includes('unityroom')
+      ? 'unityroomでプレイ'
+      : /アプリ|open/i.test(l.label)
+        ? 'アプリを開く'
+        : 'プレイ・体験する',
   };
   return tips[kind] ?? l.label;
 }
@@ -87,6 +98,17 @@ function serviceBtnHTML(l) {
   const kind = serviceLinkKind(l.url, l.deploy);
   if (!kind) return '';
   const tip = serviceBtnTip(l);
+  if (kind === 'play') {
+    const label = servicePlayLabel(l);
+    return `<a class="card-service-btn card-service-btn--play"
+               href="${esc(l.url)}" target="_blank" rel="noopener"
+               data-service-tip="${esc(tip)}"
+               aria-describedby="service-tip-portal"
+               aria-label="${esc(tip)}">
+      <span class="card-service-play-glyph" aria-hidden="true">▶</span>
+      <span class="card-service-play-label">${esc(label)}</span>
+    </a>`;
+  }
   return `<a class="card-service-btn card-service-btn--${kind}"
              href="${esc(l.url)}" target="_blank" rel="noopener"
              data-service-tip="${esc(tip)}"
@@ -304,6 +326,17 @@ function jumpBtnHTML(p, i) {
   `;
 }
 
+function gridTileTagsHTML(p) {
+  const genre = p.genre;
+  const highlights = p.highlights ?? [];
+  if (!genre && !highlights.length) return '';
+
+  const genreTag = genre ? `<span class="gt-tag gt-tag--genre">${esc(genre)}</span>` : '';
+  const highlightTags = highlights.map((h) => `<span class="gt-tag gt-tag--highlight">${esc(h)}</span>`).join('');
+
+  return `<span class="gt-tags" aria-label="ジャンル・タグ">${genreTag}${highlightTags}</span>`;
+}
+
 function gridTileHTML(p, i) {
   const t = p.theme;
   const tv = projectThemeVars(p);
@@ -328,6 +361,7 @@ function gridTileHTML(p, i) {
         <span class="gt-wash" aria-hidden="true"></span>
       </span>
       <span class="gt-num">${num}</span>
+      ${gridTileTagsHTML(p)}
       <span class="gt-info">
         <span class="gt-kana">${esc(p.fallback)}</span>
         <span class="gt-title">${esc(p.title)}</span>
