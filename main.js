@@ -111,9 +111,9 @@ function renderStats() {
   const ul = $('#status-rows');
   if (!ul) return;
   ul.innerHTML = Object.values(stats).map((s) => `
-    <li>
+    <li class="${s.wide ? 'stat-wide' : ''}${s.text ? ' stat-text' : ''}">
       <span class="k">${esc(s.label)}</span>
-      <span class="v">${s.value}<small>${esc(s.suffix)}</small></span>
+      <span class="v">${esc(String(s.value))}${s.suffix ? `<small>${esc(s.suffix)}</small>` : ''}</span>
     </li>
   `).join('');
 }
@@ -872,6 +872,7 @@ function setupProjects() {
 
 function awardSortKey(a) {
   if (a.date) return a.date;
+  if (a.dateLabel === 'NOW') return '9999-12';
   const y = String(a.year ?? '0000');
   const m = a.month != null ? String(a.month).padStart(2, '0') : '00';
   return `${y}-${m}`;
@@ -885,7 +886,7 @@ function awardDateISO(a) {
 }
 
 function awardDateLabel(a) {
-  if (a.dateLabel) return a.dateLabel;
+  if (a.dateLabel) return a.dateLabel === 'NOW' ? '現在' : a.dateLabel;
   if (a.date) {
     const [y, m, d] = a.date.split('-');
     if (m && d) return `${y}.${m}.${d}`;
@@ -900,19 +901,36 @@ function awardDateLabel(a) {
 function awardCardHTML(a) {
   const iso = awardDateISO(a);
   const label = awardDateLabel(a);
+  const project = a.project ? `<p class="award-node-project">${esc(a.project)}</p>` : '';
+  const badge = a.badge ? `<span class="award-node-badge">${esc(a.badge)}</span>` : '';
+  const noBadge = badge ? '' : ' award-node-card--plain';
+
   return `
     <time class="award-node-date" datetime="${esc(iso)}">${esc(label)}</time>
     <div class="award-node-spine" aria-hidden="true">
       <span class="award-node-dot award-node-dot--${a.tier}"></span>
     </div>
-    <div class="award-node-card award-node-card--${a.tier}">
+    <div class="award-node-card award-node-card--${a.tier}${noBadge}">
       <div class="award-node-body">
         <p class="award-node-title">${esc(a.title)}</p>
-        <p class="award-node-project">${esc(a.project)}</p>
+        ${project}
       </div>
-      <span class="award-node-badge">${esc(a.badge)}</span>
+      ${badge}
     </div>
   `;
+}
+
+function countAwardPrizes(list) {
+  return list.reduce((total, a) => {
+    if (!a.badge) return total;
+    if (a.prizeCount) return total + a.prizeCount;
+    const mult = a.badge.match(/×(\d+)/);
+    if (mult) return total + Number(mult[1]);
+    if (a.badge === 'NATIONAL' && a.title.includes('・')) {
+      return total + a.title.split('・').length;
+    }
+    return total + 1;
+  }, 0);
 }
 
 function sortAwardsChronological(list) {
@@ -936,10 +954,13 @@ function renderAwards() {
   `;
 
   if (summary) {
-    const major = awards.filter((a) => a.tier === 'finalist' || a.tier === 'major').length;
+    const events = stats.hackathons?.value ?? awards.filter((a) => a.dateLabel !== 'NOW').length;
+    const won = stats.awards?.value ?? countAwardPrizes(awards);
+    const national = awards.filter((a) => a.tier === 'lg').length;
     const first = awardDateLabel(sorted[0]);
-    const last = awardDateLabel(sorted[sorted.length - 1]);
-    summary.textContent = `${first}–${last} ── ${awards.length}件 / ${major} highlights`;
+    const lastEntry = [...sorted].reverse().find((a) => a.date) ?? sorted[sorted.length - 1];
+    const last = awardDateLabel(lastEntry);
+    summary.textContent = `${first}–${last} ── ${events} events / ${won} awards / ${national} national`;
   }
 }
 

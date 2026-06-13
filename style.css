@@ -781,6 +781,25 @@
     font-family: var(--font-sans);
     margin-left: 2px;
   }
+
+  /* 担当領域（MAIN/SUB ROLE）は横幅いっぱいで表示 */
+  .player-stats .stat-wide {
+    grid-column: 1 / -1;
+    gap: 3px;
+  }
+  .player-stats .stat-text .k {
+    color: var(--accent, #e63946);
+    font-family: var(--font-hud);
+    letter-spacing: 0.12em;
+    font-size: 10px;
+  }
+  .player-stats .stat-text .v {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+  }
   
   .player-file-foot {
     margin: 13px 0 0;
@@ -2609,16 +2628,27 @@
     flex-shrink: 0;
   }
   
-  .award-node-dot--award {
-    width: 10px;
-    height: 10px;
+  .award-node-dot--sm {
+    width: 8px;
+    height: 8px;
+    border-width: 1.5px;
+    opacity: 0.72;
   }
-  
-  .award-node-dot--major {
-    width: 12px;
-    height: 12px;
+
+  .award-node-dot--md {
+    width: 11px;
+    height: 11px;
   }
-  
+
+  .award-node-dot--lg {
+    width: 14px;
+    height: 14px;
+    background: var(--accent);
+  }
+
+  /* legacy tier aliases */
+  .award-node-dot--award { width: 11px; height: 11px; }
+  .award-node-dot--major { width: 11px; height: 11px; }
   .award-node-dot--finalist {
     width: 14px;
     height: 14px;
@@ -2643,15 +2673,38 @@
     transform: translateX(3px);
   }
   
+  .award-node-card--sm {
+    padding: 6px 10px 6px 9px;
+    background: color-mix(in srgb, var(--surface) 88%, var(--paper));
+  }
+
+  .award-node-card--md {
+    border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
+    padding: 8px 12px 8px 10px;
+  }
+
+  .award-node-card--lg {
+    border-width: 2px;
+    border-color: var(--accent);
+    padding: 11px 14px 11px 12px;
+    background: linear-gradient(135deg, var(--surface), color-mix(in srgb, var(--accent) 6%, var(--surface)));
+    box-shadow: 0 8px 22px color-mix(in srgb, var(--accent) 12%, transparent);
+  }
+
+  .award-node-card--plain {
+    grid-template-columns: 1fr;
+  }
+
+  /* legacy tier aliases */
   .award-node-card--finalist {
     border-width: 2px;
     border-color: var(--accent);
-    padding: 10px 12px 10px 10px;
-    background: linear-gradient(135deg, var(--surface), color-mix(in srgb, var(--accent) 5%, var(--surface)));
+    padding: 11px 14px 11px 12px;
+    background: linear-gradient(135deg, var(--surface), color-mix(in srgb, var(--accent) 6%, var(--surface)));
   }
-  
+
   .award-node-card--major {
-    border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+    border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
   }
   
   .award-node-body {
@@ -2667,6 +2720,21 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+
+  .award-node-card--sm .award-node-title {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    -webkit-line-clamp: 1;
+  }
+
+  .award-node-card--md .award-node-title {
+    font-size: 12.5px;
+  }
+
+  .award-node-card--lg .award-node-title {
+    font-size: 14px;
   }
   
   .award-node-card--finalist .award-node-title {
@@ -2694,6 +2762,12 @@
     color: var(--accent);
     white-space: nowrap;
     align-self: center;
+  }
+
+  .award-node-card--lg .award-node-badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
   }
   
   /* ── Experience ───────────────────────────────────────────── */
@@ -3157,7 +3231,7 @@
     box-shadow: 0 18px 38px -10px rgba(20, 24, 32, 0.5);
     overflow: hidden;
   }
-  .pf-result b { font-family: var(--font-display); font-weight: 800; font-size: clamp(30px, 4.4vw, 50px); color: #fff; }
+  .pf-result b { font-family: var(--font-display); font-weight: 800; font-size: clamp(22px, 3vw, 34px); color: #fff; white-space: nowrap; }
   .pf-result i { font-style: normal; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; color: var(--accent, #EE4429); }
   .pf-result-glow {
     position: absolute; right: -20px; top: -30px;
@@ -3869,5 +3943,3 @@
   .grid-tile--lg .gt-cta { bottom: 88px; }
   .grid-tile--sm .gt-cta { bottom: 44px; }
   .grid-tile:hover .gt-cta { opacity: 1; transform: translateY(0); }
-
-  
